@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "FlatRockTechnology.OnlineMarket.WebApi/1.0.0": {
+        "runtime": {
+          "FlatRockTechnology.OnlineMarket.WebApi.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FlatRockTechnology.OnlineMarket.WebApi/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
