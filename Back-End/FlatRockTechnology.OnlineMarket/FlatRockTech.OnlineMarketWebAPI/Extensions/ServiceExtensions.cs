@@ -1,4 +1,9 @@
-﻿using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
+﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Mapper;
+using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
+using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.UserServices;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Abstractions;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Implementations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +20,16 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
                   x => x.UseSqlServer("Data Source=localhost;Initial Catalog=Market;Integrated Security=True")
                   .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking),
                   ServiceLifetime.Transient); // Adding DB Context To The Container
+        }
+
+        public static void ConfigureServicesInjections(this IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(MappingProfile));
+            services.AddTransient<IRepository<User>, Repository<User>>();
+            services.AddTransient<IUserServices, UserServices>();
+            services.AddScoped<IAuthManager, AuthManager>();
+            services.AddScoped<UserManager<User>>();
+
         }
 
         public static void ConfigureIdentity(this IServiceCollection services)

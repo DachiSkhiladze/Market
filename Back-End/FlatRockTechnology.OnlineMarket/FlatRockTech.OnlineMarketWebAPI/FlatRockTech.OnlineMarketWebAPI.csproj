@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\FlatRockTechnology.BusinessLogicAccessLayer\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj" />
   </ItemGroup>
 
 </Project>

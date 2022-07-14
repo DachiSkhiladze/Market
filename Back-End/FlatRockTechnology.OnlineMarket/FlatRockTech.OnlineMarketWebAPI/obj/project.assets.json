@@ -863,6 +863,23 @@
           }
         }
       },
+      "FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "AutoMapper": "11.0.1",
+          "FlatRockTechnology.OnlineMarket.DataAccessLayer": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "6.0.7",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.7",
+          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.7"
+        },
+        "compile": {
+          "bin/placeholder/FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.dll": {}
+        }
+      },
       "FlatRockTechnology.OnlineMarket.DataAccessLayer/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -2574,6 +2591,11 @@
         "version.txt"
       ]
     },
+    "FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer/1.0.0": {
+      "type": "project",
+      "path": "../FlatRockTechnology.BusinessLogicAccessLayer/FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj",
+      "msbuildProject": "../FlatRockTechnology.BusinessLogicAccessLayer/FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj"
+    },
     "FlatRockTechnology.OnlineMarket.DataAccessLayer/1.0.0": {
       "type": "project",
       "path": "../DataAccessLayer/FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj",
@@ -2582,6 +2604,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer >= 1.0.0",
       "FlatRockTechnology.OnlineMarket.DataAccessLayer >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.7",
       "Microsoft.EntityFrameworkCore >= 6.0.7",
@@ -2598,11 +2621,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\FlatRockTech.OnlineMarketWebAPI\\FlatRockTech.OnlineMarketWebAPI.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\FlatRockTech.OnlineMarketWebAPI\\FlatRockTech.OnlineMarketWebAPI.csproj",
       "projectName": "FlatRockTech.OnlineMarketWebAPI",
-      "projectPath": "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\FlatRockTech.OnlineMarketWebAPI\\FlatRockTech.OnlineMarketWebAPI.csproj",
+      "projectPath": "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\FlatRockTech.OnlineMarketWebAPI\\FlatRockTech.OnlineMarketWebAPI.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\FlatRockTech.OnlineMarketWebAPI\\obj\\",
+      "outputPath": "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\FlatRockTech.OnlineMarketWebAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -2619,8 +2642,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj": {
-              "projectPath": "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj"
+            "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj": {
+              "projectPath": "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj"
+            },
+            "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\FlatRockTechnology.BusinessLogicAccessLayer\\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj": {
+              "projectPath": "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\FlatRockTechnology.BusinessLogicAccessLayer\\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj"
             }
           }
         }

@@ -60,6 +60,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.ConfigureDBContext();
+builder.Services.ConfigureServicesInjections();
 
 
 builder.Services.AddAuthentication();

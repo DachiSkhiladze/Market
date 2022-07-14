@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\FlatRockTechnology.BusinessLogicAccessLayer\\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj": {}
+    "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\FlatRockTechnology.BusinessLogicAccessLayer\\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj": {
+    "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj",
         "projectName": "FlatRockTechnology.OnlineMarket.DataAccessLayer",
-        "projectPath": "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj",
+        "projectPath": "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\obj\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -108,14 +108,14 @@
         }
       }
     },
-    "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\FlatRockTechnology.BusinessLogicAccessLayer\\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj": {
+    "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\FlatRockTechnology.BusinessLogicAccessLayer\\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\FlatRockTechnology.BusinessLogicAccessLayer\\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\FlatRockTechnology.BusinessLogicAccessLayer\\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj",
         "projectName": "FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer",
-        "projectPath": "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\FlatRockTechnology.BusinessLogicAccessLayer\\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj",
+        "projectPath": "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\FlatRockTechnology.BusinessLogicAccessLayer\\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\FlatRockTechnology.BusinessLogicAccessLayer\\obj\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\FlatRockTechnology.BusinessLogicAccessLayer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -132,8 +132,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj": {
-                "projectPath": "C:\\Users\\User\\source\\repos\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj"
+              "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\User\\Desktop\\Marketplace\\dachi-skhiladze\\Back-End\\FlatRockTechnology.OnlineMarket\\DataAccessLayer\\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj"
               }
             }
           }

@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "FlatRockTech.OnlineMarketWebAPI/1.0.0": {
         "dependencies": {
+          "FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer": "1.0.0",
           "FlatRockTechnology.OnlineMarket.DataAccessLayer": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.7",
           "Microsoft.EntityFrameworkCore": "6.0.7",
@@ -613,6 +614,18 @@
           }
         }
       },
+      "FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer/1.0.0": {
+        "dependencies": {
+          "AutoMapper": "11.0.1",
+          "FlatRockTechnology.OnlineMarket.DataAccessLayer": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "6.0.7",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.7",
+          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.7"
+        },
+        "runtime": {
+          "FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.dll": {}
+        }
+      },
       "FlatRockTechnology.OnlineMarket.DataAccessLayer/1.0.0": {
         "dependencies": {
           "AutoMapper": "11.0.1",
@@ -1070,6 +1083,11 @@
       "sha512": "sha512-CeWTdRNfRaSh0pm2gDTJFwVaXfTq6Xwv/sA887iwPTneW7oMtMlpvDIO+U60+3GWTB7Aom6oQwv5VZVUhQRdPQ==",
       "path": "system.windows.extensions/4.7.0",
       "hashPath": "system.windows.extensions.4.7.0.nupkg.sha512"
+    },
+    "FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "FlatRockTechnology.OnlineMarket.DataAccessLayer/1.0.0": {
       "type": "project",
