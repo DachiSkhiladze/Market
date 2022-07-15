@@ -26,4 +26,10 @@
     <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UnitOfWork\" />
+    <Folder Include="Repository\Individual\Abstractions\" />
+    <Folder Include="Repository\Individual\Implementations\" />
+  </ItemGroup>
+
 </Project>
