@@ -1,6 +1,10 @@
-using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Models.User;
+using FlatRockTech.OnlineMarket.BusinessLogicLayer.Handlers;
+using FlatRockTech.OnlineMarket.BusinessLogicLayer;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
+using FlatRockTech.OnlineMarket.BusinessLogicLayer.Models.User;
 
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
@@ -9,40 +13,19 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserServices _userServices;
+        private readonly IMediator _mediator;
 
-        public UserController( IUserServices userServices)
+        public UserController( IUserServices userServices, IMediator mediator)
         {
             _userServices = userServices;
+            _mediator = mediator;
         }
 
-        [HttpPost]
-        [Route("Register")]
-        public async Task<IActionResult> Register([FromBody] UserModel model)
+        [HttpGet]
+        [Route("GetAll")]
+        public async Task<IEnumerable<UserModel>> GetAll()
         {
-            
-            model.IsDisabled = false;
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                var result = await _userServices.Register(model);
-
-                if (!result.Succeeded)
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(error.Code, error.Description);
-                    }
-                    return BadRequest(ModelState);
-                }
-            }
-            catch (Exception e)
-            {
-                return Problem($"Something Went Wrong in the {nameof(Register)}", statusCode: 500);
-            }
-            return Ok();
+            return await _mediator.Send(new OnlineMarket.BusinessLogicLayer.Queries.Read.GetAll<User, UserModel>());
         }
     }
 }

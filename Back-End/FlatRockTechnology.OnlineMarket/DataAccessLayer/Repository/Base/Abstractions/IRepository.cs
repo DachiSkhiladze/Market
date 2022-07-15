@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Abstractions
+namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractions
 {
     public interface IRepository<TEntity> where TEntity : class, new()
     {
@@ -9,6 +9,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Abstraction
         long GetCount();
 
         IQueryable<TEntity> GetAll();
+        Task<List<TEntity>> GetList();
 
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
 

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Models.User;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Implementations;
-using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Abstractions;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;

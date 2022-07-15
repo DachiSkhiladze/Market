@@ -1,5 +1,5 @@
 ﻿using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
-using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Abstractions;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Implementations
+namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implementations
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, new()
     {
@@ -28,6 +28,18 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Implementat
             try
             {
                 return _marketContext.Set<TEntity>().AsNoTracking();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Could not be returned: {ex.Message}");
+            }
+        }
+
+        public async Task<List<TEntity>> GetList()
+        {
+            try
+            {
+                return await _marketContext.Set<TEntity>().ToListAsync();
             }
             catch (Exception ex)
             {
