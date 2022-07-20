@@ -1,5 +1,5 @@
 ﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Abstractions;
-using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Abstractions;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractions;
 using System.Linq.Expressions;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Implementations

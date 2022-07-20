@@ -36,13 +36,13 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("ModifiedBy")
@@ -73,7 +73,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ID");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("CreatedBy")
@@ -84,7 +84,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("ImageURL");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("ModifiedBy")
@@ -113,13 +113,13 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("AddressID");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("ModifiedBy")
@@ -153,13 +153,13 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ID");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("ModifiedBy")
@@ -196,7 +196,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ID");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("CreatedBy")
@@ -212,7 +212,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("ImageURL");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("ModifiedBy")
@@ -222,7 +222,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<double>("Price")
+                    b.Property<double?>("Price")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -240,13 +240,13 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ID");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("ModifiedBy")
@@ -283,7 +283,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("CategoryID");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("CreatedBy")
@@ -294,7 +294,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("ImageURL");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("ModifiedBy")
@@ -332,7 +332,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("CreatedBy")
@@ -362,7 +362,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime");
 
                     b.Property<string>("ModifiedBy")
@@ -442,22 +442,22 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "711f0144-dacb-46ea-b481-b9cf7eafe843",
-                            ConcurrencyStamp = "c2b621a5-fd43-4305-9b64-99ff1adc0f60",
+                            Id = "08046771-00f2-421f-8815-dfbae7eaeb3a",
+                            ConcurrencyStamp = "956e2895-9508-41ff-8a9f-0f1a674a0e26",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "a28115a5-c764-48ef-8c92-b9a8330f8615",
-                            ConcurrencyStamp = "8a8a43d5-f389-4a45-8b62-d2e90a0f89a2",
+                            Id = "a767f04e-719b-41b0-8e75-5ab57cb163fe",
+                            ConcurrencyStamp = "77850eb3-101f-4a99-808d-3e002705a4ae",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "781c7a2e-56dc-452e-9a7a-b8e87fdfe8d2",
-                            ConcurrencyStamp = "b4677b5b-e364-4f47-b0cf-0ee093bb986d",
+                            Id = "3095e87e-8a48-46b7-ab40-c772028e962a",
+                            ConcurrencyStamp = "432052bc-d174-4640-9f77-9f2196ac1861",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });

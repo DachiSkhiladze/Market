@@ -16,10 +16,10 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
         public string Status { get; set; }
         public Guid AddressId { get; set; }
         public string UserId { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime ModifiedAt { get; set; }
-        public string ModifiedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime? ModifiedAt { get; set; }
+        public string? ModifiedBy { get; set; }
 
         public virtual Address Address { get; set; }
         public virtual User CreatedByNavigation { get; set; }

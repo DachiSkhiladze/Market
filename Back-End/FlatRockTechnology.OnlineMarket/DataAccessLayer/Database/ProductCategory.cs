@@ -10,10 +10,10 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
         public Guid Id { get; set; }
         public Guid ProductId { get; set; }
         public Guid SubCategoryId { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime ModifiedAt { get; set; }
-        public string ModifiedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime? ModifiedAt { get; set; }
+        public string? ModifiedBy { get; set; }
 
         public virtual User CreatedByNavigation { get; set; }
         public virtual User ModifiedByNavigation { get; set; }

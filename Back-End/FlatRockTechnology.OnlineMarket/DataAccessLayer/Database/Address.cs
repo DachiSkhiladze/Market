@@ -15,12 +15,12 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string UserId { get; set; }
-        public string Country { get; set; }
-        public string City { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public Guid CreatedBy { get; set; }
-        public DateTime ModifiedAt { get; set; }
-        public Guid ModifiedBy { get; set; }
+        public string? Country { get; set; }
+        public string? City { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime? ModifiedAt { get; set; }
+        public string? ModifiedBy { get; set; }
 
         public virtual User CreatedByNavigation { get; set; }
         public virtual User ModifiedByNavigation { get; set; }
