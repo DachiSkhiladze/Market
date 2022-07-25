@@ -1,10 +1,11 @@
-using FlatRockTech.OnlineMarket.BusinessLogicLayer.Handlers;
-using FlatRockTech.OnlineMarket.BusinessLogicLayer;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
-using FlatRockTech.OnlineMarket.BusinessLogicLayer.Models.User;
+using FlatRockTechnology.OnlineMarket.Models.Users;
+using FlatRockTechnology.OnlineMarket.Models.Products;
+using Queries.Declarations.Shared;
+using Commands.Declarations.Individual.Products;
 
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
@@ -22,10 +23,17 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
+        [Route("GetAllUsers")]
         public async Task<IEnumerable<UserModel>> GetAll()
         {
-            return await _mediator.Send(new OnlineMarket.BusinessLogicLayer.Queries.Read.GetAll<User, UserModel>());
+            return await _mediator.Send(new GetAllQuery<User, UserModel>());
+        }
+
+        [HttpPost]
+        [Route("CreateProduct")]
+        public async Task<ProductModel> CreateProduct([FromBody] ProductModel model)
+        {
+            return await _mediator.Send(new CreateProductCommand(model));
         }
     }
 }

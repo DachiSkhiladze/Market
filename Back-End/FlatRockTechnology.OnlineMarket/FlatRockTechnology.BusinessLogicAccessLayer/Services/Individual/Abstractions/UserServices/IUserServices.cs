@@ -1,12 +1,7 @@
-﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Models.User;
-using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Abstractions;
+﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Abstractions;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
+using FlatRockTechnology.OnlineMarket.Models.Users;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices
 {

@@ -4,14 +4,14 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstra
 {
     public interface IRepository<TEntity> where TEntity : class, new()
     {
-        bool CheckIfExists(Expression<Func<TEntity, bool>> predicate);
+        bool IsExists(Expression<Func<TEntity, bool>> predicate);
 
         long GetCount();
 
         IQueryable<TEntity> GetAll();
         Task<List<TEntity>> GetList();
 
-        IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
+        IAsyncEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
 
         IQueryable<TEntity> Get(int skip, int take);
 

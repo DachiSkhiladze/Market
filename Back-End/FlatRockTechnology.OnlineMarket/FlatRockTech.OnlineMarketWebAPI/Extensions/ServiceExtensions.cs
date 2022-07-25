@@ -1,8 +1,6 @@
-﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer;
-using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
+﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.UserServices;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
-using FlatRockTech.OnlineMarket.BusinessLogicLayer.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -14,9 +12,16 @@ using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractio
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implementations;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.UnitOfWork.Abstractions;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.UnitOfWork.Implementations;
-using static FlatRockTech.OnlineMarket.BusinessLogicLayer.Mapper.Abstractions.Read;
-using FlatRockTech.OnlineMarket.BusinessLogicLayer.Models.User;
-using FlatRockTech.OnlineMarket.BusinessLogicLayer.Mapper;
+using FlatRockTechnology.OnlineMarket.Models.Users;
+using Queries.Handlers.Shared;
+using Queries.Declarations.Shared;
+using FlatRockTechnology.OnlineMarket.Models.Mapper.Abstractions;
+using FlatRockTechnology.OnlineMarket.Models.Products;
+using FlatRockTechnology.OnlineMarket.Models.Mapper;
+using Commands.Handlers.Write.Shared;
+using Commands.Declarations.Shared;
+using Commands.Declarations.Individual.Products;
+using Commands.Handlers.Write.ProductHandlers;
 
 namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 {
@@ -30,11 +35,29 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
                   ServiceLifetime.Transient); // Adding DB Context To The Container
         }
 
+        public static void ConfigureCQRSInjections(this IServiceCollection services)
+        {
+            services.AddTransient(typeof(IRequestHandler<GetAllQuery<User, UserModel>, IEnumerable<UserModel>>),
+                typeof(GetAllHandler<User, UserModel>));
+
+            services.AddTransient(typeof(IRequestHandler<CreateCommand<Product, ProductModel>, ProductModel>),
+                typeof(CreateHandler<Product, ProductModel>));
+
+            services.AddTransient(typeof(IRequestHandler<CreateProductCommand, ProductModel>),
+                typeof(CreateProductHandler));
+
+            services.AddTransient(typeof(IRequestHandler<IsExistsQuery<Product>, bool>),
+                typeof(IsExistsHandler<Product, ProductModel>));
+
+            services.AddTransient(typeof(IRequestHandler<IsExistsQuery<User>, bool>),
+                typeof(IsExistsHandler<User, UserModel>));
+        }
+
         public static void ConfigureServicesInjections(this IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddTransient(typeof(IRequestHandler<FlatRockTech.OnlineMarket.BusinessLogicLayer.Queries.Read.GetAll<User, UserModel>, IEnumerable<UserModel>>),
-                typeof(BusinessLogicLayer.Handlers.Read.GetAllHandler<User, UserModel>));
+
+            services.ConfigureCQRSInjections();
 
             services.AddAutoMapper(typeof(MappingProfile));
 
@@ -42,7 +65,13 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 
             services.AddTransient<IUnitOfWork<User>, UnitOfWork<User>>();
 
-            services.AddTransient<IMapperConfiguration<User, UserModel>, BusinessLogicLayer.Mapper.Read.MapperConfiguration<User, UserModel>>();
+            services.AddTransient<IRepository<Product>, Repository<Product>>();
+
+            services.AddTransient<IUnitOfWork<Product>, UnitOfWork<Product>>();
+
+            services.AddTransient<IMapperConfiguration<Product, ProductModel>, MapperConfiguration<Product, ProductModel>>();
+
+            services.AddTransient<IMapperConfiguration<User, UserModel>, MapperConfiguration<User, UserModel>>();
 
 
             services.AddTransient<IUserServices, UserServices>();

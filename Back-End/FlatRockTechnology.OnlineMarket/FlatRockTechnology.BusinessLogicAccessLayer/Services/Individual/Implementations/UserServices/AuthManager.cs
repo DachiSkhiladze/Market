@@ -1,6 +1,6 @@
-﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Models.User;
-using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
+﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
+using FlatRockTechnology.OnlineMarket.Models.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

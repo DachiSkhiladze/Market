@@ -1,7 +1,8 @@
 ﻿using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database.Abstractions;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.Extensions;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implementations
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, new()
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity, new()
     {
         protected readonly MarketContext _marketContext;
         static readonly object _object = new object();
@@ -19,7 +20,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
             _marketContext = marketContext;
         }
 
-        public bool CheckIfExists(Expression<Func<TEntity, bool>> predicate) => this.GetAll().Any(predicate.Compile());
+        public bool IsExists(Expression<Func<TEntity, bool>> predicate) => this.GetAll().Any(predicate.Compile());
 
         public long GetCount() => this.GetAll().Count();
 
@@ -59,11 +60,15 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
             }
         }
 
-        public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate)
+        public IAsyncEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate)
         {
             try
             {
-                return _marketContext.Set<TEntity>().AsNoTracking().Where(predicate.Compile());
+                return _marketContext.Set<TEntity>()
+                                     .AsQueryable()
+                                     .AsNoTracking()
+                                     .Where(predicate.Compile())
+                                     .ToAsyncEnumerable();
             }
             catch (Exception ex)
             {
@@ -80,6 +85,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
 
             try
             {
+                entity.ConfigureEntityForAdding();
                 var result = await _marketContext.AddAsync(entity);
                 await _marketContext.SaveChangesAsync();
                 return entity;

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Models.User;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Implementations;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractions;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
+using FlatRockTechnology.OnlineMarket.Models.Users;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.UserServices
 {

@@ -1,5 +1,6 @@
 ﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Abstractions;
-using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractions;
+using MediatR;
+using Queries.Declarations.Shared;
 using System.Linq.Expressions;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Implementations
@@ -8,29 +9,22 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base
                                                               where TEntity : class, new()
                                                               where TModel : class, new()
     {
-        protected IRepository<TEntity> Repository;
-        public BaseService(IRepository<TEntity> repository)
+        private readonly IMediator mediator;
+        public BaseService(IMediator mediator)
         {
-            Repository = repository;    // Initializing Repository
+            this.mediator = mediator;
         }
 
-        public bool CheckIfExists(Expression<Func<TEntity, bool>> predicate) => this.Repository.CheckIfExists(predicate);
+        public async Task<bool> IsExists(Expression<Func<TEntity, bool>> predicate) => await mediator.Send(new IsExistsQuery<TEntity>(predicate));
 
-        public IEnumerable<TModel> GetModels()
+        public async Task<IEnumerable<TModel>> GetModels()
         {
-            foreach (var item in Repository.GetAll())
-            {
-                yield return ConvertToModel(item); // Returning Type Models
-            }
+            return await mediator.Send(new GetAllQuery<TEntity, TModel>());
         }
 
-        public IEnumerable<TModel> GetModels(Expression<Func<TEntity, bool>> predicate)
+        public async IAsyncEnumerable<TModel> GetModels(Expression<Func<TEntity, bool>> predicate)
         {
-            var result = Repository.Get(predicate);
-            foreach (var item in result)
-            {
-                yield return ConvertToModel(item); // Returning Type Models
-            }
+            return await mediator.Send(new GetQuery<TEntity, TModel>(predicate));
         }
 
         public async Task<TModel> InsertAsync(TModel model)

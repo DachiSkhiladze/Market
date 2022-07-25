@@ -9,7 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlatRockTechnology.OnlineMa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlatRockTech.OnlineMarketWebAPI", "FlatRockTech.OnlineMarketWebAPI\FlatRockTech.OnlineMarketWebAPI.csproj", "{29785A62-A5A3-475B-8B16-EFE1A743AF3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlatRockTech.OnlineMarket.BusinessLogicLayer", "BusinessLogicLayer\FlatRockTech.OnlineMarket.BusinessLogicLayer.csproj", "{61F111ED-967B-47D9-958C-F208B3557304}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Queries", "BusinessLogicLayer\Queries.csproj", "{61F111ED-967B-47D9-958C-F208B3557304}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReadLayer", "ReadLayer", "{F232E0D1-D2F3-48D7-80BD-F9BF64368E90}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WriteLayer", "WriteLayer", "{7F25C891-4C0B-4ED1-9555-D178AA1D83FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands", "Commands\Commands.csproj", "{F873E3CE-3B5B-48C7-84DD-44FB854EBD90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlatRockTechnology.OnlineMarket.Models", "Models\FlatRockTechnology.OnlineMarket.Models.csproj", "{E35D48DE-FE1E-4922-83B0-00C6E87E2AED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +41,21 @@ Global
 		{61F111ED-967B-47D9-958C-F208B3557304}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61F111ED-967B-47D9-958C-F208B3557304}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61F111ED-967B-47D9-958C-F208B3557304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F873E3CE-3B5B-48C7-84DD-44FB854EBD90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F873E3CE-3B5B-48C7-84DD-44FB854EBD90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F873E3CE-3B5B-48C7-84DD-44FB854EBD90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F873E3CE-3B5B-48C7-84DD-44FB854EBD90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E35D48DE-FE1E-4922-83B0-00C6E87E2AED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E35D48DE-FE1E-4922-83B0-00C6E87E2AED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E35D48DE-FE1E-4922-83B0-00C6E87E2AED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E35D48DE-FE1E-4922-83B0-00C6E87E2AED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{61F111ED-967B-47D9-958C-F208B3557304} = {F232E0D1-D2F3-48D7-80BD-F9BF64368E90}
+		{F873E3CE-3B5B-48C7-84DD-44FB854EBD90} = {7F25C891-4C0B-4ED1-9555-D178AA1D83FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59FF4F47-F78E-4D7C-B45F-E319B0036661}

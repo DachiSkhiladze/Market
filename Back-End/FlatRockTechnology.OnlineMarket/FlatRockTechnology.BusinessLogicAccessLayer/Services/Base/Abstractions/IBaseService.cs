@@ -9,7 +9,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base
 {
     public interface IBaseService<TEntity, TModel>
     {
-        bool CheckIfExists(Expression<Func<TEntity, bool>> predicate);
+        Task<bool> IsExists(Expression<Func<TEntity, bool>> predicate);
         IEnumerable<TModel> GetModels(Expression<Func<TEntity, bool>> predicate);
         IEnumerable<TModel> GetModels();
         Task<TModel> InsertAsync(TModel model);
