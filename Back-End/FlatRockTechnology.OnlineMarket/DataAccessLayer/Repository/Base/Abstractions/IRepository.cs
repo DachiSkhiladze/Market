@@ -19,6 +19,6 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstra
 
         Task<TEntity> UpdateAsync(TEntity entity);
 
-        Task DeleteAsync(TEntity entity);
+        Task<bool> DeleteAsync(TEntity entity);
     }
 }

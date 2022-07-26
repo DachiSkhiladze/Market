@@ -6,7 +6,9 @@ using System.Runtime.CompilerServices;
 
 namespace Queries.Handlers.Shared
 {
-    public class GetHandler<TEntity, TModel> : IStreamRequestHandler<GetQuery<TEntity, TModel>, TModel> where TEntity : class, new() where TModel : class, new()
+    public class GetHandler<TEntity, TModel> : IStreamRequestHandler<GetQuery<TEntity, TModel>, TModel> 
+                                                where TEntity : class, new() 
+                                                where TModel : class, new()
     {
         private readonly IUnitOfWork<TEntity> _unitOfWork;
         private readonly IMapperConfiguration<TEntity, TModel> _mapperConfiguration;

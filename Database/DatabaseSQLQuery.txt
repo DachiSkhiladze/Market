@@ -1,0 +1,143 @@
+USE [MarketDB]
+GO
+
+CREATE TABLE [dbo].[User](
+	[ID] [UNIQUEIDENTIFIER] NOT NULL PRIMARY KEY,
+	[FirstName] [nvarchar](50) NULL,
+	[LastName] [nvarchar](50) NULL,
+	[Email] [nvarchar](100) NULL,
+	[NormalizedEmail] [nvarchar](100) NULL,
+	[IsEmailConfirmed] [bit] NULL,
+	[UserName] [nvarchar](100) NULL,
+	[NormalizedUserName] [nvarchar](100) NULL,
+	[PasswordHash] [nvarchar](MAX) NULL,
+	[PasswordSalt] [nvarchar](MAX) NULL,
+	[City] [nvarchar](50) NULL,
+	[IsDisabled] [bit] NULL,
+	[IsActive] [bit] NULL,
+	[PhoneNumber] [nvarchar](50) NULL,
+	[CreatedAt] [datetime] NULL,
+	[CreatedBy] [UNIQUEIDENTIFIER] NULL,
+	[ModifiedAt] [datetime] NULL,
+	[ModifiedBy] [UNIQUEIDENTIFIER] NULL
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[Role](
+	[ID] [UNIQUEIDENTIFIER] NOT NULL PRIMARY KEY,
+	[Title] [nvarchar](50) NULL,
+	[NormalizedName] [nvarchar](50) NULL,
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[UserRole](
+	[ID] [UNIQUEIDENTIFIER] NOT NULL PRIMARY KEY,
+	[UserID] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID),
+	[RoleID] [UNIQUEIDENTIFIER] NULL REFERENCES [Role](ID),
+	[CreatedAt] [datetime] NULL,
+	[CreatedBy] [UNIQUEIDENTIFIER] NULL,
+	[ModifiedAt] [datetime] NULL,
+	[ModifiedBy] [UNIQUEIDENTIFIER] NULL
+) ON [PRIMARY]
+GO
+
+/****** Adding self-referencing foreign keys for user table ******/
+ALTER TABLE [dbo].[User]  WITH CHECK ADD  CONSTRAINT [FK_Modification8] FOREIGN KEY([ModifiedBy])
+REFERENCES [dbo].[User] ([ID])
+GO
+
+ALTER TABLE [dbo].[User]  WITH CHECK ADD  CONSTRAINT [FK_Creation8] FOREIGN KEY([CreatedBy])
+REFERENCES [dbo].[User] ([ID])
+
+USE [MarketDB]
+GO
+
+CREATE TABLE [dbo].[Category](
+	[ID] [UNIQUEIDENTIFIER] NOT NULL PRIMARY KEY,
+	[Name] [nvarchar](50) NULL,
+	[ImageURL] [nvarchar](50) NULL,
+	[CreatedAt] [datetime] NULL,
+	[CreatedBy] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID),
+	[ModifiedAt] [datetime] NULL,
+	[ModifiedBy] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID),
+) ON [PRIMARY]
+GO
+
+
+
+/****** Creating SubCategory Table ******/
+CREATE TABLE [dbo].[SubCategory](
+	[ID] [UNIQUEIDENTIFIER] NOT NULL PRIMARY KEY,
+	[Name] [nvarchar](50) NULL,
+	[CategoryID] [UNIQUEIDENTIFIER] NULL REFERENCES [Category](ID),
+	[ImageURL] [nvarchar](50) NULL,
+	[CreatedAt] [datetime] NULL,
+	[CreatedBy] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID),
+	[ModifiedAt] [datetime] NULL,
+	[ModifiedBy] [UNIQUEIDENTIFIER] NOT NULL REFERENCES [User](ID),
+) ON [PRIMARY]
+GO
+/****** Creating Product Table ******/
+CREATE TABLE [dbo].[Product](
+	[ID] [UNIQUEIDENTIFIER] NOT NULL PRIMARY KEY,
+	[Name] [nvarchar](50) NULL,
+	[Description] [nvarchar](1) NULL,
+	[Price] [float] NULL,
+	[ImageURL] [nvarchar](50) NULL,
+	[CreatedAt] [datetime] NULL,
+	[CreatedBy] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID),
+	[ModifiedAt] [datetime] NULL,
+	[ModifiedBy] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID)
+) ON [PRIMARY]
+GO
+/****** Adding N to N table between Product and Subcategory ******/
+CREATE TABLE [dbo].[ProductCategory](
+	[ID] [UNIQUEIDENTIFIER] NOT NULL PRIMARY KEY,
+	[ProductID] [UNIQUEIDENTIFIER] NULL REFERENCES [Product](ID),
+	[SubCategoryID] [UNIQUEIDENTIFIER] NULL REFERENCES [SubCategory](ID),
+	[CreatedAt] [datetime] NULL,
+	[CreatedBy] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID),
+	[ModifiedAt] [datetime] NULL,
+	[ModifiedBy] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID)
+) ON [PRIMARY]
+GO
+/****** Creating Address Table ******/
+CREATE TABLE [dbo].[Address](
+	[ID] [UNIQUEIDENTIFIER] NOT NULL PRIMARY KEY,
+	[Name] [nvarchar](50) NULL,
+	[UserID] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID),
+	[Country] [nvarchar](50) NULL,
+	[City] [nvarchar](50) NULL,
+	[CreatedAt] [datetime] NULL,
+	[CreatedBy] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID),
+	[ModifiedAt] [datetime] NULL,
+	[ModifiedBy] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID)
+) ON [PRIMARY]
+GO
+
+
+/****** Creating Order Table ******/
+CREATE TABLE [dbo].[Order](
+	[ID] [UNIQUEIDENTIFIER] NOT NULL PRIMARY KEY,
+	[Status] [nvarchar](50) NULL,
+	[AddressID] [UNIQUEIDENTIFIER] NULL REFERENCES [Address](ID),
+	[UserID] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID),
+	[CreatedAt] [datetime] NULL,
+	[CreatedBy] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID),
+	[ModifiedAt] [datetime] NULL,
+	[ModifiedBy] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID)
+) ON [PRIMARY]
+GO
+/****** Adding N to N table between Order and Product ******/
+CREATE TABLE [dbo].[OrderProduct](
+	[ID] [UNIQUEIDENTIFIER] NOT NULL PRIMARY KEY,
+	[ProductID] [bigint] NULL,
+	[OrderID] [UNIQUEIDENTIFIER] NULL REFERENCES [Order](ID),
+	[Quantity] [bigint] NULL,
+	[PriceOfSingleProduct] [bigint] NULL,
+	[CreatedAt] [datetime] NULL,
+	[CreatedBy] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID),
+	[ModifiedAt] [datetime] NULL,
+	[ModifiedBy] [UNIQUEIDENTIFIER] NULL REFERENCES [User](ID)
+) ON [PRIMARY]
+GO

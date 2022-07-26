@@ -3,11 +3,7 @@ using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database.Abstractions;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Extensions;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implementations
 {
@@ -117,7 +113,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
             }
         }
 
-        public async Task DeleteAsync(TEntity entity)
+        public async Task<bool> DeleteAsync(TEntity entity)
         {
             if (entity == null)
             {
@@ -129,10 +125,12 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
                 _marketContext.Remove(entity);
                 _marketContext.Entry<TEntity>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
                 await _marketContext.SaveChangesAsync();
+                return true;
             }
             catch (Exception ex)
             {
-                throw new Exception($"{nameof(entity)} could not be updated: {ex.Message}");
+                //throw new Exception($"{nameof(entity)} could not be deleted: {ex.Message}");
+                return false;
             }
         }
     }

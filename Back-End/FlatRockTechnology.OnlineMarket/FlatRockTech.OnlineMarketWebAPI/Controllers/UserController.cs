@@ -6,6 +6,7 @@ using FlatRockTechnology.OnlineMarket.Models.Users;
 using FlatRockTechnology.OnlineMarket.Models.Products;
 using Queries.Declarations.Shared;
 using Commands.Declarations.Individual.Products;
+using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory;
 
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
@@ -15,18 +16,25 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
     {
         private readonly IUserServices _userServices;
         private readonly IMediator _mediator;
+        private readonly IServiceProvider _serviceProvider;
 
-        public UserController( IUserServices userServices, IMediator mediator)
+        public UserController( IUserServices userServices, IMediator mediator, IServiceProvider service)
         {
             _userServices = userServices;
             _mediator = mediator;
+            _serviceProvider = service;
         }
 
         [HttpGet]
         [Route("GetAllUsers")]
-        public async Task<IEnumerable<UserModel>> GetAll()
+        public async IAsyncEnumerable<UserModel> GetAll()
         {
-            return await _mediator.Send(new GetAllQuery<User, UserModel>());
+            ServicesFlyWeight servicesFlyWeight = new ServicesFlyWeight(_serviceProvider);
+            var bubu = servicesFlyWeight.GetService<IUserServices>();
+            await foreach (var user in bubu.GetModels(o => o.Id != ""))
+            {
+                yield return user;
+            }
         }
 
         [HttpPost]

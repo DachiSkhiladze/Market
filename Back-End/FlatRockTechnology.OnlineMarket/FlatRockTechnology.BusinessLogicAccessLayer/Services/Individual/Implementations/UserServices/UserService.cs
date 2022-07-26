@@ -10,19 +10,16 @@ using System.Threading.Tasks;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
 using FlatRockTechnology.OnlineMarket.Models.Users;
+using MediatR;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.UserServices
 {
     public class UserServices : BaseService<User, UserModel>, IUserServices
     {
-        protected IMapper Mapper;
-        private readonly UserManager<User> _userManager;
-        public UserServices(IRepository<User> repository, IMapper mapper, UserManager<User> userManager) : base(repository)
+        public UserServices(IMediator mediator) : base(mediator)
         {
-            this.Mapper = mapper;   // Initializing AutoMapper Using InBuilt DI Service Container
-            _userManager = userManager;
         }
-
+        /*
         public async Task<UserModel> DisableOrEnableUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -50,7 +47,6 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
             await _userManager.UpdateAsync(user);
             return true;
         }
-
         public async Task<IdentityResult> Register(UserModel model)
         {
             var user = ConvertToDTO(model);
@@ -62,16 +58,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
                 await _userManager.AddToRolesAsync(user, model.Roles);
             }
             return result;
-        }
+        }*/
 
-        //Protected Methods
-        protected override User ConvertToDTO(UserModel model) => Mapper.Map<User>(model);
-
-        protected override UserModel ConvertToModel(User entity) => Mapper.Map<UserModel>(entity);
-
-        protected override IEnumerable<UserModel> ConvertToModels(IQueryable<User> entities)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -22,6 +22,8 @@ using Commands.Handlers.Write.Shared;
 using Commands.Declarations.Shared;
 using Commands.Declarations.Individual.Products;
 using Commands.Handlers.Write.ProductHandlers;
+using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory;
+using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory.Abstractions;
 
 namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 {
@@ -51,6 +53,9 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 
             services.AddTransient(typeof(IRequestHandler<IsExistsQuery<User>, bool>),
                 typeof(IsExistsHandler<User, UserModel>));
+
+            services.AddTransient(typeof(IStreamRequestHandler<GetQuery<User, UserModel>, UserModel>),
+                typeof(GetHandler<User, UserModel>));
         }
 
         public static void ConfigureServicesInjections(this IServiceCollection services)
@@ -75,6 +80,9 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 
 
             services.AddTransient<IUserServices, UserServices>();
+
+            services.AddTransient<IServicesFactory, ServicesFlyWeight>(); // Service Factory
+
             services.AddScoped<IAuthManager, AuthManager>();
             services.AddScoped<UserManager<User>>();
         }
