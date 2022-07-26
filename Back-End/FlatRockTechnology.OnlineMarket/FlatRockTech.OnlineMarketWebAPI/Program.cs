@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
                       builder =>
                       {
                           builder.AllowAnyOrigin()
-                                   .AllowAnyHeader()
+                                  .AllowAnyHeader()
                                    .AllowAnyMethod();
                       });
 });
@@ -28,44 +28,16 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Description = "Des1"
     });
-
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = @"JWT Authorization headewr using the Bearer scheme.
-            Enter 'Bearer' [space] and then your token in the text input below.
-            Example: 'Bearer 12345abcdef'",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                },
-                Scheme = "0auth2",
-                Name = "Bearer",
-                In = ParameterLocation.Header
-            },
-            new List<string>()
-        }
-    });
 });
 
 builder.Services.ConfigureDBContext();
 builder.Services.ConfigureServicesInjections();
+builder.Services.ConfigureCQRSInjections();
 
 
-builder.Services.AddAuthentication();
-builder.Services.ConfigureIdentity();
-builder.Services.ConfigureJWT(builder.Configuration);
+//builder.Services.AddAuthentication();
+//builder.Services.ConfigureIdentity();
+//builder.Services.ConfigureJWT(builder.Configuration);
 
 var app = builder.Build();
 
@@ -78,7 +50,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 
 app.MapControllers();
 

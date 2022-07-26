@@ -1,13 +1,13 @@
 ﻿{
    "CodeGenerationMode": 2,
    "ContextClassName": "MarketContext",
-   "ContextNamespace": "Database",
+   "ContextNamespace": "DB",
    "DefaultDacpacSchema": null,
    "FilterSchemas": false,
    "IncludeConnectionString": false,
    "ModelNamespace": "",
-   "OutputContextPath": "Database",
-   "OutputPath": "Database",
+   "OutputContextPath": "DB",
+   "OutputPath": "DB",
    "ProjectRootNamespace": "FlatRockTechnology.OnlineMarket.DataAccessLayer",
    "Schemas": null,
    "SelectedHandlebarsLanguage": 0,
@@ -38,15 +38,23 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Role]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[SubCategory]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[User]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UserRole]",
+         "ObjectType": 0
       }
    ],
-   "UiHint": "FRT-106.Market",
+   "UiHint": "FRT-106.ShopDB",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
    "UseDbContextSplitting": false,

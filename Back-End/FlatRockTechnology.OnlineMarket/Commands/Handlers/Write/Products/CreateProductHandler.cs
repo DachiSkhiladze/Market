@@ -4,6 +4,7 @@ using MediatR;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
 using FlatRockTechnology.OnlineMarket.Models.Products;
 using FlatRockTechnology.OnlineMarket.Models.Mapper.Abstractions;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
 
 namespace Commands.Handlers.Write.ProductHandlers
 {

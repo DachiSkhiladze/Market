@@ -29,7 +29,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base
 
         public IAsyncEnumerable<TModel> GetModels(Expression<Func<TEntity, bool>> predicate)
         {
-            return mediator.CreateStream(new GetQuery<TEntity, TModel>(predicate));
+            return mediator.CreateStream(new GetQuery<TEntity, TModel>(predicate)); // Getting Filtered Data
         }
         
         public async Task<TModel> InsertAsync(TModel model)

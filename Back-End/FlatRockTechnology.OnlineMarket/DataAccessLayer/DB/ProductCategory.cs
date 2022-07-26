@@ -4,17 +4,17 @@ using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database.Abstractions;
 using System;
 using System.Collections.Generic;
 
-namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
+namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.DB
 {
     public partial class ProductCategory : IEntity
     {
         public Guid Id { get; set; }
-        public Guid ProductId { get; set; }
-        public Guid SubCategoryId { get; set; }
+        public Guid? ProductId { get; set; }
+        public Guid? SubCategoryId { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public string? CreatedBy { get; set; }
+        public Guid? CreatedBy { get; set; }
         public DateTime? ModifiedAt { get; set; }
-        public string? ModifiedBy { get; set; }
+        public Guid? ModifiedBy { get; set; }
 
         public virtual User CreatedByNavigation { get; set; }
         public virtual User ModifiedByNavigation { get; set; }

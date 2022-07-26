@@ -1,4 +1,4 @@
-﻿using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
+﻿using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractions;
 using System;
 using System.Collections.Generic;

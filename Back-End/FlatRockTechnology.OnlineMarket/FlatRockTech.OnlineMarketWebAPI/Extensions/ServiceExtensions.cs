@@ -24,6 +24,10 @@ using Commands.Declarations.Individual.Products;
 using Commands.Handlers.Write.ProductHandlers;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory.Abstractions;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
+using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.ProductServices;
+using AuthenticationLayer.Proxy.Abstractions;
+using AuthenticationLayer.Proxy;
 
 namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 {
@@ -32,7 +36,7 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
         public static void ConfigureDBContext(this IServiceCollection services)
         {
             services.AddDbContext<MarketContext>(
-                  x => x.UseSqlServer("Data Source=localhost;Initial Catalog=Market;Integrated Security=True")
+                  x => x.UseSqlServer("Data Source=localhost;Initial Catalog=ShopDB;Integrated Security=True")
                   .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking),
                   ServiceLifetime.Transient); // Adding DB Context To The Container
         }
@@ -41,6 +45,24 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
         {
             services.AddTransient(typeof(IRequestHandler<GetAllQuery<User, UserModel>, IEnumerable<UserModel>>),
                 typeof(GetAllHandler<User, UserModel>));
+
+            services.AddTransient(typeof(IRequestHandler<IsExistsQuery<User>, bool>),
+                typeof(IsExistsHandler<User, UserModel>));
+
+            services.AddTransient(typeof(IStreamRequestHandler<GetQuery<User, UserModel>, UserModel>),
+                typeof(GetHandler<User, UserModel>));
+
+            services.AddTransient(typeof(IRequestHandler<CreateCommand<User, UserModel>, UserModel>),
+                typeof(CreateHandler<User, UserModel>));
+
+            services.AddTransient(typeof(IRequestHandler<DeleteCommand<User, UserModel>, bool>),
+                typeof(DeleteHandler<User, UserModel>));
+
+
+            services.AddTransient(typeof(IRequestHandler<UpdateCommand<User, UserModel>, UserModel>),
+                typeof(UpdateHandler<User, UserModel>));
+
+
 
             services.AddTransient(typeof(IRequestHandler<CreateCommand<Product, ProductModel>, ProductModel>),
                 typeof(CreateHandler<Product, ProductModel>));
@@ -51,18 +73,16 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient(typeof(IRequestHandler<IsExistsQuery<Product>, bool>),
                 typeof(IsExistsHandler<Product, ProductModel>));
 
-            services.AddTransient(typeof(IRequestHandler<IsExistsQuery<User>, bool>),
-                typeof(IsExistsHandler<User, UserModel>));
+            services.AddTransient(typeof(IRequestHandler<GetAllQuery<Product, ProductModel>, IEnumerable<ProductModel>>),
+                typeof(GetAllHandler<Product, ProductModel>));
 
-            services.AddTransient(typeof(IStreamRequestHandler<GetQuery<User, UserModel>, UserModel>),
-                typeof(GetHandler<User, UserModel>));
+            services.AddTransient(typeof(IStreamRequestHandler<GetQuery<Product, ProductModel>, ProductModel>),
+                typeof(GetHandler<Product, ProductModel>));
         }
 
         public static void ConfigureServicesInjections(this IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
-
-            services.ConfigureCQRSInjections();
 
             services.AddAutoMapper(typeof(MappingProfile));
 
@@ -78,13 +98,15 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 
             services.AddTransient<IMapperConfiguration<User, UserModel>, MapperConfiguration<User, UserModel>>();
 
+            services.AddTransient<IMapperConfiguration<UserRegisterModel, UserModel>, MapperConfiguration<UserRegisterModel, UserModel>>();
 
             services.AddTransient<IUserServices, UserServices>();
 
-            services.AddTransient<IServicesFactory, ServicesFlyWeight>(); // Service Factory
+            services.AddTransient<IUserServiceProxy, UserServiceProxy>();
 
-            services.AddScoped<IAuthManager, AuthManager>();
-            services.AddScoped<UserManager<User>>();
+            services.AddTransient<IProductServices, ProductServices>();
+
+            services.AddTransient<IServicesFactory, ServicesFlyWeight>(); // Service Factory
         }
 
         public static void ConfigureIdentity(this IServiceCollection services)
@@ -95,7 +117,7 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             });
 
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), services);
-            builder.AddEntityFrameworkStores<MarketContext>().AddDefaultTokenProviders();
+            //builder.AddEntityFrameworkStores<MarketContext>().AddDefaultTokenProviders();
         }
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)

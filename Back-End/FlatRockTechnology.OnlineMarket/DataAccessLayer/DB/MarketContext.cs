@@ -2,32 +2,35 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using FlatRockTechnology.OnlineMarket.DataAccessLayer.Configurations.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
+namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.DB
 {
-    public partial class MarketContext : IdentityDbContext<User>
+    public partial class MarketContext : DbContext
     {
+        public MarketContext()
+        {
+        }
+
         public MarketContext(DbContextOptions<MarketContext> options)
             : base(options)
         {
         }
+
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<OrderProduct> OrderProduct { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductCategory> ProductCategory { get; set; }
+        public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<SubCategory> SubCategory { get; set; }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserRole> UserRole { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            
-            modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.Entity<Address>(entity =>
             {
                 entity.Property(e => e.Id)
@@ -49,20 +52,17 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.AddressCreatedByNavigation)
                     .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Address__Created__3B75D760");
+                    .HasConstraintName("FK__Address__Created__403A8C7D");
 
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.AddressModifiedByNavigation)
                     .HasForeignKey(d => d.ModifiedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Address__Modifie__3C69FB99");
+                    .HasConstraintName("FK__Address__Modifie__412EB0B6");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AddressUser)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Address__UserID__3A81B327");
+                    .HasConstraintName("FK__Address__UserID__3F466844");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -84,14 +84,12 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.CategoryCreatedByNavigation)
                     .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Category__Create__286302EC");
+                    .HasConstraintName("FK__Category__Create__2D27B809");
 
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.CategoryModifiedByNavigation)
                     .HasForeignKey(d => d.ModifiedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Category__Modifi__29572725");
+                    .HasConstraintName("FK__Category__Modifi__2E1BDC42");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -106,35 +104,29 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
 
                 entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
 
-                entity.Property(e => e.Status)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.HasOne(d => d.Address)
                     .WithMany(p => p.Order)
                     .HasForeignKey(d => d.AddressId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Order__AddressID__3F466844");
+                    .HasConstraintName("FK__Order__AddressID__440B1D61");
 
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.OrderCreatedByNavigation)
                     .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Order__CreatedBy__412EB0B6");
+                    .HasConstraintName("FK__Order__CreatedBy__45F365D3");
 
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.OrderModifiedByNavigation)
                     .HasForeignKey(d => d.ModifiedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Order__ModifiedB__4222D4EF");
+                    .HasConstraintName("FK__Order__ModifiedB__46E78A0C");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.OrderUser)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Order__UserID__403A8C7D");
+                    .HasConstraintName("FK__Order__UserID__44FF419A");
             });
 
             modelBuilder.Entity<OrderProduct>(entity =>
@@ -154,20 +146,17 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.OrderProductCreatedByNavigation)
                     .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderProd__Creat__45F365D3");
+                    .HasConstraintName("FK__OrderProd__Creat__4AB81AF0");
 
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.OrderProductModifiedByNavigation)
                     .HasForeignKey(d => d.ModifiedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderProd__Modif__46E78A0C");
+                    .HasConstraintName("FK__OrderProd__Modif__4BAC3F29");
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderProduct)
                     .HasForeignKey(d => d.OrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderProd__Order__44FF419A");
+                    .HasConstraintName("FK__OrderProd__Order__49C3F6B7");
             });
 
             modelBuilder.Entity<Product>(entity =>
@@ -178,9 +167,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
 
                 entity.Property(e => e.CreatedAt).HasColumnType("datetime");
 
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(1);
+                entity.Property(e => e.Description).HasMaxLength(1);
 
                 entity.Property(e => e.ImageUrl)
                     .HasMaxLength(50)
@@ -193,14 +180,12 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.ProductCreatedByNavigation)
                     .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Product__Created__30F848ED");
+                    .HasConstraintName("FK__Product__Created__35BCFE0A");
 
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.ProductModifiedByNavigation)
                     .HasForeignKey(d => d.ModifiedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Product__Modifie__31EC6D26");
+                    .HasConstraintName("FK__Product__Modifie__36B12243");
             });
 
             modelBuilder.Entity<ProductCategory>(entity =>
@@ -220,26 +205,33 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.ProductCategoryCreatedByNavigation)
                     .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductCa__Creat__36B12243");
+                    .HasConstraintName("FK__ProductCa__Creat__3B75D760");
 
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.ProductCategoryModifiedByNavigation)
                     .HasForeignKey(d => d.ModifiedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductCa__Modif__37A5467C");
+                    .HasConstraintName("FK__ProductCa__Modif__3C69FB99");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProductCategory)
                     .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductCa__Produ__34C8D9D1");
+                    .HasConstraintName("FK__ProductCa__Produ__398D8EEE");
 
                 entity.HasOne(d => d.SubCategory)
                     .WithMany(p => p.ProductCategory)
                     .HasForeignKey(d => d.SubCategoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductCa__SubCa__35BCFE0A");
+                    .HasConstraintName("FK__ProductCa__SubCa__3A81B327");
+            });
+
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.NormalizedName).HasMaxLength(50);
+
+                entity.Property(e => e.Title).HasMaxLength(50);
             });
 
             modelBuilder.Entity<SubCategory>(entity =>
@@ -263,20 +255,18 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.SubCategory)
                     .HasForeignKey(d => d.CategoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__SubCatego__Categ__2C3393D0");
+                    .HasConstraintName("FK__SubCatego__Categ__30F848ED");
 
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.SubCategoryCreatedByNavigation)
                     .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__SubCatego__Creat__2D27B809");
+                    .HasConstraintName("FK__SubCatego__Creat__31EC6D26");
 
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.SubCategoryModifiedByNavigation)
                     .HasForeignKey(d => d.ModifiedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__SubCatego__Modif__2E1BDC42");
+                    .HasConstraintName("FK__SubCatego__Modif__32E0915F");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -289,25 +279,51 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
 
                 entity.Property(e => e.CreatedAt).HasColumnType("datetime");
 
+                entity.Property(e => e.Email).HasMaxLength(100);
+
                 entity.Property(e => e.FirstName).HasMaxLength(50);
 
                 entity.Property(e => e.LastName).HasMaxLength(50);
 
                 entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
 
+                entity.Property(e => e.NormalizedEmail).HasMaxLength(100);
+
+                entity.Property(e => e.NormalizedUserName).HasMaxLength(100);
+
                 entity.Property(e => e.PhoneNumber).HasMaxLength(50);
 
-                entity.HasOne(d => d.CreatedByNavigation)
-                    .WithMany(p => p.InverseCreatedByNavigation)
-                    .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Creation8");
+                entity.Property(e => e.UserName).HasMaxLength(100);
 
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.InverseModifiedByNavigation)
                     .HasForeignKey(d => d.ModifiedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Modification8");
+            });
+
+            modelBuilder.Entity<UserRole>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.RoleId).HasColumnName("RoleID");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.UserRole)
+                    .HasForeignKey(d => d.RoleId)
+                    .HasConstraintName("FK__UserRole__RoleID__29572725");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserRole)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__UserRole__UserID__286302EC");
             });
 
             OnModelCreatingPartial(modelBuilder);

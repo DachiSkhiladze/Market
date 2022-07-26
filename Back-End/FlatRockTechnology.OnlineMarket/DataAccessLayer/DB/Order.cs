@@ -4,28 +4,28 @@ using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database.Abstractions;
 using System;
 using System.Collections.Generic;
 
-namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Database
+namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.DB
 {
-    public partial class Address : IEntity
+    public partial class Order : IEntity
     {
-        public Address()
+        public Order()
         {
-            Order = new HashSet<Order>();
+            OrderProduct = new HashSet<OrderProduct>();
         }
 
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string UserId { get; set; }
-        public string? Country { get; set; }
-        public string? City { get; set; }
+        public string Status { get; set; }
+        public Guid? AddressId { get; set; }
+        public Guid? UserId { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public string? CreatedBy { get; set; }
+        public Guid? CreatedBy { get; set; }
         public DateTime? ModifiedAt { get; set; }
-        public string? ModifiedBy { get; set; }
+        public Guid? ModifiedBy { get; set; }
 
+        public virtual Address Address { get; set; }
         public virtual User CreatedByNavigation { get; set; }
         public virtual User ModifiedByNavigation { get; set; }
         public virtual User User { get; set; }
-        public virtual ICollection<Order> Order { get; set; }
+        public virtual ICollection<OrderProduct> OrderProduct { get; set; }
     }
 }
