@@ -49,6 +49,8 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.DB
         public DateTime? ModifiedAt { get; set; }
         public Guid? ModifiedBy { get; set; }
 
+        public string EmailVerificationCode { get; set; }
+
         public virtual User ModifiedByNavigation { get; set; }
         public virtual ICollection<Address> AddressCreatedByNavigation { get; set; }
         public virtual ICollection<Address> AddressModifiedByNavigation { get; set; }

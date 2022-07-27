@@ -28,6 +28,8 @@ using AuthenticationLayer.Proxy.Abstractions;
 using AuthenticationLayer.Proxy;
 using Queries.Declarations.Shared;
 using Queries.Handlers.Shared;
+using EmailLayer.Abstractions;
+using EmailLayer;
 
 namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 {
@@ -114,6 +116,8 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient<IUserServices, UserServices>();
 
             services.AddTransient<IUserServiceProxy, UserServiceProxy>();
+
+            services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddTransient<IProductServices, ProductServices>();
 

@@ -7,11 +7,7 @@ using Microsoft.AspNetCore.Identity;
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices
 {
     public interface IUserServices : IBaseService<User, UserModel>
-    {/*
-        Task<IdentityResult> Register(UserModel model);
-        Task<UserModel> DisableOrEnableUser(string id);
-        Task DeleteUserAsync(string id);
-        Task<bool> UpdateEmailAsync(string id, string newEmail);
-        */
+    {
+        Task<bool> ConfirmEmail(string code);
     }
 }

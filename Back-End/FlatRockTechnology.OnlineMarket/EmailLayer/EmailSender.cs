@@ -1,9 +1,11 @@
-﻿using System.Net;
+﻿using EmailLayer.Abstractions;
+using System.Net;
 using System.Net.Mail;
+using System.Text;
 
 namespace EmailLayer
 {
-    public class EmailSender
+    public class EmailSender : IEmailSender
     {
         public EmailSender()
         {
@@ -14,6 +16,7 @@ namespace EmailLayer
         {
             try
             {
+                string code = "URANIUMURANIUMURANIUMURANIUM";
                 MailMessage newMail = new MailMessage();
 
                 SmtpClient client = new SmtpClient("smtp.gmail.com");
@@ -21,11 +24,17 @@ namespace EmailLayer
 
                 newMail.From = new MailAddress("dachiskhiladze@gmail.com", "Dachi");
 
-                newMail.To.Add("dachi.skhiladze@flatrocktech.com");
+                newMail.To.Add(Email);
 
-                newMail.Subject = "My First Email";
+                newMail.Subject = "Shop - Password Verification";
 
-                newMail.IsBodyHtml = true; newMail.Body = "<h1> This is my first Templated Email in C# </h1>";
+                newMail.IsBodyHtml = true; 
+                StringBuilder content = new StringBuilder();
+                content.Append($"<h1> Hello {FirstName}! </h1>");
+                content.Append($"<h3> Nice to meet you. <h2>");
+                content.Append($"<h3> Please verify email by clicking the button <h3>");
+                content.Append($"<form action='https://localhost:7201/User/ConfirmEmail/{code}'> <input type = 'Submit' value = 'Verify'/> </form>");
+                newMail.Body = content.ToString();
 
                 client.EnableSsl = true;
 
@@ -34,7 +43,7 @@ namespace EmailLayer
                 client.Credentials = new System.Net.NetworkCredential("dachiskhiladze@gmail.com", "ofryyovqxbgyqbuf");
 
                 client.Send(newMail);
-                return "Email Sent";
+                return code;
             }
             catch (Exception ex)
             {

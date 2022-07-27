@@ -5,13 +5,10 @@ using FlatRockTechnology.OnlineMarket.Models.Users;
 using FlatRockTechnology.OnlineMarket.Models.Products;
 using Commands.Declarations.Individual.Products;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory;
-using AuthenticationLayer.Proxy;
-using FlatRockTechnology.OnlineMarket.Models.Mapper;
-using AutoMapper;
-using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.UserServices;
 using AuthenticationLayer.Proxy.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using EmailLayer;
+using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory.Abstractions;
 
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
@@ -23,12 +20,14 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         private readonly IMediator _mediator;
         private readonly IServiceProvider _serviceProvider;
         private readonly IUserServiceProxy userServiceProxy;
+        private readonly IServicesFactory servicesFactory;
 
-        public UserController(IMediator mediator, IServiceProvider service, IUserServiceProxy userServiceProxy)
+        public UserController(IServicesFactory servicesFactory, IMediator mediator, IServiceProvider service, IUserServiceProxy userServiceProxy)
         {
             _mediator = mediator;
             _serviceProvider = service;
             this.userServiceProxy = userServiceProxy;
+            this.servicesFactory = servicesFactory;
         }
 
         [Authorize(Roles ="Administrator")]
@@ -71,6 +70,13 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         {
             EmailSender emailSender = new EmailSender();
             return emailSender.Send("dachiskhiladze@bubu.com", "Dachi", "Skhiladze");
+        }
+
+        [HttpGet]
+        [Route("ConfirmEmail/{code}")]
+        public async Task<bool> ConfirmEmail(string code)
+        {
+            return await servicesFactory.GetService<IUserServices>().ConfirmEmail(code);
         }
     }
 }

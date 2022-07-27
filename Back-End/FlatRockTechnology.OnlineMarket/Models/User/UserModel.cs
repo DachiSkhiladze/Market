@@ -21,5 +21,6 @@ namespace FlatRockTechnology.OnlineMarket.Models.Users
         public Guid? CreatedBy { get; set; }
         public DateTime? ModifiedAt { get; set; }
         public Guid? ModifiedBy { get; set; }
+        public string EmailVerificationCode { get; set; }
     }
 }

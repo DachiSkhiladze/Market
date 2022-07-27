@@ -21,5 +21,18 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
         {
 
         }
+
+        public async Task<bool> ConfirmEmail(string? code)
+        {
+            var models = GetModels().ToListAsync().Result;
+            var model = models.FirstOrDefault(o => o.EmailVerificationCode.Equals(code));
+            if (model != null)
+            {
+                model.IsEmailConfirmed = true;
+                await UpdateAsync(model);
+                return true;
+            }
+            return false;
+        }
     }
 }
