@@ -11,6 +11,7 @@ using AutoMapper;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.UserServices;
 using AuthenticationLayer.Proxy.Abstractions;
 using Microsoft.AspNetCore.Authorization;
+using EmailLayer;
 
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
@@ -30,7 +31,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             this.userServiceProxy = userServiceProxy;
         }
 
-        [Authorize(Roles ="Client")]
+        [Authorize(Roles ="Administrator")]
         [HttpGet]
         [Route("GetAllUsers")]
         public async IAsyncEnumerable<ProductModel> GetAll()
@@ -62,6 +63,14 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         public async Task<string> LogInUser([FromBody] UserLoginModel model)
         {
             return await userServiceProxy.LogIn(model);
+        }
+
+        [HttpGet]
+        [Route("SendEmail")]
+        public string Send()
+        {
+            EmailSender emailSender = new EmailSender();
+            return emailSender.Send("dachiskhiladze@bubu.com", "Dachi", "Skhiladze");
         }
     }
 }
