@@ -10,6 +10,7 @@ using FlatRockTechnology.OnlineMarket.Models.Mapper;
 using AutoMapper;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.UserServices;
 using AuthenticationLayer.Proxy.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
@@ -29,6 +30,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             this.userServiceProxy = userServiceProxy;
         }
 
+        [Authorize(Roles ="Client")]
         [HttpGet]
         [Route("GetAllUsers")]
         public async IAsyncEnumerable<ProductModel> GetAll()
@@ -57,7 +59,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 
         [HttpPost]
         [Route("LogInUser")]
-        public async Task<bool> LogInUser([FromBody] UserLoginModel model)
+        public async Task<string> LogInUser([FromBody] UserLoginModel model)
         {
             return await userServiceProxy.LogIn(model);
         }

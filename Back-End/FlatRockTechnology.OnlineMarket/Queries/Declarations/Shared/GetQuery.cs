@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Queries.Declarations.Shared
 {
-    public record GetQuery<TEntity, TModel>(Expression<Func<TEntity, bool>> predicate) : IStreamRequest<TModel>;
+    public record GetQuery<TEntity, TModel>(Func<TEntity, bool> predicate) : IStreamRequest<TModel>;
 }

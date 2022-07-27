@@ -13,6 +13,8 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.UnitOfWork.Abstraction
         IProductRepository Products { get; }
         ISubCategoryRepository SubCategories { get; }
         IUserRepository Users { get; }
+        IUserRoleRepository UserRoles { get; }
+        IRoleRepository Roles { get; }
         IRepository<TEntity> GetRepository();
         int Complete();
     }

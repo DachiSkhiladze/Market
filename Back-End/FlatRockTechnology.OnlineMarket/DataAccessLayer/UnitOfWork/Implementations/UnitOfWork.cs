@@ -23,12 +23,16 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.UnitOfWork.Implementat
             Products = new ProductRepository(_context);
             SubCategories = new SubCategoryRepository(_context);
             Users = new UserRepository(_context);
+            Roles = new RoleRepository(_context);
+            UserRoles = new UserRoleRepository(_context);
         }
         public IRepository<TEntity> GetRepository()
         {
             return _repository;
         }
 
+        public IUserRoleRepository UserRoles { get; private set; }
+        public IRoleRepository Roles { get; private set; }
         public IAddressRepository Addresses { get; private set; }
 
         public ICategoryRepository Categories { get; private set; }

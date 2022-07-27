@@ -57,14 +57,14 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
             }
         }
 
-        public IAsyncEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate)
+        public IAsyncEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
         {
             try
             {
                 return _marketContext.Set<TEntity>()
                                      .AsQueryable()
                                      .AsNoTracking()
-                                     .Where(predicate.Compile())
+                                     .Where(predicate)
                                      .ToAsyncEnumerable();
             }
             catch (Exception ex)

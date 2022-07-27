@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractions
 {
@@ -9,9 +10,10 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstra
         long GetCount();
 
         IQueryable<TEntity> GetAll();
+
         Task<List<TEntity>> GetList();
 
-        IAsyncEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
+        IAsyncEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
 
         IQueryable<TEntity> Get(int skip, int take);
 

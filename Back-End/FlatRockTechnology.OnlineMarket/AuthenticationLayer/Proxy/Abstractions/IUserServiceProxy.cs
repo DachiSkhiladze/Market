@@ -10,6 +10,6 @@ namespace AuthenticationLayer.Proxy.Abstractions
     public interface IUserServiceProxy
     {
         public Task<UserModel> Register(UserRegisterModel userRegisterModel);
-        public Task<bool> LogIn(UserLoginModel userLoginModel);
+        public Task<string> LogIn(UserLoginModel userLoginModel);
     }
 }

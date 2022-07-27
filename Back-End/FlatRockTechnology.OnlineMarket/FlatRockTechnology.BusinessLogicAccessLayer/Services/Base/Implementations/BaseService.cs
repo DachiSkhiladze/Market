@@ -21,13 +21,13 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base
         public async IAsyncEnumerable<TModel> GetModels()
         {
             await foreach (var model in 
-                (await mediator.Send(new GetAllQuery<TEntity, TModel>())).ToAsyncEnumerable())
+                (await mediator.Send(new GetRole<TEntity, TModel>())).ToAsyncEnumerable())
             {
                 yield return model;
             }
         }
 
-        public IAsyncEnumerable<TModel> GetModels(Expression<Func<TEntity, bool>> predicate)
+        public IAsyncEnumerable<TModel> GetModels(Func<TEntity, bool> predicate)
         {
             return mediator.CreateStream(new GetQuery<TEntity, TModel>(predicate)); // Getting Filtered Data
         }

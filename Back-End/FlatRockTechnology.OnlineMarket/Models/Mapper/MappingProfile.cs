@@ -15,24 +15,17 @@ namespace FlatRockTechnology.OnlineMarket.Models.Mapper
             {
                 CreateMap<AddressModel, Address>().ReverseMap();
                 CreateMap<CategoryModel, Category>().ReverseMap();
-                CreateMap<OrderModel, Order>();
-                CreateMap<Order, OrderModel>();
-                CreateMap<OrderProductModel, Order>();
-                CreateMap<Order, OrderProductModel>();
-                CreateMap<ProductModel, Product>();
-                CreateMap<Product, ProductModel>();
-                CreateMap<ProductCategoryModel, ProductCategory>();
-                CreateMap<ProductCategory, ProductCategoryModel>();
-                CreateMap<SubCategoryModel, SubCategory>();
-                CreateMap<SubCategory, SubCategoryModel>();
-                CreateMap<CategoryModel, Category>();
-                CreateMap<Category, CategoryModel>();
-                CreateMap<UserModel, User>();
-                CreateMap<User, UserModel>();
-                CreateMap<UserLoginModel, UserModel>();
-                CreateMap<UserModel, UserLoginModel>();
-                CreateMap<UserRegisterModel, UserModel>();
-                CreateMap<UserModel, UserRegisterModel>();
+                CreateMap<OrderModel, Order>().ReverseMap();
+                CreateMap<OrderProductModel, Order>().ReverseMap();
+                CreateMap<ProductModel, Product>().ReverseMap();
+                CreateMap<ProductCategoryModel, ProductCategory>().ReverseMap();
+                CreateMap<SubCategoryModel, SubCategory>().ReverseMap();
+                CreateMap<CategoryModel, Category>().ReverseMap();
+                CreateMap<UserModel, User>().ReverseMap();
+                CreateMap<UserLoginModel, UserModel>().ReverseMap();
+                CreateMap<UserRegisterModel, UserModel>().ReverseMap();
+                CreateMap<Role, RoleModel>().ReverseMap();
+                CreateMap<UserRole, UserRoleModel>().ReverseMap();
         }
         }
 }
