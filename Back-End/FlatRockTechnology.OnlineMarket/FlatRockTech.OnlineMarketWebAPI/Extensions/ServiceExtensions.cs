@@ -13,8 +13,6 @@ using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implementa
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.UnitOfWork.Abstractions;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.UnitOfWork.Implementations;
 using FlatRockTechnology.OnlineMarket.Models.Users;
-using Queries.Handlers.Shared;
-using Queries.Declarations.Shared;
 using FlatRockTechnology.OnlineMarket.Models.Mapper.Abstractions;
 using FlatRockTechnology.OnlineMarket.Models.Products;
 using FlatRockTechnology.OnlineMarket.Models.Mapper;
@@ -28,6 +26,8 @@ using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.ProductServices;
 using AuthenticationLayer.Proxy.Abstractions;
 using AuthenticationLayer.Proxy;
+using Queries.Declarations.Shared;
+using Queries.Handlers.Shared;
 
 namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 {
