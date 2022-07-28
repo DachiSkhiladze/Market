@@ -57,6 +57,9 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient(typeof(IRequestHandler<CreateCommand<User, UserModel>, UserModel>),
                 typeof(CreateHandler<User, UserModel>));
 
+            services.AddTransient(typeof(IRequestHandler<CreateCommand<UserRole, UserRoleModel>, UserRoleModel>),
+                typeof(CreateHandler<UserRole, UserRoleModel>));
+
             services.AddTransient(typeof(IRequestHandler<DeleteCommand<User, UserModel>, bool>),
                 typeof(DeleteHandler<User, UserModel>));
 
@@ -93,6 +96,10 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 
             services.AddTransient<IUnitOfWork<User>, UnitOfWork<User>>();
 
+            services.AddTransient<IRepository<UserRole>, Repository<UserRole>>();
+
+            services.AddTransient<IUnitOfWork<UserRole>, UnitOfWork<UserRole>>();
+
             services.AddTransient<IRepository<Product>, Repository<Product>>();
 
             services.AddTransient<IUnitOfWork<Product>, UnitOfWork<Product>>();
@@ -100,10 +107,6 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient<IRepository<Role>, Repository<Role>>();
 
             services.AddTransient<IUnitOfWork<Role>, UnitOfWork<Role>>();
-
-            services.AddTransient<IRepository<UserRole>, Repository<UserRole>>();
-
-            services.AddTransient<IUnitOfWork<UserRole>, UnitOfWork<UserRole>>();
 
             services.AddTransient<IMapperConfiguration<Product, ProductModel>, MapperConfiguration<Product, ProductModel>>();
 
@@ -113,7 +116,11 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 
             services.AddTransient<IMapperConfiguration<Role, RoleModel>, MapperConfiguration<Role, RoleModel>>();
 
+            services.AddTransient<IMapperConfiguration<UserRole, UserRoleModel>, MapperConfiguration<UserRole, UserRoleModel>>();
+
             services.AddTransient<IUserServices, UserServices>();
+
+            services.AddTransient<IUserRoleServices, UserRoleServices>();
 
             services.AddTransient<IUserServiceProxy, UserServiceProxy>();
 

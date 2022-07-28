@@ -1,4 +1,5 @@
 ﻿using EmailLayer.Abstractions;
+using EmailLayer.URL;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -7,16 +8,17 @@ namespace EmailLayer
 {
     public class EmailSender : IEmailSender
     {
+        RandomURLGenerator urlCode;
         public EmailSender()
         {
-
+            urlCode = new RandomURLGenerator();
         }
 
         public string Send(string Email, string FirstName, string LastName)
         {
             try
             {
-                string code = "URANIUMURANIUMURANIUMURANIUM";
+                string code = urlCode.Generate(300);
                 MailMessage newMail = new MailMessage();
 
                 SmtpClient client = new SmtpClient("smtp.gmail.com");
