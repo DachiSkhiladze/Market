@@ -31,6 +31,7 @@
     <ProjectReference Include="..\EmailLayer\EmailLayer.csproj" />
     <ProjectReference Include="..\FlatRockTechnology.BusinessLogicAccessLayer\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj" />
     <ProjectReference Include="..\Models\FlatRockTechnology.OnlineMarket.Models.csproj" />
+    <ProjectReference Include="..\Payment\Payment.csproj" />
     <ProjectReference Include="..\Queries\Queries.csproj" />
   </ItemGroup>
 

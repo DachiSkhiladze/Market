@@ -9,6 +9,8 @@ using AuthenticationLayer.Proxy.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using EmailLayer;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory.Abstractions;
+using Payment.Models;
+using Payment.Processing.Implementations;
 
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
@@ -28,6 +30,13 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             _serviceProvider = service;
             this.userServiceProxy = userServiceProxy;
             this.servicesFactory = servicesFactory;
+        }
+
+        [HttpPost]
+        [Route("Pay")]
+        public async Task<dynamic> Pay(PaymentModel model)
+        {
+            return await MakePayment.PayAsync(model.CardNumber, model.Month, model.Year, model.CVC, model.Value);
         }
 
         [Authorize(Roles ="Administrator")]
