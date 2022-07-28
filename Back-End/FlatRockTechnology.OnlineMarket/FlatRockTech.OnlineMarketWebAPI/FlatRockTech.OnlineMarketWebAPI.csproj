@@ -24,9 +24,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogicLayer\FlatRockTech.OnlineMarket.BusinessLogicLayer.csproj" />
+    <ProjectReference Include="..\AuthenticationLayer\AuthenticationLayer.csproj" />
+    <ProjectReference Include="..\BusinessLogicLayer\Queries.csproj" />
+    <ProjectReference Include="..\Commands\Commands.csproj" />
     <ProjectReference Include="..\DataAccessLayer\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\EmailLayer\EmailLayer.csproj" />
     <ProjectReference Include="..\FlatRockTechnology.BusinessLogicAccessLayer\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj" />
+    <ProjectReference Include="..\Models\FlatRockTechnology.OnlineMarket.Models.csproj" />
+    <ProjectReference Include="..\Payment\Payment.csproj" />
+    <ProjectReference Include="..\Queries\Queries.csproj" />
   </ItemGroup>
 
 </Project>

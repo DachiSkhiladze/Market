@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
                       builder =>
                       {
                           builder.AllowAnyOrigin()
-                                   .AllowAnyHeader()
+                                  .AllowAnyHeader()
                                    .AllowAnyMethod();
                       });
 });
@@ -61,10 +61,11 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.ConfigureDBContext();
 builder.Services.ConfigureServicesInjections();
+builder.Services.ConfigureCQRSInjections();
 
 
 builder.Services.AddAuthentication();
-builder.Services.ConfigureIdentity();
+//builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
 
 var app = builder.Build();
@@ -76,9 +77,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+app.UseRouting();
+app.UseAuthorization();
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 
 app.MapControllers();
 

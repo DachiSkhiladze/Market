@@ -1,16 +1,14 @@
 ﻿using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database.Abstractions;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.Extensions;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implementations
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, new()
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity, new()
     {
         protected readonly MarketContext _marketContext;
         static readonly object _object = new object();
@@ -19,7 +17,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
             _marketContext = marketContext;
         }
 
-        public bool CheckIfExists(Expression<Func<TEntity, bool>> predicate) => this.GetAll().Any(predicate.Compile());
+        public bool IsExists(Expression<Func<TEntity, bool>> predicate) => this.GetAll().Any(predicate.Compile());
 
         public long GetCount() => this.GetAll().Count();
 
@@ -59,11 +57,15 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
             }
         }
 
-        public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate)
+        public IAsyncEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
         {
             try
             {
-                return _marketContext.Set<TEntity>().AsNoTracking().Where(predicate.Compile());
+                return _marketContext.Set<TEntity>()
+                                     .AsQueryable()
+                                     .AsNoTracking()
+                                     .Where(predicate)
+                                     .ToAsyncEnumerable();
             }
             catch (Exception ex)
             {
@@ -80,6 +82,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
 
             try
             {
+                entity.ConfigureEntityForAdding();
                 var result = await _marketContext.AddAsync(entity);
                 await _marketContext.SaveChangesAsync();
                 return entity;
@@ -111,7 +114,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
             }
         }
 
-        public async Task DeleteAsync(TEntity entity)
+        public async Task<bool> DeleteAsync(TEntity entity)
         {
             if (entity == null)
             {
@@ -123,10 +126,12 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
                 _marketContext.Remove(entity);
                 _marketContext.Entry<TEntity>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
                 await _marketContext.SaveChangesAsync();
+                return true;
             }
             catch (Exception ex)
             {
-                throw new Exception($"{nameof(entity)} could not be updated: {ex.Message}");
+                //throw new Exception($"{nameof(entity)} could not be deleted: {ex.Message}");
+                return false;
             }
         }
     }

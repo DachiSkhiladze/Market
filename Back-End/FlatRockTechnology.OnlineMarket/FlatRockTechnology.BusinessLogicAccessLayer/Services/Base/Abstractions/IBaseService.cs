@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Abstractions
 {
-    public interface IBaseService<TEntity, TModel>
+    public interface IBaseService
     {
-        bool CheckIfExists(Expression<Func<TEntity, bool>> predicate);
-        IEnumerable<TModel> GetModels(Expression<Func<TEntity, bool>> predicate);
-        IEnumerable<TModel> GetModels();
+
+    }
+
+    public interface IBaseService<TEntity, TModel> : IBaseService
+    {
+        Task<bool> IsExists(Expression<Func<TEntity, bool>> predicate);
+        IAsyncEnumerable<TModel> GetModels();
+        IAsyncEnumerable<TModel> GetModels(Func<TEntity, bool> predicate);
         Task<TModel> InsertAsync(TModel model);
         Task<TModel> UpdateAsync(TModel model);
-        Task DeleteAsync(TModel model);
+        Task<bool> DeleteAsync(TModel model);
     }
 }

@@ -1,5 +1,7 @@
-﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Abstractions;
-using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractions;
+﻿using Commands.Declarations.Shared;
+using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Abstractions;
+using MediatR;
+using Queries.Declarations.Shared;
 using System.Linq.Expressions;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Implementations
@@ -8,53 +10,41 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base
                                                               where TEntity : class, new()
                                                               where TModel : class, new()
     {
-        protected IRepository<TEntity> Repository;
-        public BaseService(IRepository<TEntity> repository)
+        private readonly IMediator mediator;
+        public BaseService(IMediator mediator)
         {
-            Repository = repository;    // Initializing Repository
+            this.mediator = mediator;
         }
 
-        public bool CheckIfExists(Expression<Func<TEntity, bool>> predicate) => this.Repository.CheckIfExists(predicate);
+        public async Task<bool> IsExists(Expression<Func<TEntity, bool>> predicate) => await mediator.Send(new IsExistsQuery<TEntity>(predicate));
 
-        public IEnumerable<TModel> GetModels()
+        public async IAsyncEnumerable<TModel> GetModels()
         {
-            foreach (var item in Repository.GetAll())
+            await foreach (var model in 
+                (await mediator.Send(new GetRole<TEntity, TModel>())).ToAsyncEnumerable())
             {
-                yield return ConvertToModel(item); // Returning Type Models
+                yield return model;
             }
         }
 
-        public IEnumerable<TModel> GetModels(Expression<Func<TEntity, bool>> predicate)
+        public IAsyncEnumerable<TModel> GetModels(Func<TEntity, bool> predicate)
         {
-            var result = Repository.Get(predicate);
-            foreach (var item in result)
-            {
-                yield return ConvertToModel(item); // Returning Type Models
-            }
+            return mediator.CreateStream(new GetQuery<TEntity, TModel>(predicate)); // Getting Filtered Data
         }
-
+        
         public async Task<TModel> InsertAsync(TModel model)
         {
-            var dto = ConvertToDTO(model);
-            return ConvertToModel(await Repository.AddAsync(dto));  // Inserting New Data
+            return await mediator.Send(new CreateCommand<TEntity, TModel>(model));// Inserting New Data
         }
 
         public async Task<TModel> UpdateAsync(TModel model)
         {
-            var dto = ConvertToDTO(model);
-            return ConvertToModel(await Repository.UpdateAsync(dto)); // Updating Data
+            return await mediator.Send(new UpdateCommand<TEntity, TModel>(model));// Updating Data
         }
 
-        public async Task DeleteAsync(TModel model)
+        public async Task<bool> DeleteAsync(TModel model)
         {
-            var dto = ConvertToDTO(model);
-            await Repository.DeleteAsync(dto); // Deleting Data
+            return await mediator.Send(new DeleteCommand<TEntity, TModel>(model)); // Deleting Data
         }
-
-        protected abstract TEntity ConvertToDTO(TModel model);  // Overloaded in subclasses
-
-        protected abstract TModel ConvertToModel(TEntity entity);  // Overloaded in subclasses
-
-        protected abstract IEnumerable<TModel> ConvertToModels(IQueryable<TEntity> entities);  // Overloaded in subclasses
     }
 }
