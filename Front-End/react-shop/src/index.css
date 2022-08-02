@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  font-family: Averta, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  background-color: rgb(246, 246, 246);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.isRight{
+  float: right;
+}
+
+.isColorBlue{
+  color: rgb(2, 108, 223);
+}
+
+.isLeft{
+  float: left;
+}
+
+.isRight{
+  float: right;
+}
+
+.isHalfWidth{
+  width: 50%;
+}
+
+.isAlmostHalfWidth{
+  width: 49%;
+}
+
+.hasSmallVerticalMargin{
+  margin: 10px 0px;
+}
+
+p, h1, h2, h3, h4, h5, div{
+  margin: 0px;
+  padding: 0px;
+}
