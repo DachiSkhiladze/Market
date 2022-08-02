@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogicLayer\Queries.csproj" />
     <ProjectReference Include="..\Commands\Commands.csproj" />
     <ProjectReference Include="..\DataAccessLayer\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj" />
     <ProjectReference Include="..\Models\FlatRockTechnology.OnlineMarket.Models.csproj" />

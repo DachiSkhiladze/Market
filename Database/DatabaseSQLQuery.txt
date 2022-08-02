@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[User](
 	[Email] [nvarchar](100) NULL,
 	[NormalizedEmail] [nvarchar](100) NULL,
 	[IsEmailConfirmed] [bit] NULL,
+	[EmailVerificationCode] [nvarchar](100) NULL,
 	[UserName] [nvarchar](100) NULL,
 	[NormalizedUserName] [nvarchar](100) NULL,
 	[PasswordHash] [nvarchar](MAX) NULL,
@@ -27,6 +28,10 @@ CREATE TABLE [dbo].[Role](
 	[ID] [UNIQUEIDENTIFIER] NOT NULL PRIMARY KEY,
 	[Title] [nvarchar](50) NULL,
 	[NormalizedName] [nvarchar](50) NULL,
+	[CreatedAt] [datetime] NULL,
+	[CreatedBy] [UNIQUEIDENTIFIER] NULL,
+	[ModifiedAt] [datetime] NULL,
+	[ModifiedBy] [UNIQUEIDENTIFIER] NULL
 ) ON [PRIMARY]
 GO
 
@@ -81,7 +86,7 @@ GO
 CREATE TABLE [dbo].[Product](
 	[ID] [UNIQUEIDENTIFIER] NOT NULL PRIMARY KEY,
 	[Name] [nvarchar](50) NULL,
-	[Description] [nvarchar](1) NULL,
+	[Description] [nvarchar](MAX) NULL,
 	[Price] [float] NULL,
 	[ImageURL] [nvarchar](50) NULL,
 	[CreatedAt] [datetime] NULL,

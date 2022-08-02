@@ -8,6 +8,6 @@ namespace EmailLayer.Abstractions
 {
     public interface IEmailSender
     {
-        public string Send(string Email, string FirstName, string LastName);
+        public string Send(string Email, string FirstName, string LastName, string origin);
     }
 }

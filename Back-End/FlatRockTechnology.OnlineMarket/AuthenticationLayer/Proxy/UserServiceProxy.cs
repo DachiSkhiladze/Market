@@ -28,7 +28,7 @@ namespace AuthenticationLayer.Proxy
             this.servicesFactory = servicesFactory;
         }
 
-        public async Task<UserModel> Register(UserRegisterModel userRegisterModel)
+        public async Task<UserModel> Register(UserRegisterModel userRegisterModel, string origin)
         {
             var email = userRegisterModel.Email;
 
@@ -36,7 +36,7 @@ namespace AuthenticationLayer.Proxy
             {
                 UserModel userModel = mapperConfiguration.ConvertToModel(userRegisterModel);
                 userModel.PasswordHash = Hasher.Encrypt(userModel.Password);
-                var code = emailSender.Send(userModel.Email, userModel.FirstName, userModel.LastName);
+                var code = emailSender.Send(userModel.Email, userModel.FirstName, userModel.LastName, origin);
                 userModel.EmailVerificationCode = code;
                 userModel.IsEmailConfirmed = false;
                 var insertedModel = await servicesFactory.GetService<IUserServices>().InsertAsync(userModel);
@@ -61,7 +61,7 @@ namespace AuthenticationLayer.Proxy
             var model = await servicesFactory.GetService<IUserServices>().GetModels(o => o.Email.Equals(userLoginModel.Email)).FirstAsync();
             if(model.IsEmailConfirmed == false)
             {
-                return "Please Confirm Your Email First Before Loging! Thanks";
+                return "";
             }
             var roles = await mediator.Send(new GetRoleQuery(model.Id));
             var role = roles.FirstOrDefault();
