@@ -10,9 +10,9 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
-                      builder =>
+                      policy =>
                       {
-                          builder.AllowAnyOrigin()
+                          policy.AllowAnyOrigin()
                                   .AllowAnyHeader()
                                    .AllowAnyMethod();
                       });
@@ -81,8 +81,7 @@ app.UseAuthentication();
 app.UseRouting();
 app.UseAuthorization();
 app.UseHttpsRedirection();
-
-
+app.UseCors("_myAllowSpecificOrigins");
 app.MapControllers();
 
 app.Run();

@@ -39,7 +39,6 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return await MakePayment.PayAsync(model.CardNumber, model.Month, model.Year, model.CVC, model.Value);
         }
 
-        [Authorize(Roles ="Administrator")]
         [HttpGet]
         [Route("GetAllUsers")]
         public async IAsyncEnumerable<ProductModel> GetAll()
@@ -61,16 +60,17 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 
         [HttpPost]
         [Route("RegisterUser")]
-        public async Task<UserModel> RegisterUser([FromBody] UserRegisterModel model)
+        public async Task<IActionResult> RegisterUser([FromBody] UserRegisterModel model)
         {
-            return await userServiceProxy.Register(model);
+            return await userServiceProxy.Register(model) == null ? BadRequest() : Ok();
         }
 
         [HttpPost]
         [Route("LogInUser")]
-        public async Task<string> LogInUser([FromBody] UserLoginModel model)
+        public async Task<IActionResult> LogInUser([FromBody] UserLoginModel model)
         {
-            return await userServiceProxy.LogIn(model);
+            var token = await userServiceProxy.LogIn(model);
+            return token == "" ? Unauthorized() : Ok(token);
         }
 
         [HttpGet]
