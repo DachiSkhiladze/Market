@@ -12,14 +12,16 @@ using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individu
 using FlatRockTechnology.OnlineMarket.Models.Users;
 using MediatR;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
+using EmailLayer.Abstractions;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.UserServices
 {
     public class UserServices : BaseService<User, UserModel>, IUserServices
     {
-        public UserServices(IMediator mediator) : base(mediator)
+        private readonly IEmailSender emailSender;
+        public UserServices(IMediator mediator, IEmailSender emailSender) : base(mediator)
         {
-
+            this.emailSender = emailSender;
         }
 
         public async Task<bool> ConfirmEmail(string? code)
@@ -31,6 +33,22 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
                 model.IsEmailConfirmed = true;
                 await UpdateAsync(model);
                 return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> RecoverPassword(string email, string origin)
+        {
+            if (await IsExists(o => o.Email.Equals(email)))
+            {
+                var models = GetModels().ToListAsync().Result;
+                var model = models.FirstOrDefault(o => o.Email.Equals(email));
+                if (model != null)
+                {
+                    emailSender.SendRecovery(email, model.FirstName, model.LastName, origin);
+                    return true;
+                }
+                return false;
             }
             return false;
         }

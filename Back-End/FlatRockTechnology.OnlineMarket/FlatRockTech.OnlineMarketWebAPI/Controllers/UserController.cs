@@ -12,6 +12,7 @@ using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory.Ab
 using Payment.Models;
 using Payment.Processing.Implementations;
 using System.Linq;
+using FlatRockTechnology.OnlineMarket.Models;
 
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
@@ -92,6 +93,18 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         public async Task<IActionResult> ConfirmEmail(string code)
         {
             return await servicesFactory.GetService<IUserServices>().ConfirmEmail(code) ? Ok() : BadRequest();
+        }
+
+        [HttpPost]
+        [Route("SendRecoveryMail")]
+        public async Task<IActionResult> SendRecoveryMail([FromBody] ForgotPassword model)
+        {
+            if (Request.Headers.Keys.Contains("Origin"))
+            {
+                var origin = Request.Headers["Origin"];
+                return await servicesFactory.GetService<IUserServices>().RecoverPassword(model.Email, origin) ? Ok() : BadRequest();
+            }
+            return BadRequest();
         }
     }
 }

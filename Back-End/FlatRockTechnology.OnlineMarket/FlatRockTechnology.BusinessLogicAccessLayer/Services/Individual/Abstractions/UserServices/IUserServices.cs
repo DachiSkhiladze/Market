@@ -9,5 +9,6 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
     public interface IUserServices : IBaseService<User, UserModel>
     {
         Task<bool> ConfirmEmail(string code);
+        Task<bool> RecoverPassword(string mail, string origin);
     }
 }

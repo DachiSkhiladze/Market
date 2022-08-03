@@ -10,6 +10,7 @@ import {
     selectLoad
   } from '../../features/counter/counterSlice';
 import LoginFailure from './IncorrectLogin/LoginFailure';
+import ForgotPassword from './ForgotPassword'
 
 const LOGIN_URL = '/User/LoginUser';
 
@@ -17,6 +18,7 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
 
     const code = (new URLSearchParams(window.location.search)).get("code");
   
+    const [forgotPassword, setForgotPassword] = useState(false);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -75,8 +77,9 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
                     
                 </section>
                 <section className='loginFormDisplay'>
-
-                    {code === null ? 
+                    {forgotPassword ? 
+                    <ForgotPassword /> 
+                    : code === null ? 
                     <div>
                         <form onSubmit={handleSubmit}>
                         <h3 className='hasSmallVerticalMargin'>Sign In</h3>
@@ -105,7 +108,7 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
                                 required
                             />
                         </div>
-                            <button className='hasSmallVerticalMargin TransparentButton isRight isColorBlue'>Forgot Password?</button>
+                            <button onClick={() => setForgotPassword(true)} className='hasSmallVerticalMargin TransparentButton isRight isColorBlue'>Forgot Password?</button>
 
                             <button className='submit'>Sign In</button>
                         <p>

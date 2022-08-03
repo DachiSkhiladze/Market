@@ -44,7 +44,7 @@ const Register: React.FC<{setPage:any}> = ({ setPage }) => {
             if(response.status < 250)
             {
                 console.log(JSON.stringify(response?.data));
-                const accessToken = response?.data;
+                //const accessToken = response?.data;
                 setEmail('');
                 setPassword('');
                 setFirstName('');

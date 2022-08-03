@@ -20,18 +20,22 @@ const Verification: React.FC<{code:any}> = ({ code }) => {
   useEffect(() => {
     
     dispatch(increment());
-    async function SentConfirmationCode(){
+    async function SendConfirmationCode(){
+      try{
         const response = await axios.get(CONFIRM_URL + `/${code}`, {
-            headers: {
-                'Content-Type': 'application/json'
-            }}
-        )
+          headers: {
+              'Content-Type': 'application/json'
+          }}
+      )
         setConfirm(response?.status < 250);
-        
+        dispatch(decrement());
+      }
+      catch(e:any){
+        dispatch(decrement());
+      }
     }
 
-    SentConfirmationCode();
-    dispatch(decrement());
+    SendConfirmationCode();
   }, []);
 
   return (

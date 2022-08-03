@@ -38,7 +38,7 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
         public static void ConfigureDBContext(this IServiceCollection services)
         {
             services.AddDbContext<MarketContext>(
-                  x => x.UseSqlServer("Data Source=localhost;Initial Catalog=ShopDB;MultipleActiveResultSets=true;Integrated Security=True")
+                  x => x.UseSqlServer("Server=tcp:shopfrt.database.windows.net,1433;Initial Catalog=Shop;Persist Security Info=False;User ID=Dachi;Password=Bubunita34;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;")
                   .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking),
                   ServiceLifetime.Transient); // Adding DB Context To The Container
         }
