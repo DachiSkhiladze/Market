@@ -28,6 +28,10 @@ code {
   float: right;
 }
 
+.isTextCentered{
+  text-align: center;
+}
+
 .isHalfWidth{
   width: 50%;
 }

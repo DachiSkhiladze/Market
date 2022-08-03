@@ -11,6 +11,7 @@ using EmailLayer;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory.Abstractions;
 using Payment.Models;
 using Payment.Processing.Implementations;
+using System.Linq;
 
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
@@ -62,7 +63,12 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         [Route("RegisterUser")]
         public async Task<IActionResult> RegisterUser([FromBody] UserRegisterModel model)
         {
-            return await userServiceProxy.Register(model) == null ? BadRequest() : Ok();
+            if (Request.Headers.Keys.Contains("Origin"))
+            {
+                var origin = Request.Headers["Origin"];
+                return await userServiceProxy.Register(model, origin) == null ? BadRequest() : Ok();
+            }
+            return BadRequest();
         }
 
         [HttpPost]
@@ -78,14 +84,14 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         public string Send()
         {
             EmailSender emailSender = new EmailSender();
-            return emailSender.Send("dachiskhiladze@bubu.com", "Dachi", "Skhiladze");
+            return emailSender.Send("dachiskhiladze@bubu.com", "Dachi", "Skhiladze", ""); // Origin missing exception thrown
         }
 
         [HttpGet]
         [Route("ConfirmEmail/{code}")]
-        public async Task<bool> ConfirmEmail(string code)
+        public async Task<IActionResult> ConfirmEmail(string code)
         {
-            return await servicesFactory.GetService<IUserServices>().ConfirmEmail(code);
+            return await servicesFactory.GetService<IUserServices>().ConfirmEmail(code) ? Ok() : BadRequest();
         }
     }
 }

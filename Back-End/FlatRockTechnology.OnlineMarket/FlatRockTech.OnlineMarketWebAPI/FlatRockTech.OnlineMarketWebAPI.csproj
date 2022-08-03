@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuthenticationLayer\AuthenticationLayer.csproj" />
-    <ProjectReference Include="..\BusinessLogicLayer\Queries.csproj" />
     <ProjectReference Include="..\Commands\Commands.csproj" />
     <ProjectReference Include="..\DataAccessLayer\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj" />
     <ProjectReference Include="..\EmailLayer\EmailLayer.csproj" />

@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import axios from '../api/axios';
 import './Login.scss';
+import Verification from './Verification';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
     decrement,
@@ -13,6 +14,9 @@ import LoginFailure from './IncorrectLogin/LoginFailure';
 const LOGIN_URL = '/User/LoginUser';
 
 const Login: React.FC<{setPage:any}> = ({ setPage }) => {
+
+    const code = (new URLSearchParams(window.location.search)).get("code");
+  
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -71,6 +75,8 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
                     
                 </section>
                 <section className='loginFormDisplay'>
+
+                    {code === null ? 
                     <div>
                         <form onSubmit={handleSubmit}>
                         <h3 className='hasSmallVerticalMargin'>Sign In</h3>
@@ -108,6 +114,9 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
                         </p>
                         </form>
                     </div>
+                    :
+                    <Verification code={code}/>
+                    }
                 </section>
             </div>
         </div>

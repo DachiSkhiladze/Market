@@ -14,7 +14,7 @@ namespace EmailLayer
             urlCode = new RandomURLGenerator();
         }
 
-        public string Send(string Email, string FirstName, string LastName)
+        public string Send(string Email, string FirstName, string LastName, string origin)
         {
             try
             {
@@ -32,10 +32,38 @@ namespace EmailLayer
 
                 newMail.IsBodyHtml = true; 
                 StringBuilder content = new StringBuilder();
-                content.Append($"<h1> Hello {FirstName}! </h1>");
-                content.Append($"<h3> Nice to meet you. <h2>");
-                content.Append($"<h3> Please verify email by clicking the button <h3>");
-                content.Append($"<form action='https://localhost:7201/User/ConfirmEmail/{code}'> <input type = 'Submit' value = 'Verify'/> </form>");
+                content.Append($@"<div style='  width: 50 %;
+                                                height: 100 %;
+                                                margin: auto;' class='container'>
+                                   <h1 style='      color: rgb(2, 108, 223);
+                                                    text-align: center;
+                                                    font-size: 40px;' class=''>Email Verification</h1> 
+                                   <p style='       text-align: center;
+                                                    font-size: 20px;'>Hello {FirstName}!</p>
+                                   <p style='       text-align: center;
+                                                    font-size: 20px;'>Nice to meet you.</p>
+                                   <p style='       text-align: center;
+                                                    font-size: 20px;'>Please verify your email by clicking the button below</p>
+                                    <a href='{origin}?code={code}' >
+                                     <input style=' display: block;
+                                                    font-family: inherit;
+                                                    font-weight: 600;
+                                                    font-size: 14px;
+                                                    line-height: 2.43;
+                                                    width: 70%;
+                                                    text-align: center;
+                                                    margin: auto;
+                                                    padding: 0px 12px;
+                                                    min-width: 60px;
+                                                    text-align: center;
+                                                    border-radius: 2px;
+                                                    cursor: pointer;
+                                                    color: rgb(255, 255, 255);
+                                                    background-color: rgb(2, 108, 223);
+                                                    border: 1px solid transparent;
+                                                    transition: background-color 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s;' type = 'Submit' value = 'Verify'/>
+                                    </a>
+                                  </div>");
                 newMail.Body = content.ToString();
 
                 client.EnableSsl = true;
