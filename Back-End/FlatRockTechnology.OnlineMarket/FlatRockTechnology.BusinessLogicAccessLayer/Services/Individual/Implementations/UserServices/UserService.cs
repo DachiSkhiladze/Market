@@ -13,6 +13,8 @@ using FlatRockTechnology.OnlineMarket.Models.Users;
 using MediatR;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
 using EmailLayer.Abstractions;
+using FlatRockTechnology.OnlineMarket.Models;
+using FlatRockTechnology.OnlineMarket.Models.Hash;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.UserServices
 {
@@ -45,7 +47,26 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
                 var model = models.FirstOrDefault(o => o.Email.Equals(email));
                 if (model != null)
                 {
-                    emailSender.SendRecovery(email, model.FirstName, model.LastName, origin);
+                    var code = emailSender.SendRecovery(email, model.FirstName, model.LastName, origin);
+                    model.PasswordRecoveryCode = code;
+                    await UpdateAsync(model);
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
+        public async Task<bool> RecoverPassword(ForgotPasswordModel passwordModel)
+        {
+            if (await IsExists(o => o.PasswordRecoveryCode == null ? false : o.PasswordRecoveryCode.Equals(passwordModel.code)))
+            {
+                var models = GetModels().ToListAsync().Result;
+                var model = models.FirstOrDefault(o => o.PasswordRecoveryCode == null ? false : o.PasswordRecoveryCode.Equals(passwordModel.code));
+                if (model != null)
+                {
+                    model.PasswordHash = Hasher.Encrypt(passwordModel.password);
+                    await UpdateAsync(model);
                     return true;
                 }
                 return false;

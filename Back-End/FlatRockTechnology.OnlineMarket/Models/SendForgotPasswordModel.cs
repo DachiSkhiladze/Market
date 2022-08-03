@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlatRockTechnology.OnlineMarket.Models
 {
-    public class ForgotPassword
+    public class SendForgotPasswordModel
     {
         public string Email { get; set; }
     }

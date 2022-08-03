@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuthenticationLayer.Hash
+namespace FlatRockTechnology.OnlineMarket.Models.Hash
 {
     public static class Hasher
     {

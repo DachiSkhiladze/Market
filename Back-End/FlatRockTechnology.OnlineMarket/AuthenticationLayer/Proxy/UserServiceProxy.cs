@@ -1,9 +1,9 @@
-﻿using AuthenticationLayer.Hash;
-using AuthenticationLayer.Proxy.Abstractions;
+﻿using AuthenticationLayer.Proxy.Abstractions;
 using AuthenticationLayer.Token;
 using EmailLayer.Abstractions;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory.Abstractions;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
+using FlatRockTechnology.OnlineMarket.Models.Hash;
 using FlatRockTechnology.OnlineMarket.Models.Mapper.Abstractions;
 using FlatRockTechnology.OnlineMarket.Models.Users;
 using MediatR;

@@ -97,7 +97,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 
         [HttpPost]
         [Route("SendRecoveryMail")]
-        public async Task<IActionResult> SendRecoveryMail([FromBody] ForgotPassword model)
+        public async Task<IActionResult> SendRecoveryMail([FromBody] SendForgotPasswordModel model)
         {
             if (Request.Headers.Keys.Contains("Origin"))
             {
@@ -105,6 +105,13 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
                 return await servicesFactory.GetService<IUserServices>().RecoverPassword(model.Email, origin) ? Ok() : BadRequest();
             }
             return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("RecoverPassword")]
+        public async Task<IActionResult> RecoverPassword([FromBody] ForgotPasswordModel model)
+        {
+            return await servicesFactory.GetService<IUserServices>().RecoverPassword(model) ? Ok() : NotFound();
         }
     }
 }

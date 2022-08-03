@@ -48,6 +48,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.DB
         public Guid? CreatedBy { get; set; }
         public DateTime? ModifiedAt { get; set; }
         public Guid? ModifiedBy { get; set; }
+        public string PasswordRecoveryCode { get; set; }
 
         public string EmailVerificationCode { get; set; }
 

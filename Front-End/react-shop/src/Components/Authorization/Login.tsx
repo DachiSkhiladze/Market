@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import axios from '../api/axios';
 import './Login.scss';
 import Verification from './Verification';
+import UpdatePasswordRecovery from './UpdatePasswordRecovery'
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
     decrement,
@@ -17,6 +18,7 @@ const LOGIN_URL = '/User/LoginUser';
 const Login: React.FC<{setPage:any}> = ({ setPage }) => {
 
     const code = (new URLSearchParams(window.location.search)).get("code");
+    const token = (new URLSearchParams(window.location.search)).get("recovery");
   
     const [forgotPassword, setForgotPassword] = useState(false);
 
@@ -77,7 +79,11 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
                     
                 </section>
                 <section className='loginFormDisplay'>
-                    {forgotPassword ? 
+
+
+                    {
+                    token === null ?
+                    forgotPassword ? 
                     <ForgotPassword /> 
                     : code === null ? 
                     <div>
@@ -119,6 +125,8 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
                     </div>
                     :
                     <Verification code={code}/>
+                    :
+                    <UpdatePasswordRecovery token={token} />
                     }
                 </section>
             </div>
