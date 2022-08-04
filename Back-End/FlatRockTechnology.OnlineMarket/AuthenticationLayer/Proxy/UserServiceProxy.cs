@@ -54,12 +54,12 @@ namespace AuthenticationLayer.Proxy
         public async Task<string> LogIn(UserLoginModel userLoginModel)
         {
             var PasswordHash = Hasher.Encrypt(userLoginModel.Password);
-            if(!await servicesFactory.GetService<IUserServices>().IsExists(o => o.Email.Equals(userLoginModel.Email)))
+            var model = await servicesFactory.GetService<IUserServices>().GetModels(o => o.Email.Equals(userLoginModel.Email)).FirstOrDefaultAsync();
+            if (model == null)
             {
                 return "";
             }
-            var model = await servicesFactory.GetService<IUserServices>().GetModels(o => o.Email.Equals(userLoginModel.Email)).FirstAsync();
-            if(model.IsEmailConfirmed == false)
+            if (model.IsEmailConfirmed == false)
             {
                 return "";
             }

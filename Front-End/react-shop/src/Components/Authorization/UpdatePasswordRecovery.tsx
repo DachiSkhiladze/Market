@@ -6,6 +6,7 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import './ForgotPassword.scss'
 import Load from './../LoadingAnimation/Load';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   decrement,
   increment,
@@ -23,6 +24,8 @@ const ForgotPassword: React.FC<{token:string}> = ({ token }) => {
   const [password, setPassword] = useState('');
   const [change, setChange] = useState(0); // 1 Success 2  3 
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -53,6 +56,10 @@ const ForgotPassword: React.FC<{token:string}> = ({ token }) => {
             setChange(3);
             setError("Password is not strong enough");
         }
+        
+        setTimeout(() => {
+            navigate("/login");
+          }, 2000);
     } catch (err:any) {
         setChange(3);
         setError("Password is not strong enough");

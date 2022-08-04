@@ -77,7 +77,15 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         public async Task<IActionResult> LogInUser([FromBody] UserLoginModel model)
         {
             var token = await userServiceProxy.LogIn(model);
-            return token == "" ? Unauthorized() : Ok(token);
+            if (!token.Equals(""))
+            {
+                var RefreshToken = Guid.NewGuid().ToString();
+                Response.Cookies.Append("X-Access-Token", token, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+                Response.Cookies.Append("X-Refresh-Token", RefreshToken, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+
+                return Ok(token);
+            }
+            return BadRequest();
         }
 
         [HttpGet]

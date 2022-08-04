@@ -12,7 +12,7 @@
     transform-origin: 50% 50%;
     margin-top: 50px;
     -webkit-transform: rotateX(60deg) rotateZ(49deg) rotateY(0deg) translateZ(0px);
-    transform: rotateX(60deg) rotateZ(49deg) rotateY(0deg) translateZ(0px);
+    transform: rotateX(70deg) rotateZ(49deg) rotateY(0deg) translateZ(0px);
 }
 .boxes .box {
     width: 50px;
@@ -30,25 +30,25 @@
     -webkit-transform: translate(100%, 0);
     transform: translate(100%, 0);
     -webkit-animation: box1 1s linear infinite;
-    animation: box1 0.5s linear infinite;
+    animation: box1 1s linear infinite;
 }
 .boxes .box:nth-child(2) {
     -webkit-transform: translate(0, 100%);
     transform: translate(0, 100%);
     -webkit-animation: box2 1s linear infinite;
-    animation: box2 0.5s linear infinite;
+    animation: box2 1s linear infinite;
 }
 .boxes .box:nth-child(3) {
     -webkit-transform: translate(100%, 100%);
     transform: translate(100%, 100%);
     -webkit-animation: box3 1s linear infinite;
-    animation: box3 0.5s linear infinite;
+    animation: box3 1s linear infinite;
 }
 .boxes .box:nth-child(4) {
     -webkit-transform: translate(200%, 0);
     transform: translate(200%, 0);
     -webkit-animation: box4 1s linear infinite;
-    animation: box4 0.5s linear infinite;
+    animation: box4 1s linear infinite;
 }
 
 

@@ -12,13 +12,13 @@ import {
 const CONFIRM_URL = '/User/ConfirmEmail';
 
 const Verification: React.FC<{code:any}> = ({ code }) => {
-  
+
   const load = useAppSelector(selectLoad);
   const dispatch = useAppDispatch();
   const [confirm, setConfirm] = useState<boolean | null>(false);
 
   useEffect(() => {
-    
+
     dispatch(increment());
     async function SendConfirmationCode(){
       try{
