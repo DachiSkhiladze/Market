@@ -41,6 +41,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return await MakePayment.PayAsync(model.CardNumber, model.Month, model.Year, model.CVC, model.Value);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
         [Route("GetAllUsers")]
         public async IAsyncEnumerable<ProductModel> GetAll()
@@ -80,12 +81,24 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             if (!token.Equals(""))
             {
                 var RefreshToken = Guid.NewGuid().ToString();
-                Response.Cookies.Append("X-Access-Token", token, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
-                Response.Cookies.Append("X-Refresh-Token", RefreshToken, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+                Response.Cookies.Append("X-Access-Token", token.AccessToken, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+                Response.Cookies.Append("X-Refresh-Token", token.RefreshToken, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
 
                 return Ok(token);
             }
             return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("refresh-token")]
+        public async Task<IActionResult> RefreshToken(string tokenModel)
+        {
+            var model = await userServiceProxy.Refresh(tokenModel);
+            if(model.RefreshToken == null)
+            {
+                return BadRequest();
+            }
+            return Ok(model);
         }
 
         [HttpGet]
