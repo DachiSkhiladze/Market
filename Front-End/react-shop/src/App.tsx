@@ -5,6 +5,8 @@ import { useAppSelector, useAppDispatch } from './app/hooks';
 import './App.css';
 import Load from './Components/LoadingAnimation/Load';
 import React, { useEffect, useState } from 'react';
+import Burger from './Components/menu/Burger';
+import { Routes, Route } from 'react-router-dom';
 import {
   decrement,
   increment,
@@ -24,9 +26,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {load ? <Load /> : <></>}
-        <AuthorizationLayer />
       </header>
+        {load ? <Load /> : <></>}
+        <Routes>
+          <Route  path="/login" element={<AuthorizationLayer />}/>
+          <Route  path="/asdasd" element={<>Dachua</>}/>
+        </Routes>
     </div>
   );
 }
