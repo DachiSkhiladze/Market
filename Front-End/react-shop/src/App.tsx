@@ -1,5 +1,4 @@
 import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
 import AuthorizationLayer from './Components/Authorization/AuthorizationLayer'
 import { useAppSelector, useAppDispatch } from './app/hooks';
 import './App.css';
@@ -13,10 +12,13 @@ import {
   incrementByAmount,
   selectLoad
 } from './features/counter/counterSlice';
+import { selectLogged } from './Components/Authorization/reducer/logger';
+import Gallery from './Components/Gallery/Gallery'
 
 function App() {
   
   const load = useAppSelector(selectLoad);
+  const logged = useAppSelector(selectLogged);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -29,8 +31,10 @@ function App() {
       </header>
         {load ? <Load /> : <></>}
         <Routes>
-          <Route  path="/login" element={<AuthorizationLayer />}/>
-          <Route  path="/asdasd" element={<>Dachua</>}/>
+          {logged ? 
+          <Route  path="/login" element={<AuthorizationLayer />}/>  : <></>
+}
+          <Route  path="/Gallery" element={<Gallery />}/>
         </Routes>
     </div>
   );

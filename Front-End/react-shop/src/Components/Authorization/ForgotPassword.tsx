@@ -1,5 +1,4 @@
 import logo from './logo.svg';
-import { Counter } from '../../features/counter/Counter';
 import axios from '../api/axios';
 import AuthorizationLayer from './AuthorizationLayer'
 import { useAppSelector, useAppDispatch } from '../../app/hooks';

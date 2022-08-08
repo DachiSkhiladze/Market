@@ -4,19 +4,26 @@ import './Login.scss';
 import Verification from './Verification';
 import UpdatePasswordRecovery from './UpdatePasswordRecovery'
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { useNavigate } from "react-router-dom";
 import {
     decrement,
     increment,
     incrementByAmount,
     selectLoad
   } from '../../features/counter/counterSlice';
+import{
+    logIn,
+    logOut,
+} from './reducer/logger'
 import LoginFailure from './IncorrectLogin/LoginFailure';
-import ForgotPassword from './ForgotPassword'
-
+import ForgotPassword from './ForgotPassword';
+import { logger } from './reducer/logger';
 const LOGIN_URL = '/User/LoginUser';
 
 const Login: React.FC<{setPage:any}> = ({ setPage }) => {
 
+    let navigate = useNavigate();
+    
     const code = (new URLSearchParams(window.location.search)).get("code");
     const token = (new URLSearchParams(window.location.search)).get("recovery");
   
@@ -47,12 +54,14 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
             )
             if(response.status < 250)
             {
-                const accessToken = response?.data;
+                const tokenObject = response?.data;
                 //const roles = response?.data?.roles;
                 setEmail('');
                 setPassword('');
-                localStorage.setItem('token', accessToken);
-                console.log(accessToken);
+                localStorage.setItem('token', JSON.stringify(tokenObject));
+                console.log(tokenObject);
+                dispatch(logIn());
+                navigate("/Gallery", { replace: true });
             }
             else{
                 setErrMsg('Success');
@@ -79,8 +88,6 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
                     
                 </section>
                 <section className='loginFormDisplay'>
-
-
                     {
                     token === null ?
                     forgotPassword ? 
