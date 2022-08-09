@@ -5,7 +5,7 @@ using Queries.Declarations.Shared;
 
 namespace Queries.Handlers.Shared
 {
-    public class GetAllHandler<TEntity, TModel> : IRequestHandler<GetRole<TEntity, TModel>, IEnumerable<TModel>> where TEntity : class, new() where TModel : class, new()
+    public class GetAllHandler<TEntity, TModel> : IRequestHandler<GetAllQuery<TEntity, TModel>, IEnumerable<TModel>> where TEntity : class, new() where TModel : class, new()
     {
         private readonly IUnitOfWork<TEntity> _unitOfWork;
         private readonly IMapperConfiguration<TEntity, TModel> _mapperConfiguration;
@@ -16,7 +16,7 @@ namespace Queries.Handlers.Shared
             _mapperConfiguration = mapperConfiguration;
         }
          
-        public async Task<IEnumerable<TModel>> Handle(GetRole<TEntity, TModel> request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TModel>> Handle(GetAllQuery<TEntity, TModel> request, CancellationToken cancellationToken)
         {
             return _mapperConfiguration.ConvertToModelsFromList(await _unitOfWork.GetRepository().GetList());
         }

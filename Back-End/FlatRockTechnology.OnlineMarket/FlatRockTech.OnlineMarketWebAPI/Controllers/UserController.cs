@@ -91,7 +91,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 
         [HttpPost]
         [Route("refresh-token")]
-        public async Task<IActionResult> RefreshToken(string tokenModel)
+        public async Task<IActionResult> RefreshToken([FromBody]string tokenModel)
         {
             var model = await userServiceProxy.Refresh(tokenModel);
             if(model.RefreshToken == null)

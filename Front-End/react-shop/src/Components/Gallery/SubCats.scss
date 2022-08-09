@@ -1,0 +1,26 @@
+.SubCategories{
+    width: 90%;
+    margin: auto;
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px 0px;
+    .cat{
+        button{
+            width: 100%;
+            background-color: transparent;
+            border: 0px;
+            height: 60px;
+            h1{
+                text-align: left;
+                width: 70%;
+                float: right;
+                font-weight: 300;
+            }
+        }
+
+        button:hover{
+            background-color: rgb(246, 246, 246);
+            cursor: pointer;
+        }
+    }
+}
