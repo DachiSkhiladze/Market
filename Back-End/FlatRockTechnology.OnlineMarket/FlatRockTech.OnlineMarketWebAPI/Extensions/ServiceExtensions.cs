@@ -64,6 +64,10 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient(typeof(IStreamRequestHandler<GetQuery<User, UserModel>, UserModel>),
                 typeof(GetHandler<User, UserModel>));
 
+
+            services.AddTransient(typeof(IRequestHandler<GetSingleQuery<User, UserModel>, UserModel>),
+                typeof(GetSingleHandler<User, UserModel>));
+
             services.AddTransient(typeof(IRequestHandler<CreateCommand<User, UserModel>, UserModel>),
                 typeof(CreateHandler<User, UserModel>));
 

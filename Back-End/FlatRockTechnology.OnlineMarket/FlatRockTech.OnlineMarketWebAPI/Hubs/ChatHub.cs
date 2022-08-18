@@ -1,4 +1,8 @@
-﻿using ChatDataAccessLayer.Models;
+﻿using ChatDataAccessLayer.Data;
+using ChatDataAccessLayer.Models;
+using ChatDataAccessLayer.Repo;
+using FlatRockTechnology.OnlineMarket.Models.Chat;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -14,10 +18,18 @@ namespace FlatRockTech.OnlineMarketWebAPI.Hubs
     public class ChatHub : Hub<IChatClient>
     {
         private Dictionary<Guid, string> connectedUsers = new Dictionary<Guid, string>();
+        CosmosRepository chatRepository;
 
-        public async Task SendMessage(ChatMessage message)
+        public ChatHub(IMediator mediator)
+        {
+            chatRepository = new CosmosRepository(new ChatContext(), mediator);
+        }
+
+        public async Task SendMessage(MessageModel message)
         {
             await Clients.All.ReceiveMessage(message);
+            message.User = Context.User.FindFirst(ClaimTypes.Email).Value;
+            await chatRepository.InsertMessageAsync(message);
         }
         public async override Task OnConnectedAsync()
         {

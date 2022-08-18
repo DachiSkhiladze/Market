@@ -1,5 +1,6 @@
 ﻿using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
 using FlatRockTechnology.OnlineMarket.Models.Categories;
+using FlatRockTechnology.OnlineMarket.Models.Products;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,13 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         public ProductsController(IMediator mediator)
         {
             this.mediator = mediator;
+        }
+
+        [Route("GetAllProducts")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllProducts(Guid id)
+        {
+            return Ok(await mediator.Send(new GetAllQuery<Product, ProductModel>()));
         }
 
         [Route("GetProductsBySubCategoryID/{id}")]

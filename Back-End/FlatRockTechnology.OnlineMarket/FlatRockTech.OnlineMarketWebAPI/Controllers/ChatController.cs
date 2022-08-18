@@ -18,36 +18,5 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         {
             _chatHub = chatHub;
         }
-
-        CosmosRepository chatRepository = new CosmosRepository(new ChatContext());
-        [Route("CreateConversation")]
-        [HttpGet]
-        public async Task<IActionResult> CreateConversation([FromBody] Conversation conversation)
-        {
-            await chatRepository.Insert(conversation);
-            return Ok();
-        }
-
-        [HttpPost("ConnectToChat")]
-        public async Task ConnectToChat(ChatMessage message)
-        {
-            // run some logic...
-            await _chatHub.Clients.All.ReceiveMessage(message);
-        }
-
-        [HttpPost("messages")]
-        public async Task Post(ChatMessage message)
-        {
-            // run some logic...
-            
-            await _chatHub.Clients.All.ReceiveMessage(message);
-        }
-
-        [Route("GetConversation")]
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            return Ok(chatRepository.GetAll());
-        }
     }
 }

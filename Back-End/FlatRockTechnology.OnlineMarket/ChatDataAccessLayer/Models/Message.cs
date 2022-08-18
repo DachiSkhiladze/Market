@@ -9,7 +9,7 @@ namespace ChatDataAccessLayer.Models
     public class Message
     {
         internal string Id { get; set; }
-        public Guid UserID { get; set; }
+        public string UserEmail { get; set; }
         public string MessageText { get; set; }
         public DateTime Time { get; set; }
     }

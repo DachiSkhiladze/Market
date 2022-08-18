@@ -28,11 +28,12 @@ export const axiosPrivate = axios.create({
 });
 
 export const axiosGet = async (url : string) => {
-    const response = await axios.get(url, {
+    const response = await axios.get(BASE_URL + url, {
         headers: {
             'Content-Type': 'application/json'
         }}
     )
+    console.log(response.data)
     return response;
 }
 

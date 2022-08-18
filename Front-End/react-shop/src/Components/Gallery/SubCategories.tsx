@@ -43,8 +43,8 @@ function SubCategories() {
     <div className="SubCategories">
         {subCategories.map((item : SubCategoryModel)=>{
             return (
-                <div className='cat'>
-                    <button key={item.id}>
+                <div key={item.id} className='cat'>
+                    <button>
                         <h1>{item.name}</h1>
                     </button>
                 </div>

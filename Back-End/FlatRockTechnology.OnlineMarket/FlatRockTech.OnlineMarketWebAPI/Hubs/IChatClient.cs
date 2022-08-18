@@ -1,4 +1,5 @@
 ﻿using ChatDataAccessLayer.Models;
+using FlatRockTechnology.OnlineMarket.Models.Chat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace FlatRockTech.OnlineMarketWebAPI.Hubs
 {
     public interface IChatClient
     {
-        Task ReceiveMessage(ChatMessage message);
+        Task ReceiveMessage(MessageModel message);
     }
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { DefaultHttpClient, HttpRequest, HttpResponse, HubConnectionBuilder } from '@microsoft/signalr';
+import { DefaultHttpClient, HttpRequest, HttpResponse, HubConnectionBuilder, HttpTransportType } from '@microsoft/signalr';
 import './Chat.scss';
 import ChatWindow from './ChatWindow';
 import ChatInput from './ChatInput';
@@ -19,48 +19,48 @@ class CustomHttpClient extends DefaultHttpClient {
 }
 
 const Chat = () => {
+    const [ connection, setConnection ] : any = useState(null);
     const [ chat, setChat ] = useState([]);
     const latestChat:any = useRef(null);
 
     latestChat.current = chat;
 
     useEffect(() => {
-        const connection = new HubConnectionBuilder()
-            .withUrl('https://localhost:7223/hubs/chat', { httpClient: new CustomHttpClient() })
+        var tkn = localStorage.getItem('token')!;
+        var token = JSON.parse(tkn);
+        const newConnection = new HubConnectionBuilder()
+            .withUrl('https://localhost:7223/hubs/chat', { httpClient: new CustomHttpClient(), transport: HttpTransportType.LongPolling}, )
             .withAutomaticReconnect()
             .build();
-
-        connection.start()
-        .then(async result => {
-            console.log('Connected!');
-            await connection.send('Subscribe');
-            connection.on('ReceiveMessage', message => {
-                const updatedChat:any = [...latestChat.current];
-                updatedChat.push(message);
-            
-                setChat(updatedChat);
-            });
-        })
-        .catch(e => console.log('Connection failed: ', e));
+        setConnection(newConnection);
     }, []);
+
+    useEffect(() => {
+        if (connection) {
+            connection.start()
+                .then(() => {
+                    console.log('Connected!');
+                    connection.on('ReceiveMessage', (message: any) => {
+                        const updatedChat:any = [...latestChat.current];
+                        updatedChat.push(message);
+                    
+                        setChat(updatedChat);
+                    });
+                })
+                .catch((e: any) => console.log('Connection failed: ', e));
+            }
+    }, [connection]);
 
     const sendMessage = async (user:any, message:any) => {
         const chatMessage = {
-            user: user,
+            MessageTo: user,
             message: message
         };
 
         try {
             var tkn = localStorage.getItem('token')!;
             var token : any = JSON.parse(tkn);
-            await  fetch('https://localhost:7223/api/chat/messages', { 
-                method: 'POST', 
-                body: JSON.stringify(chatMessage),
-                headers: {                
-                    'Authorization': 'Bearer ' + token.accessToken,
-                    'Content-Type': 'application/json',
-                }
-            });
+            await connection.send('SendMessage', chatMessage);
         }
         catch(e) {
             console.log('Sending message failed.', e);
