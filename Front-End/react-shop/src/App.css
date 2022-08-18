@@ -2,3 +2,23 @@
     height: 100%;
     width: 100%;
 }
+
+.ChatContainer{
+    position: absolute;
+    z-index: 3;
+    right: 0px;
+    bottom: 0px;
+    width: 400px;
+    height: auto;
+    padding: 30px;
+}
+
+.MessageBox{
+    width: 50%;
+    height: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin-top: 10px;
+    background-color: green!important;
+    padding: 10px!important;
+}

@@ -14,6 +14,7 @@ import {
 } from './features/counter/counterSlice';
 import { selectLogged } from './Components/Authorization/reducer/logger';
 import Gallery from './Components/Gallery/Gallery'
+import Chat from './Components/Chat/Chat';
 
 function App() {
   
@@ -31,11 +32,16 @@ function App() {
       </header>
         {load ? <Load /> : <></>}
         <Routes>
-          {logged ? 
+          {
+          !logged ? 
           <Route  path="/login" element={<AuthorizationLayer />}/>  : <></>
-}
+          }
           <Route  path="/Gallery" element={<Gallery />}/>
         </Routes>
+        <div className='ChatContainer'>
+          <Chat />
+        </div>
+
     </div>
   );
 }
