@@ -80,7 +80,6 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             var token = await userServiceProxy.LogIn(model);
             if (!token.Equals(""))
             {
-                var RefreshToken = Guid.NewGuid().ToString();
                 Response.Cookies.Append("X-Access-Token", token.AccessToken, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
                 Response.Cookies.Append("X-Refresh-Token", token.RefreshToken, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
 
@@ -98,7 +97,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             {
                 return BadRequest();
             }
-            return Ok(model);
+             return Ok(model);
         }
 
         [HttpGet]
