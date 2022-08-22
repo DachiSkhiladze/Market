@@ -14,20 +14,21 @@ function Gallery() {
   }, [selectedCategory])
 
   async function setProductsArr(){
-    var productsArr;
+    var response;
     if(selectedCategory){
-      productsArr = await axiosGet('/api/Products/GetProductsBySubCategoryID/' + selectedCategory);
+      response = await axiosGet('/api/Products/GetProductsBySubCategoryID/' + selectedCategory);
     }
     else{
-      productsArr = await axiosGet('/api/Products/GetAllProducts');
+      response = await axiosGet('/api/Products/GetAllProducts');
     }
-    setProducts(productsArr);
+    setProducts(response.data);
   }
 
   return (
     <div className="Gallery">
+      <h1>{selectedCategory}</h1>
         <div className='sideMenu'>
-            <SubCategories />
+            <SubCategories SetSelectedCategory = {SetSelectedCategory}/>
         </div>
         <div className='ProductsDisplay'>
             <ProductsDisplay products={products}/>

@@ -14,7 +14,7 @@ import { SubCategoryModel } from './SubCategoryModel';
 
 const METHOD_URL = '/api/Products/GetCategories/';
 
-function SubCategories() {
+const SubCategories: React.FC<{SetSelectedCategory:any}> = ({SetSelectedCategory}) => {
     const [subCategories, setSubCategories] = useState<SubCategoryModel[]>([]);
 
     const dispatch = useDispatch();
@@ -44,7 +44,7 @@ function SubCategories() {
         {subCategories.map((item : SubCategoryModel)=>{
             return (
                 <div key={item.id} className='cat'>
-                    <button>
+                    <button onClick={() => SetSelectedCategory(item.id)}>
                         <h1>{item.name}</h1>
                     </button>
                 </div>
