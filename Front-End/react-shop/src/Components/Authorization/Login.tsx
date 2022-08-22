@@ -2,21 +2,32 @@ import { useRef, useState, useEffect } from 'react';
 import axios from '../api/axios';
 import './Login.scss';
 import Verification from './Verification';
+import UpdatePasswordRecovery from './UpdatePasswordRecovery'
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { useNavigate } from "react-router-dom";
 import {
     decrement,
     increment,
     incrementByAmount,
     selectLoad
   } from '../../features/counter/counterSlice';
+import{
+    logIn,
+    logOut,
+} from './reducer/logger'
 import LoginFailure from './IncorrectLogin/LoginFailure';
-
+import ForgotPassword from './ForgotPassword';
+import { logger } from './reducer/logger';
 const LOGIN_URL = '/User/LoginUser';
 
 const Login: React.FC<{setPage:any}> = ({ setPage }) => {
 
+    let navigate = useNavigate();
+    
     const code = (new URLSearchParams(window.location.search)).get("code");
+    const token = (new URLSearchParams(window.location.search)).get("recovery");
   
+    const [forgotPassword, setForgotPassword] = useState(false);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -43,12 +54,14 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
             )
             if(response.status < 250)
             {
-                const accessToken = response?.data;
+                const tokenObject = response?.data;
                 //const roles = response?.data?.roles;
                 setEmail('');
                 setPassword('');
-                localStorage.setItem('token', accessToken);
-                console.log(accessToken);
+                localStorage.setItem('token', JSON.stringify(tokenObject));
+                console.log(tokenObject);
+                dispatch(logIn());
+                navigate("/Gallery", { replace: true });
             }
             else{
                 setErrMsg('Success');
@@ -75,8 +88,11 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
                     
                 </section>
                 <section className='loginFormDisplay'>
-
-                    {code === null ? 
+                    {
+                    token === null ?
+                    forgotPassword ? 
+                    <ForgotPassword /> 
+                    : code === null ? 
                     <div>
                         <form onSubmit={handleSubmit}>
                         <h3 className='hasSmallVerticalMargin'>Sign In</h3>
@@ -105,7 +121,7 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
                                 required
                             />
                         </div>
-                            <button className='hasSmallVerticalMargin TransparentButton isRight isColorBlue'>Forgot Password?</button>
+                            <button onClick={() => setForgotPassword(true)} className='hasSmallVerticalMargin TransparentButton isRight isColorBlue'>Forgot Password?</button>
 
                             <button className='submit'>Sign In</button>
                         <p>
@@ -116,6 +132,8 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
                     </div>
                     :
                     <Verification code={code}/>
+                    :
+                    <UpdatePasswordRecovery token={token} />
                     }
                 </section>
             </div>

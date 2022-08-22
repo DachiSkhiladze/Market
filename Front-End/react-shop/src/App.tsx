@@ -1,20 +1,25 @@
 import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
 import AuthorizationLayer from './Components/Authorization/AuthorizationLayer'
 import { useAppSelector, useAppDispatch } from './app/hooks';
 import './App.css';
 import Load from './Components/LoadingAnimation/Load';
 import React, { useEffect, useState } from 'react';
+import Burger from './Components/menu/Burger';
+import { Routes, Route } from 'react-router-dom';
 import {
   decrement,
   increment,
   incrementByAmount,
   selectLoad
 } from './features/counter/counterSlice';
+import { selectLogged } from './Components/Authorization/reducer/logger';
+import Gallery from './Components/Gallery/Gallery'
+import Chat from './Components/Chat/Chat';
 
 function App() {
   
   const load = useAppSelector(selectLoad);
+  const logged = useAppSelector(selectLogged);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -24,9 +29,19 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {load ? <Load /> : <></>}
-        <AuthorizationLayer />
       </header>
+        {load ? <Load /> : <></>}
+        <Routes>
+          {
+          !logged ? 
+          <Route  path="/login" element={<AuthorizationLayer />}/>  : <></>
+          }
+          <Route  path="/Gallery" element={<Gallery />}/>
+        </Routes>
+        <div className='ChatContainer'>
+          <Chat />
+        </div>
+
     </div>
   );
 }

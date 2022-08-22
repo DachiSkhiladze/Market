@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
+import loggerReducer from '../Components/Authorization/reducer/logger'
 
 export const store = configureStore({
   reducer: {
     isLoading: counterReducer,
+    isLogged: loggerReducer,
   },
 });
 

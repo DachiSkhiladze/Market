@@ -1,4 +1,6 @@
+
 using FlatRockTech.OnlineMarket.WebApi.Extensions;
+using FlatRockTech.OnlineMarketWebAPI.Hubs;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,9 +14,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.AllowAnyOrigin()
-                                  .AllowAnyHeader()
-                                   .AllowAnyMethod();
+                          policy.AllowAnyHeader()
+                              .AllowAnyMethod()
+                              .WithOrigins("http://localhost:3000")
+                              .AllowCredentials();
                       });
 });
 
@@ -78,10 +81,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthentication();
+app.UseCors(MyAllowSpecificOrigins);
 app.UseRouting();
 app.UseAuthorization();
 app.UseHttpsRedirection();
-app.UseCors("_myAllowSpecificOrigins");
 app.MapControllers();
+app.MapHub<ChatHub>("/hubs/chat");
 
 app.Run();

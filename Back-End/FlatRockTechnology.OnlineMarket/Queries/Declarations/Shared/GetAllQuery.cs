@@ -2,5 +2,5 @@
 
 namespace Queries.Declarations.Shared
 {
-    public record GetRole<TEntity, TModel> : IRequest<IEnumerable<TModel>>;
+    public record GetAllQuery<TEntity, TModel> : IRequest<IEnumerable<TModel>>;
 }

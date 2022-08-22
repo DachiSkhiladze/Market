@@ -1,16 +1,8 @@
-body {
-    min-height: 100vh;
-    font-family: Roboto, Arial;
-    color: #ADAFB6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(249, 251, 255,0.6);
-}
+
 
 .boxes {
-    height: 32px;
-    width: 32px;
+    height: 50px;
+    width: 50px;
     margin: auto;
     background-color: transparent;
     position: relative;
@@ -18,13 +10,13 @@ body {
     transform-style: preserve-3d;
     -webkit-transform-origin: 50% 50%;
     transform-origin: 50% 50%;
-    margin-top: 32px;
-    -webkit-transform: rotateX(60deg) rotateZ(45deg) rotateY(0deg) translateZ(0px);
-    transform: rotateX(60deg) rotateZ(45deg) rotateY(0deg) translateZ(0px);
+    margin-top: 50px;
+    -webkit-transform: rotateX(60deg) rotateZ(49deg) rotateY(0deg) translateZ(0px);
+    transform: rotateX(70deg) rotateZ(49deg) rotateY(0deg) translateZ(0px);
 }
 .boxes .box {
-    width: 32px;
-    height: 32px;
+    width: 50px;
+    height: 50px;
     top: 0px;
     left: 0;
     position: absolute;
@@ -63,7 +55,7 @@ body {
 
 .boxes .box > div {
     background: #5C8DF6;
-    --translateZ: 15.5px;
+    --translateZ: 24.5px;
     --rotateY: 0deg;
     --rotateX: 0deg;
     position: absolute;

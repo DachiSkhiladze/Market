@@ -44,7 +44,7 @@ const Register: React.FC<{setPage:any}> = ({ setPage }) => {
             if(response.status < 250)
             {
                 console.log(JSON.stringify(response?.data));
-                const accessToken = response?.data;
+                //const accessToken = response?.data;
                 setEmail('');
                 setPassword('');
                 setFirstName('');
@@ -68,11 +68,11 @@ const Register: React.FC<{setPage:any}> = ({ setPage }) => {
 
     return (
         <div className='rootDisplay'>
-            <div className='registerContainer'>
+            <div className='loginContainer'>
                 <section className='bannerDisplay'>
                     
                 </section>
-                <section className='registerFormDisplay'>
+                <section className='loginFormDisplay'>
                 {success ? 
                     <div className='RegistrationDoneDisplay'>
                         <h1>
@@ -142,9 +142,7 @@ const Register: React.FC<{setPage:any}> = ({ setPage }) => {
                                     </div>
                                 </div>
                             </div>
-                                <button className='hasSmallVerticalMargin TransparentButton isRight isColorBlue'>Forgot Password?</button>
-
-                                <button className='submit'>Sign Up</button>
+                                <button style={{marginTop: '10px'}} className='submit'>Sign Up</button>
                             <p>
                                 <span className="line">
                                 </span>

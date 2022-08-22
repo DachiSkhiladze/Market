@@ -30,6 +30,10 @@ using Queries.Declarations.Shared;
 using Queries.Handlers.Shared;
 using EmailLayer.Abstractions;
 using EmailLayer;
+using Queries.Declarations.Individual;
+using Queries.Handlers.Individual;
+using FlatRockTechnology.OnlineMarket.Models.Categories;
+using System.Security.Claims;
 
 namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 {
@@ -38,21 +42,31 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
         public static void ConfigureDBContext(this IServiceCollection services)
         {
             services.AddDbContext<MarketContext>(
-                  x => x.UseSqlServer("Data Source=localhost;Initial Catalog=ShopDB;MultipleActiveResultSets=true;Integrated Security=True")
+                  x => x.UseSqlServer("Server=tcp:shopfrt.database.windows.net,1433;Initial Catalog=Shop;Persist Security Info=False;MultipleActiveResultSets=true;User ID=Dachi;Password=Bubunita34;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;")
                   .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking),
                   ServiceLifetime.Transient); // Adding DB Context To The Container
         }
 
         public static void ConfigureCQRSInjections(this IServiceCollection services)
         {
-            services.AddTransient(typeof(IRequestHandler<GetRole<User, UserModel>, IEnumerable<UserModel>>),
+            services.AddTransient(typeof(IRequestHandler<GetAllQuery<User, UserModel>, IEnumerable<UserModel>>),
                 typeof(GetAllHandler<User, UserModel>));
+
+            services.AddTransient(typeof(IRequestHandler<GetAllQuery<Category, CategoryModel>, IEnumerable<CategoryModel>>),
+                typeof(GetAllHandler<Category, CategoryModel>));
+
+            services.AddTransient(typeof(IRequestHandler<GetAllQuery<SubCategory, SubCategoryModel>, IEnumerable<SubCategoryModel>>),
+                typeof(GetAllHandler<SubCategory, SubCategoryModel>));
 
             services.AddTransient(typeof(IRequestHandler<IsExistsQuery<User>, bool>),
                 typeof(IsExistsHandler<User, UserModel>));
 
             services.AddTransient(typeof(IStreamRequestHandler<GetQuery<User, UserModel>, UserModel>),
                 typeof(GetHandler<User, UserModel>));
+
+
+            services.AddTransient(typeof(IRequestHandler<GetSingleQuery<User, UserModel>, UserModel>),
+                typeof(GetSingleHandler<User, UserModel>));
 
             services.AddTransient(typeof(IRequestHandler<CreateCommand<User, UserModel>, UserModel>),
                 typeof(CreateHandler<User, UserModel>));
@@ -63,12 +77,14 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient(typeof(IRequestHandler<DeleteCommand<User, UserModel>, bool>),
                 typeof(DeleteHandler<User, UserModel>));
 
-
             services.AddTransient(typeof(IRequestHandler<UpdateCommand<User, UserModel>, UserModel>),
                 typeof(UpdateHandler<User, UserModel>));
 
             services.AddTransient(typeof(IRequestHandler<GetRoleQuery, IEnumerable<RoleModel>>),
                 typeof(GetRoleHandler));
+
+            services.AddTransient(typeof(IRequestHandler<GetProductsBySubCategoryIDQuery, IEnumerable<ProductModel>>),
+                typeof(GetProductsBySubCategoryIDHandler));
 
             services.AddTransient(typeof(IRequestHandler<CreateCommand<Product, ProductModel>, ProductModel>),
                 typeof(CreateHandler<Product, ProductModel>));
@@ -79,7 +95,7 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient(typeof(IRequestHandler<IsExistsQuery<Product>, bool>),
                 typeof(IsExistsHandler<Product, ProductModel>));
 
-            services.AddTransient(typeof(IRequestHandler<GetRole<Product, ProductModel>, IEnumerable<ProductModel>>),
+            services.AddTransient(typeof(IRequestHandler<GetAllQuery<Product, ProductModel>, IEnumerable<ProductModel>>),
                 typeof(GetAllHandler<Product, ProductModel>));
 
             services.AddTransient(typeof(IStreamRequestHandler<GetQuery<Product, ProductModel>, ProductModel>),
@@ -89,6 +105,8 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
         public static void ConfigureServicesInjections(this IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            services.AddSignalR();
 
             services.AddAutoMapper(typeof(MappingProfile));
 
@@ -108,7 +126,19 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 
             services.AddTransient<IUnitOfWork<Role>, UnitOfWork<Role>>();
 
+            services.AddTransient<IRepository<Category>, Repository<Category>>();
+
+            services.AddTransient<IUnitOfWork<Category>, UnitOfWork<Category>>();
+
+            services.AddTransient<IRepository<SubCategory>, Repository<SubCategory>>();
+
+            services.AddTransient<IUnitOfWork<SubCategory>, UnitOfWork<SubCategory>>();
+
             services.AddTransient<IMapperConfiguration<Product, ProductModel>, MapperConfiguration<Product, ProductModel>>();
+
+            services.AddTransient<IMapperConfiguration<Category, CategoryModel>, MapperConfiguration<Category, CategoryModel>>();
+
+            services.AddTransient<IMapperConfiguration<SubCategory, SubCategoryModel>, MapperConfiguration<SubCategory, SubCategoryModel>>();
 
             services.AddTransient<IMapperConfiguration<User, UserModel>, MapperConfiguration<User, UserModel>>();
 
@@ -156,6 +186,24 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
                     ValidIssuer = configuration["Jwt:Issuer"],
                     ValidAudience = configuration["Jwt:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+
+                        // If the request is for our hub...
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            (path.StartsWithSegments("/hubs/chat")))
+                        {
+                            // Read the token out of the query string
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
                 };
             });
             services.AddMvc();

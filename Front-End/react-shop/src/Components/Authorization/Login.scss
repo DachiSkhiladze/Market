@@ -51,9 +51,16 @@
     bottom: 0; 
     margin: auto;
     
-    .loginFormDisplay{
-        height: 90%;
-        margin: 0px 30px;
+    .loginFormDisplay{  
+        display: inline-table;
+        height: auto;
+        position: absolute; 
+        width: 80%;
+        left: 0; 
+        right: 0; 
+        top: 50%;
+        transform: translateY(-70%);
+        margin: auto;
     }
 
     label{

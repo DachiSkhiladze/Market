@@ -1,4 +1,4 @@
-USE [MarketDB]
+USE [Shop]
 GO
 
 CREATE TABLE [dbo].[User](
