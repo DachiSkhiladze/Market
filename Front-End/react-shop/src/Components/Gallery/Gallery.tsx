@@ -3,9 +3,10 @@ import SubCategories from './SubCategories'
 import './Gallery.scss'
 import ProductsDisplay from './Products/ProductsDisplay'
 import axios, { axiosGet } from '../api/axios';
+import { Product } from '../models/Product';
 
 function Gallery() {
-  const [products, setProducts] : any = useState();  
+  const [products, setProducts] : any= useState();  
   const [selectedCategory, SetSelectedCategory] = useState(null);
 
   useEffect(() => {
@@ -13,11 +14,12 @@ function Gallery() {
   }, [selectedCategory])
 
   async function setProductsArr(){
-    if(products){
-      var productsArr = await axiosGet('/api/Products/GetProductsBySubCategoryID/' + selectedCategory);
+    var productsArr;
+    if(selectedCategory){
+      productsArr = await axiosGet('/api/Products/GetProductsBySubCategoryID/' + selectedCategory);
     }
     else{
-      var productsArr = await axiosGet('/api/Products/GetAllProducts');
+      productsArr = await axiosGet('/api/Products/GetAllProducts');
     }
     setProducts(productsArr);
   }
@@ -28,7 +30,7 @@ function Gallery() {
             <SubCategories />
         </div>
         <div className='ProductsDisplay'>
-            <ProductsDisplay />
+            <ProductsDisplay products={products}/>
         </div>
     </div>
   );
