@@ -15,3 +15,37 @@
     width: 70%;
     float: right;
 }
+
+.product{
+    border-top: 1px solid black;
+    padding: 15px;
+    animation: fadeIn;
+    animation-fill-mode: both;
+}
+
+.product:hover{
+    border-top: 5px solid black;
+    cursor: pointer;
+}
+
+@for $i from 1 through 4 {
+    div:nth-child(#{$i}) {
+      animation-delay: .25s * $i;
+    }
+  }
+  
+  // Keyframe animation
+  @-webkit-keyframes fadeIn {
+    0% {
+      opacity: 0;
+      top: 100px;
+    }
+    75% {
+      opacity: 0.5;
+      top: 0px;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  

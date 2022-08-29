@@ -41,26 +41,6 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return await MakePayment.PayAsync(model.CardNumber, model.Month, model.Year, model.CVC, model.Value);
         }
 
-        [Authorize(Roles = "Administrator")]
-        [HttpGet]
-        [Route("GetAllUsers")]
-        public async IAsyncEnumerable<ProductModel> GetAll()
-        {
-            ServicesFlyWeight servicesFlyWeight = new ServicesFlyWeight(_serviceProvider);
-            var bubu = servicesFlyWeight.GetService<IProductServices>();
-            await foreach (var user in bubu.GetModels())
-            {
-                yield return user;
-            }
-        }
-
-        [HttpPost]
-        [Route("CreateProduct")]
-        public async Task<ProductModel> CreateProduct([FromBody] ProductModel model)
-        {
-            return await _mediator.Send(new CreateProductCommand(model));
-        }
-
         [HttpPost]
         [Route("RegisterUser")]
         public async Task<IActionResult> RegisterUser([FromBody] UserRegisterModel model)

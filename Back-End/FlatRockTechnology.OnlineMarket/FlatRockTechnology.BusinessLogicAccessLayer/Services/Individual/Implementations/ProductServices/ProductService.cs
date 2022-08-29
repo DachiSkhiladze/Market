@@ -1,5 +1,5 @@
 ﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Implementations;
-using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
+using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
 using FlatRockTechnology.OnlineMarket.Models.Products;
 using MediatR;

@@ -25,6 +25,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.UnitOfWork.Implementat
             Users = new UserRepository(_context);
             Roles = new RoleRepository(_context);
             UserRoles = new UserRoleRepository(_context);
+            CartItems = new CartItemRepository(_context);
         }
         public IRepository<TEntity> GetRepository()
         {
@@ -32,7 +33,11 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.UnitOfWork.Implementat
         }
 
         public IUserRoleRepository UserRoles { get; private set; }
+
+        public ICartItemRepository CartItems { get; private set; }
+
         public IRoleRepository Roles { get; private set; }
+
         public IAddressRepository Addresses { get; private set; }
 
         public ICategoryRepository Categories { get; private set; }

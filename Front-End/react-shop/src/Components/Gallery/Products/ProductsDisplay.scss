@@ -1,0 +1,25 @@
+.product{
+    height: 50px;
+    .TitleContainer{
+        width: 90%;
+        float: left;
+    }
+    .AddContainer{
+        width: 10%;
+        height: 100%;
+        float: right;
+        button{
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        i{
+            font-size: 30px;
+        }
+        button:hover{
+            i{
+                color: rgb(2, 108, 223);
+            }
+        }
+    }
+}

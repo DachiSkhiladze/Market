@@ -12,7 +12,6 @@ import {
   incrementByAmount,
   selectLoad
 } from '../../features/counter/counterSlice';
-import { resetClipboardStubOnView } from '@testing-library/user-event/dist/types/utils';
 
 const SENDRECORVERYMAIL_URL = '/User/RecoverPassword';
 

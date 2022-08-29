@@ -1,6 +1,5 @@
 ﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.UserServices;
-using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -33,7 +32,8 @@ using EmailLayer;
 using Queries.Declarations.Individual;
 using Queries.Handlers.Individual;
 using FlatRockTechnology.OnlineMarket.Models.Categories;
-using System.Security.Claims;
+using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions;
+using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.CartServices;
 
 namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 {
@@ -52,6 +52,9 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient(typeof(IRequestHandler<GetAllQuery<User, UserModel>, IEnumerable<UserModel>>),
                 typeof(GetAllHandler<User, UserModel>));
 
+            services.AddTransient(typeof(IRequestHandler<GetAllQuery<CartItem, CartItemModel>, IEnumerable<CartItemModel>>),
+                typeof(GetAllHandler<CartItem, CartItemModel>));
+
             services.AddTransient(typeof(IRequestHandler<GetAllQuery<Category, CategoryModel>, IEnumerable<CategoryModel>>),
                 typeof(GetAllHandler<Category, CategoryModel>));
 
@@ -64,12 +67,17 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient(typeof(IStreamRequestHandler<GetQuery<User, UserModel>, UserModel>),
                 typeof(GetHandler<User, UserModel>));
 
-
             services.AddTransient(typeof(IRequestHandler<GetSingleQuery<User, UserModel>, UserModel>),
                 typeof(GetSingleHandler<User, UserModel>));
 
+            services.AddTransient(typeof(IRequestHandler<GetSingleQuery<CartItem, CartItemModel>, CartItemModel>),
+                typeof(GetSingleHandler<CartItem, CartItemModel>));
+
             services.AddTransient(typeof(IRequestHandler<CreateCommand<User, UserModel>, UserModel>),
                 typeof(CreateHandler<User, UserModel>));
+
+            services.AddTransient(typeof(IRequestHandler<CreateCommand<CartItem, CartItemModel>, CartItemModel>),
+                typeof(CreateHandler<CartItem, CartItemModel>));
 
             services.AddTransient(typeof(IRequestHandler<CreateCommand<UserRole, UserRoleModel>, UserRoleModel>),
                 typeof(CreateHandler<UserRole, UserRoleModel>));
@@ -95,11 +103,17 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient(typeof(IRequestHandler<IsExistsQuery<Product>, bool>),
                 typeof(IsExistsHandler<Product, ProductModel>));
 
+            services.AddTransient(typeof(IRequestHandler<UpdateCommand<CartItem, CartItemModel>, CartItemModel>),
+                typeof(UpdateHandler<CartItem, CartItemModel>));
+
             services.AddTransient(typeof(IRequestHandler<GetAllQuery<Product, ProductModel>, IEnumerable<ProductModel>>),
                 typeof(GetAllHandler<Product, ProductModel>));
 
             services.AddTransient(typeof(IStreamRequestHandler<GetQuery<Product, ProductModel>, ProductModel>),
                 typeof(GetHandler<Product, ProductModel>));
+
+            services.AddTransient(typeof(IStreamRequestHandler<GetQuery<CartItem, CartItemModel>, CartItemModel>),
+                typeof(GetHandler<CartItem, CartItemModel>));
         }
 
         public static void ConfigureServicesInjections(this IServiceCollection services)
@@ -113,6 +127,10 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient<IRepository<User>, Repository<User>>();
 
             services.AddTransient<IUnitOfWork<User>, UnitOfWork<User>>();
+
+            services.AddTransient<IRepository<CartItem>, Repository<CartItem>>();
+
+            services.AddTransient<IUnitOfWork<CartItem>, UnitOfWork<CartItem>>();
 
             services.AddTransient<IRepository<UserRole>, Repository<UserRole>>();
 
@@ -134,6 +152,8 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 
             services.AddTransient<IUnitOfWork<SubCategory>, UnitOfWork<SubCategory>>();
 
+            services.AddTransient<IMapperConfiguration<CartItem, CartItemModel>, MapperConfiguration<CartItem, CartItemModel>>();
+
             services.AddTransient<IMapperConfiguration<Product, ProductModel>, MapperConfiguration<Product, ProductModel>>();
 
             services.AddTransient<IMapperConfiguration<Category, CategoryModel>, MapperConfiguration<Category, CategoryModel>>();
@@ -149,6 +169,8 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient<IMapperConfiguration<UserRole, UserRoleModel>, MapperConfiguration<UserRole, UserRoleModel>>();
 
             services.AddTransient<IUserServices, UserServices>();
+
+            services.AddTransient<ICartItemServices, CartItemServices>();
 
             services.AddTransient<IUserRoleServices, UserRoleServices>();
 

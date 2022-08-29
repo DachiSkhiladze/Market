@@ -4,7 +4,7 @@ using FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstractio
 
 namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Individual.Abstractions
 {
-    public interface ICartItemRepository : IRepository<CartItem>
+    public interface IAddressRepository : IRepository<Address>
     {
 
     }

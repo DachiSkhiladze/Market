@@ -14,6 +14,7 @@ namespace FlatRockTechnology.OnlineMarket.Models.Mapper
             public MappingProfile()
             {
                 CreateMap<AddressModel, Address>().ReverseMap();
+                CreateMap<CartItemModel, CartItem>().ReverseMap();
                 CreateMap<CategoryModel, Category>().ReverseMap();
                 CreateMap<OrderModel, Order>().ReverseMap();
                 CreateMap<OrderProductModel, Order>().ReverseMap();

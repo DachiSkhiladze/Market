@@ -3,6 +3,7 @@ import SubCategories from './SubCategories'
 import './Gallery.scss'
 import ProductsDisplay from './Products/ProductsDisplay'
 import axios, { axiosGet } from '../api/axios';
+import ProductsLoad from '../LoadingAnimation/ProductsLoad';
 import { Product } from '../models/Product';
 
 function Gallery() {
@@ -30,7 +31,7 @@ function Gallery() {
         <div className='sideMenu'>
             <SubCategories SetSelectedCategory = {SetSelectedCategory}/>
         </div>
-        <div className='ProductsDisplay'>
+        <div className='ProductsContainer'>
             <ProductsDisplay products={products}/>
         </div>
     </div>

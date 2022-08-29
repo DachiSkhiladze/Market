@@ -21,7 +21,8 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactor
 
         public T GetService<T>() where T : IBaseService
         {
-            return (T)iservices[typeof(T)];
+            var service = (T)iservices[typeof(T)];
+            return service;
         }
     }
 }

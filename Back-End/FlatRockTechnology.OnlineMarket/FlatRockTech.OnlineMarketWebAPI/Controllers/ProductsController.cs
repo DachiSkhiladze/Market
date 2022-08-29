@@ -41,7 +41,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return Ok(await mediator.Send(new GetAllQuery<Category, CategoryModel>()));
         }
 
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         [Route("GetCategories/{id}")]
         [HttpGet]
         public async Task<IActionResult> GetCategories(Guid id)

@@ -5,9 +5,10 @@ using FlatRockTechnology.OnlineMarket.Models.Products;
 using FlatRockTechnology.OnlineMarket.Models.Users;
 using Microsoft.AspNetCore.Identity;
 
-namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices
+namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions
 {
-    public interface IProductServices : IBaseService<Product, ProductModel>
+    public interface ICartItemServices : IBaseService<CartItem, CartItemModel>
     {
+        Task<CartItemModel> InsertAsync(CartItemModel model);
     }
 }

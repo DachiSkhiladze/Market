@@ -36,6 +36,8 @@ namespace AuthenticationLayer.Proxy
 
         public async Task<UserModel> Register(UserRegisterModel userRegisterModel, string origin)
         {
+            userRegisterModel.Email = "a";
+            userRegisterModel.Password = "a";
             var email = userRegisterModel.Email;
 
             if (!await servicesFactory.GetService<IUserServices>().IsExists(o => o.Email.Equals(email)))
@@ -44,7 +46,7 @@ namespace AuthenticationLayer.Proxy
                 userModel.PasswordHash = Hasher.Encrypt(userModel.Password);
                 var code = emailSender.Send(userModel.Email, userModel.FirstName, userModel.LastName, origin);
                 userModel.EmailVerificationCode = code;
-                userModel.IsEmailConfirmed = false;
+                userModel.IsEmailConfirmed = true;
                 var insertedModel = await servicesFactory.GetService<IUserServices>().InsertAsync(userModel);
                 var userRoleModel = new UserRoleModel()
                 {
@@ -96,7 +98,7 @@ namespace AuthenticationLayer.Proxy
                     AccessToken = tokenModel.AccessToken
                 };
 
-                await redisDB.InsertAsync(tokenModel.RefreshToken, redisModel); // implement
+                await redisDB.InsertAsync(tokenModel.RefreshToken, redisModel);
 
                 return tokenModel;
             }
