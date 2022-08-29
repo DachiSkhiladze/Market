@@ -57,9 +57,10 @@ export const axiosAuthGet : any = async (methodUrl : string) => {
         return response;
     }
     catch(err:any){
-        var isRefreshed : boolean = await refreshToken();
+        var isRefreshed : boolean = false;
+        //await refreshToken();
         if(isRefreshed){
-            return axiosAuthGet(methodUrl);
+            //return axiosAuthGet(methodUrl);
         }
     }
 }

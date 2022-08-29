@@ -15,7 +15,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
 
         public async Task<CartItemModel> InsertAsync(CartItemModel model) // Adding new Item in cart or increasing in quantity based on its existence
         {
-            var entity = CheckIfAlreadyExists(model).Result;
+            var entity = await CheckIfAlreadyExists(model);
             if (entity != null)
             {
                 entity.Quantity += 1;   // Increasing Quantity If Already Exists
@@ -38,6 +38,17 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
                 model.Product = product;
                 yield return model;
             }
+        }
+
+        public async Task<CartItemModel> DecreaseQuantity(CartItemModel model)
+        {
+            var entity = await CheckIfAlreadyExists(model);
+            if (entity != null & entity.Quantity >= 1)
+            {
+                entity.Quantity -= 1;   // Decreasing Quantity If Exists Such Item
+                return await this.UpdateAsync(entity);
+            }
+            throw new InvalidOperationException();
         }
     }
 }

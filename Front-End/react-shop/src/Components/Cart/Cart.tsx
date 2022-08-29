@@ -15,10 +15,29 @@ function Cart() {
       console.log(cartProducts);
     }
 
-    function Minus(index:any){
-      var item = cartProducts;
-      item[index].quantity--;
-      setCartProducts(item);
+    async function Minus(index:any){
+      var item = cartProducts[index];
+      if(item.quantity == 0){
+        return;
+      }
+      item.quantity--;
+      setCartProducts((datas : any) => ([
+        ...cartProducts
+      ]))
+
+    var response = await axiosAuthGet('/api/Cart/DecreaseInCart/' + item.product.id);
+
+    }
+
+    async function Plus(index:any){
+      var item = cartProducts[index];
+      item.quantity++;
+      axiosAuthGet()
+      setCartProducts((datas : any) => ([
+        ...cartProducts
+      ]))
+    
+      var response = await axiosAuthGet('/api/Cart/AddInCart/' + item.product.id);
     }
   
     return (
@@ -32,7 +51,7 @@ function Cart() {
                                 <i className="fa-solid fa-minus"></i>
                           </button>
                           <p>{item.quantity}</p>
-                          <button className='plus'>
+                          <button onClick={() => Plus(index)} className='plus'>
                                 <i className="fa-solid fa-plus"></i>
                           </button>
                         </div>
