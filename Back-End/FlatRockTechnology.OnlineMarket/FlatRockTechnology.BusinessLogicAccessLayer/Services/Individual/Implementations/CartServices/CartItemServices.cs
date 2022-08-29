@@ -7,9 +7,10 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
 {
     public class CartItemServices : BaseService<CartItem, CartItemModel>, ICartItemServices
     {
-        public CartItemServices(IMediator mediator) : base(mediator)
+        private readonly IProductServices productServices;
+        public CartItemServices(IMediator mediator, IProductServices productServices) : base(mediator)
         {
-
+            this.productServices = productServices;
         }
 
         public async Task<CartItemModel> InsertAsync(CartItemModel model) // Adding new Item in cart or increasing in quantity based on its existence
@@ -26,6 +27,17 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
         public async Task<CartItemModel> CheckIfAlreadyExists(CartItemModel model) // Checking If Product Already Exists in User's Cart
         {
             return await GetModels(o => o.UserId.Equals(model.UserId) && o.ProductId.Equals(model.ProductId)).FirstOrDefaultAsync();
+        }
+
+        public async IAsyncEnumerable<CartItemModel> GetModels(Func<CartItem, bool> predicate)
+        {
+            var models = base.GetModels(predicate);
+            await foreach (var model in models)
+            {
+                var product = await productServices.GetModels(o => o.Id.Equals(model.ProductId)).FirstOrDefaultAsync();
+                model.Product = product;
+                yield return model;
+            }
         }
     }
 }

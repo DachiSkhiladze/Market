@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../api/axios';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { useNavigate } from "react-router-dom";
 import { axiosAuthGet } from '../api/axios'
 import './SubCats.scss'
 import {

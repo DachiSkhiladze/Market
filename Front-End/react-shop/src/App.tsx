@@ -15,6 +15,7 @@ import {
 import { selectLogged } from './Components/Authorization/reducer/logger';
 import Gallery from './Components/Gallery/Gallery'
 import Chat from './Components/Chat/Chat';
+import Cart from './Components/Cart/Cart';
 
 function App() {
   
@@ -37,6 +38,7 @@ function App() {
           <Route  path="/login" element={<AuthorizationLayer />}/>  : <></>
           }
           <Route  path="/Gallery" element={<Gallery />}/>
+          <Route  path="/Cart" element={<Cart />}/>
         </Routes>
         <div className='ChatContainer'>
           <Chat />

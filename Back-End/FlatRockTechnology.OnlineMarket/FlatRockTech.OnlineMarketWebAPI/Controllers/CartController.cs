@@ -16,10 +16,27 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
     {
         private readonly IServicesFactory servicesFactory;
         private readonly IMediator mediator;
+        private readonly ICartItemServices service;
         public CartController(IServicesFactory servicesFactory, IMediator mediator)
         {
             this.servicesFactory = servicesFactory;
             this.mediator = mediator;
+            service = servicesFactory.GetService<ICartItemServices>();
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpGet]
+        [Route("GetCartItems")]
+        public async IAsyncEnumerable<CartItemModel> GetCartItems()
+        {
+            var userEmail = GetEmail();
+
+            var userModel = await GetIdByEmailAsync(userEmail);
+
+            await foreach (var item in service.GetModels(o => o.UserId.Equals(userModel.Id)))
+            {
+                yield return item;
+            } 
         }
 
         [Authorize(Roles = "Administrator")]
@@ -27,26 +44,35 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         [Route("AddInCart/{productId}")]
         public async Task<IActionResult> AddInCart(Guid productId)
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-
-            IEnumerable<Claim> claim = identity.Claims;
-
-            var userEmail = claim
-                .Where(x => x.Type == ClaimTypes.Email)
-                .FirstOrDefault()
-                .Value;
+            var userEmail = GetEmail();
 
             var userModel = await mediator.Send(new GetSingleQuery<User, UserModel>(o => o.Email.Equals(userEmail)));
 
             var cartItem = new CartItemModel() { UserId = userModel.Id, ProductId = productId, Quantity = 1 };
-
-            var service = servicesFactory.GetService<ICartItemServices>();
 
             var bubu = "tests";
 
             await service.InsertAsync(cartItem);
 
             return Ok();
+        }
+
+        private string GetEmail()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+
+            IEnumerable<Claim> claim = identity.Claims;
+
+            var userEmail = claim?
+                .Where(x => x.Type == ClaimTypes.Email)?
+                .FirstOrDefault()?
+                .Value;
+            return userEmail;
+        }
+
+        private async Task<UserModel> GetIdByEmailAsync(string email)
+        {
+            return await mediator.Send(new GetSingleQuery<User, UserModel>(o => o.Email.Equals(email)));
         }
     }
 }

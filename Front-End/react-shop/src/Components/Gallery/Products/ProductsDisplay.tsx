@@ -7,7 +7,7 @@ const ProductsDisplay: React.FC<{products:any}> = ({products}) => {
 
 
   async function addinCart(id:string){
-  const METHOD_URL = '/api/Cart/AddInCart/';
+  const METHOD_URL = '/api/Cart/AddInCart/  ';
     try {
       const response = await axiosAuthGet(METHOD_URL + id);
       
