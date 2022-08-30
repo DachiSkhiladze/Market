@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Models\FlatRockTechnology.OnlineMarket.Models.csproj" />
+    <ProjectReference Include="..\Models\OnlineMarket.Models.csproj" />
     <ProjectReference Include="..\Queries\Queries.csproj" />
   </ItemGroup>
 

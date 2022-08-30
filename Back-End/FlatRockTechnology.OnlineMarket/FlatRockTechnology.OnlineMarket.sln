@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlatRockTechnology.OnlineMarket.DataAccessLayer", "DataAccessLayer\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj", "{E68EE4BB-74F1-41AE-A965-E40071132ED5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer", "FlatRockTechnology.BusinessLogicAccessLayer\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj", "{669687B5-4196-423A-97A6-40F9848F725D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineMarket.BusinessLogicAccessLayer", "FlatRockTechnology.BusinessLogicAccessLayer\OnlineMarket.BusinessLogicAccessLayer.csproj", "{669687B5-4196-423A-97A6-40F9848F725D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlatRockTech.OnlineMarketWebAPI", "FlatRockTech.OnlineMarketWebAPI\FlatRockTech.OnlineMarketWebAPI.csproj", "{29785A62-A5A3-475B-8B16-EFE1A743AF3C}"
 EndProject
@@ -15,23 +15,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WriteLayer", "WriteLayer", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Commands", "Commands\Commands.csproj", "{F873E3CE-3B5B-48C7-84DD-44FB854EBD90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlatRockTechnology.OnlineMarket.Models", "Models\FlatRockTechnology.OnlineMarket.Models.csproj", "{E35D48DE-FE1E-4922-83B0-00C6E87E2AED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineMarket.Models", "Models\OnlineMarket.Models.csproj", "{E35D48DE-FE1E-4922-83B0-00C6E87E2AED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationLayer", "AuthenticationLayer\AuthenticationLayer.csproj", "{0AEA42BA-08C2-4B0C-AE26-794A1256C923}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Queries", "Queries\Queries.csproj", "{08E9D6A9-0FE4-4827-8160-3BDAB60AC19F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailLayer", "EmailLayer\EmailLayer.csproj", "{7C31B4B3-5C62-4A4A-A300-3B1408FE3BE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailServiceLayer", "EmailLayer\EmailServiceLayer.csproj", "{7C31B4B3-5C62-4A4A-A300-3B1408FE3BE9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment", "Payment\Payment.csproj", "{91921BB8-EC78-4DD7-B9C9-DC5D14046B4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentServiceLayer", "Payment\PaymentServiceLayer.csproj", "{91921BB8-EC78-4DD7-B9C9-DC5D14046B4B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatDataAccessLayer", "ChatDataAccessLayer\ChatDataAccessLayer.csproj", "{41CB408A-E978-49B1-AD8C-275167A5D7A5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helper", "Helper", "{401EBDEA-24FF-411B-9A03-78D9779A0E25}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auxilary", "Auxilary", "{401EBDEA-24FF-411B-9A03-78D9779A0E25}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DLL", "DLL", "{67AC9CAF-DC77-4D07-B035-FAABCD3AA135}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BLL", "BLL", "{3A617C64-C023-429B-984B-7E6DD328F476}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chat", "Chat", "{41065D04-DACF-4647-97DA-F5AD4FDF2A6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,7 +96,8 @@ Global
 		{08E9D6A9-0FE4-4827-8160-3BDAB60AC19F} = {F232E0D1-D2F3-48D7-80BD-F9BF64368E90}
 		{7C31B4B3-5C62-4A4A-A300-3B1408FE3BE9} = {401EBDEA-24FF-411B-9A03-78D9779A0E25}
 		{91921BB8-EC78-4DD7-B9C9-DC5D14046B4B} = {401EBDEA-24FF-411B-9A03-78D9779A0E25}
-		{41CB408A-E978-49B1-AD8C-275167A5D7A5} = {401EBDEA-24FF-411B-9A03-78D9779A0E25}
+		{41CB408A-E978-49B1-AD8C-275167A5D7A5} = {41065D04-DACF-4647-97DA-F5AD4FDF2A6E}
+		{41065D04-DACF-4647-97DA-F5AD4FDF2A6E} = {401EBDEA-24FF-411B-9A03-78D9779A0E25}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59FF4F47-F78E-4D7C-B45F-E319B0036661}

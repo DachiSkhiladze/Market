@@ -20,6 +20,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
@@ -28,10 +29,10 @@
     <ProjectReference Include="..\ChatDataAccessLayer\ChatDataAccessLayer.csproj" />
     <ProjectReference Include="..\Commands\Commands.csproj" />
     <ProjectReference Include="..\DataAccessLayer\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj" />
-    <ProjectReference Include="..\EmailLayer\EmailLayer.csproj" />
-    <ProjectReference Include="..\FlatRockTechnology.BusinessLogicAccessLayer\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj" />
-    <ProjectReference Include="..\Models\FlatRockTechnology.OnlineMarket.Models.csproj" />
-    <ProjectReference Include="..\Payment\Payment.csproj" />
+    <ProjectReference Include="..\EmailLayer\EmailServiceLayer.csproj" />
+    <ProjectReference Include="..\FlatRockTechnology.BusinessLogicAccessLayer\OnlineMarket.BusinessLogicAccessLayer.csproj" />
+    <ProjectReference Include="..\Models\OnlineMarket.Models.csproj" />
+    <ProjectReference Include="..\Payment\PaymentServiceLayer.csproj" />
     <ProjectReference Include="..\Queries\Queries.csproj" />
   </ItemGroup>
 

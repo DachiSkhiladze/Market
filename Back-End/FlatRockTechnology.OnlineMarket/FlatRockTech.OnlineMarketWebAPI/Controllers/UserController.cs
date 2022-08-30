@@ -21,25 +21,16 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserServices _userServices;
-        private readonly IMediator _mediator;
-        private readonly IServiceProvider _serviceProvider;
         private readonly IUserServiceProxy userServiceProxy;
-        private readonly IServicesFactory servicesFactory;
+        private readonly IServicesFlyweight servicesFactory;
 
-        public UserController(IServicesFactory servicesFactory, IMediator mediator, IServiceProvider service, IUserServiceProxy userServiceProxy)
+        public UserController(IServicesFlyweight servicesFactory, IMediator mediator, IServiceProvider service, IUserServiceProxy userServiceProxy)
         {
-            _mediator = mediator;
-            _serviceProvider = service;
             this.userServiceProxy = userServiceProxy;
             this.servicesFactory = servicesFactory;
         }
 
-        [HttpPost]
-        [Route("Pay")]
-        public async Task<dynamic> Pay(PaymentModel model)
-        {
-            return await MakePayment.PayAsync(model.CardNumber, model.Month, model.Year, model.CVC, model.Value);
-        }
+        
 
         [HttpPost]
         [Route("RegisterUser")]

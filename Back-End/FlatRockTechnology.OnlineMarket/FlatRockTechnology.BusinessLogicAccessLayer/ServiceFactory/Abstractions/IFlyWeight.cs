@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory.Abstractions
 {
-    public interface IFlyWeight : IUserServices, IProductServices, IUserRoleServices, ICartItemServices // Should inherit all possible services
+    public interface IFlyWeight :   IUserServices, 
+                                    IProductServices,
+                                    IUserRoleServices, 
+                                    ICartItemServices // Inheritence of all services is sacrosanct for using in upper tier layers
     {
     }
 }

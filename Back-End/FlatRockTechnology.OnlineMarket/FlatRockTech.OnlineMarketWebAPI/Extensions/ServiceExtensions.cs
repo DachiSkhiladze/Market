@@ -34,6 +34,7 @@ using Queries.Handlers.Individual;
 using FlatRockTechnology.OnlineMarket.Models.Categories;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.CartServices;
+using AuthenticationLayer.Token.Redis;
 
 namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 {
@@ -69,6 +70,9 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 
             services.AddTransient(typeof(IRequestHandler<GetSingleQuery<User, UserModel>, UserModel>),
                 typeof(GetSingleHandler<User, UserModel>));
+
+            services.AddTransient(typeof(IRequestHandler<GetSingleQuery<Role, RoleModel>, RoleModel>),
+                typeof(GetSingleHandler<Role, RoleModel>));
 
             services.AddTransient(typeof(IRequestHandler<GetSingleQuery<CartItem, CartItemModel>, CartItemModel>),
                 typeof(GetSingleHandler<CartItem, CartItemModel>));
@@ -180,7 +184,9 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 
             services.AddTransient<IProductServices, ProductServices>();
 
-            services.AddTransient<IServicesFactory, ServicesFlyWeight>(); // Service Factory
+            services.AddScoped<IServicesFlyweight, ServicesFlyWeight>(); // Service Factory
+
+            services.AddTransient<IRedisDB, RedisDB>();
         }
 
         public static void ConfigureIdentity(this IServiceCollection services)

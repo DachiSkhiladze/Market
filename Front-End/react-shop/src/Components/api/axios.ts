@@ -13,6 +13,7 @@ import {
     selectLoad
   } from '../../features/counter/counterSlice';
 
+//const BASE_URL = 'https://marketplacefrt.azurewebsites.net';
 const BASE_URL = 'https://localhost:7223';
 const REFRESH_METHOD_URL = '/User/refresh-token'
 
@@ -51,14 +52,14 @@ export const axiosAuthGet : any = async (methodUrl : string) => {
         if(response.status > 240){
             var isRefreshed : boolean = await refreshToken();
             if(isRefreshed){
-                axiosAuthGet(methodUrl);
+                //axiosAuthGet(methodUrl);
             }
         }
         return response;
     }
     catch(err:any){
         var isRefreshed : boolean = false;
-        //await refreshToken();
+            //await refreshToken();
         if(isRefreshed){
             //return axiosAuthGet(methodUrl);
         }

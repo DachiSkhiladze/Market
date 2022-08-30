@@ -9,7 +9,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
 {
     public interface ICartItemServices : IBaseService<CartItem, CartItemModel>
     {
-        Task<CartItemModel> InsertAsync(CartItemModel model);
+        Task<CartItemModel> InsertAsync(CartItemModel model, int quantity);
         IAsyncEnumerable<CartItemModel> GetModels(Func<CartItem, bool> predicate);
         Task<CartItemModel> DecreaseQuantity(CartItemModel model);
     }

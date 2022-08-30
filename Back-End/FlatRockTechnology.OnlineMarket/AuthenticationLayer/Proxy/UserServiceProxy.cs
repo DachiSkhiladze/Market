@@ -4,6 +4,7 @@ using AuthenticationLayer.Token.Redis;
 using EmailLayer.Abstractions;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory.Abstractions;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
 using FlatRockTechnology.OnlineMarket.Models;
 using FlatRockTechnology.OnlineMarket.Models.Hash;
 using FlatRockTechnology.OnlineMarket.Models.Mapper.Abstractions;
@@ -23,8 +24,8 @@ namespace AuthenticationLayer.Proxy
         private readonly IMediator mediator;
         private readonly RedisDB redisDB;
         private readonly IEmailSender emailSender;
-        private readonly IServicesFactory servicesFactory;
-        public UserServiceProxy(IEmailSender emailSender, IMediator mediator, IConfiguration configuration, IMapperConfiguration<UserRegisterModel, UserModel> mapperConfiguration, IServicesFactory servicesFactory)
+        private readonly IServicesFlyweight servicesFactory;
+        public UserServiceProxy(IEmailSender emailSender, IMediator mediator, IConfiguration configuration, IMapperConfiguration<UserRegisterModel, UserModel> mapperConfiguration, IServicesFlyweight servicesFactory)
         {
             this.mapperConfiguration = mapperConfiguration;
             tokenGenerator = new TokenGenerator(configuration);
@@ -36,8 +37,6 @@ namespace AuthenticationLayer.Proxy
 
         public async Task<UserModel> Register(UserRegisterModel userRegisterModel, string origin)
         {
-            userRegisterModel.Email = "a";
-            userRegisterModel.Password = "a";
             var email = userRegisterModel.Email;
 
             if (!await servicesFactory.GetService<IUserServices>().IsExists(o => o.Email.Equals(email)))
@@ -51,12 +50,18 @@ namespace AuthenticationLayer.Proxy
                 var userRoleModel = new UserRoleModel()
                 {
                     UserId = insertedModel.Id,
-                    RoleId = Guid.Parse("9A5411FD-7029-45CE-9880-0E96EF8EE33A") // User Role ID
+                    RoleId = await GetUserRoleToken() // User Role ID
                 };
                 await servicesFactory.GetService<IUserRoleServices>().InsertAsync(userRoleModel);
                 return insertedModel;
             }
             return null;
+        }
+
+        public async Task<Guid> GetUserRoleToken()
+        {
+            var role = await mediator.Send(new GetSingleQuery<Role, RoleModel>(o => o.NormalizedName.Equals("USER")));
+            return role.Id;
         }
 
         public async Task<AuthenticatedResponseModel> LogIn(UserLoginModel userLoginModel)
@@ -125,17 +130,9 @@ namespace AuthenticationLayer.Proxy
 
             var PasswordHash = Hasher.Encrypt(userLoginModel.Password);
             var model = await servicesFactory.GetService<IUserServices>().GetModels(o => o.Email.Equals(userLoginModel.Email)).FirstOrDefaultAsync();
-            if (model == null)
+            if (model == null || model.IsEmailConfirmed == false || !PasswordHash.Equals(model.PasswordHash))
             {
-                return new Tuple<Guid, bool>(Guid.Empty, false);
-            }
-            else if (model.IsEmailConfirmed == false)
-            {
-                return new Tuple<Guid, bool>(Guid.Empty, false);
-            }
-            else if (!PasswordHash.Equals(model.PasswordHash))
-            {
-                return new Tuple<Guid, bool>(Guid.Empty, false);
+                throw new Exception("Invalid Credentials");
             }
 
             return new Tuple<Guid, bool>(model.Id, true);

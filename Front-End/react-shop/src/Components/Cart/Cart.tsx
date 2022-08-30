@@ -9,6 +9,14 @@ function Cart() {
         setProductsArr();
     }, [])
   
+      var delay = (function () {
+        var timer:any = 0;
+        return function (callback:any, ms:any) {
+            clearTimeout(timer);
+            timer = setTimeout(callback, ms);
+        };
+    })()
+
     async function setProductsArr(){
       var response = await axiosAuthGet('/api/Cart/GetCartItems');
       setCartProducts(response.data);
@@ -25,19 +33,21 @@ function Cart() {
         ...cartProducts
       ]))
 
-    var response = await axiosAuthGet('/api/Cart/DecreaseInCart/' + item.product.id);
-
+      var response = await axiosAuthGet('/api/Cart/DecreaseInCart/' + item.product.id + '?quantity=' + item.quantity);
     }
-
+    var quantity;
     async function Plus(index:any){
+
       var item = cartProducts[index];
       item.quantity++;
       axiosAuthGet()
       setCartProducts((datas : any) => ([
         ...cartProducts
       ]))
-    
-      var response = await axiosAuthGet('/api/Cart/AddInCart/' + item.product.id);
+
+      setTimeout(async function() {
+        var response = await axiosAuthGet('/api/Cart/AddInCart/' + item.product.id + '?quantity=' + item.quantity);
+      }, 5000);
     }
   
     return (

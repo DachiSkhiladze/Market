@@ -3,14 +3,14 @@ using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Abs
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory
 {
-    public class ServicesFlyWeight : IServicesFactory
+    public class ServicesFlyWeight : IServicesFlyweight
     {
         private Dictionary<Type, object> iservices { get; set; } = new Dictionary<Type, object>();
         public ServicesFlyWeight(IServiceProvider services)
         {
             IEnumerable<Type> types = typeof(IFlyWeight)
                                        .GetInterfaces()
-                                        .Where(o => o.GetInterfaces().Length >= 1);
+                                        .Where(o => o.GetInterfaces().Length >= 1); // Adding all super interfaces of IFlyweight
             foreach (var type in types)
             {
 

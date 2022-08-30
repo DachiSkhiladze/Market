@@ -69,8 +69,9 @@ namespace EmailLayer
                                                     font-size: 20px;'>Nice to meet you.</p>
                                    <p style='       text-align: center;
                                                     font-size: 20px;'>Please verify your email by clicking the button below</p>
-                                    <a href='{origin}?code={code}' >
+                                    <a href='{origin}/login?code={code}' >
                                      <input style=' display: block;
+                                                    cursor: pointer;
                                                     font-family: inherit;
                                                     font-weight: 600;
                                                     font-size: 14px;

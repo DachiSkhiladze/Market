@@ -8,21 +8,12 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
     public class CartItemServices : BaseService<CartItem, CartItemModel>, ICartItemServices
     {
         private readonly IProductServices productServices;
+        private static object locker = new object();
         public CartItemServices(IMediator mediator, IProductServices productServices) : base(mediator)
         {
             this.productServices = productServices;
         }
 
-        public async Task<CartItemModel> InsertAsync(CartItemModel model) // Adding new Item in cart or increasing in quantity based on its existence
-        {
-            var entity = await CheckIfAlreadyExists(model);
-            if (entity != null)
-            {
-                entity.Quantity += 1;   // Increasing Quantity If Already Exists
-                return await this.UpdateAsync(entity);
-            }
-            return await base.InsertAsync(model);   // Otherwise Returning Newly Created Record
-        }
 
         public async Task<CartItemModel> CheckIfAlreadyExists(CartItemModel model) // Checking If Product Already Exists in User's Cart
         {
@@ -40,15 +31,33 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
             }
         }
 
+        public async Task<CartItemModel> InsertAsync(CartItemModel model, int quantity) // Adding new Item in cart or increasing in quantity based on its existence
+        {
+            lock (locker)
+            {
+                var entity = CheckIfAlreadyExists(model).Result;
+                if (entity != null)
+                {
+                    entity.Quantity = quantity;   // Increasing Quantity If Already Exists
+                    return this.UpdateAsync(entity).Result;
+                }
+                return base.InsertAsync(model).Result;   // Otherwise Returning Newly Created Record
+            }
+        }
+
+
         public async Task<CartItemModel> DecreaseQuantity(CartItemModel model)
         {
-            var entity = await CheckIfAlreadyExists(model);
-            if (entity != null & entity.Quantity >= 1)
+            lock (locker)
             {
-                entity.Quantity -= 1;   // Decreasing Quantity If Exists Such Item
-                return await this.UpdateAsync(entity);
+                var entity = CheckIfAlreadyExists(model).Result;
+                if (entity != null & entity.Quantity >= 1)
+                {
+                    entity.Quantity -= 1;   // Decreasing Quantity If Exists Such Item
+                    return this.UpdateAsync(entity).Result;
+                }
+                throw new InvalidOperationException();
             }
-            throw new InvalidOperationException();
         }
     }
 }

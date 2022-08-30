@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory.Abstractions
 {
-    public interface IServicesFactory
+    public interface IServicesFlyweight
     {
         T GetService<T>() where T : IBaseService; // Returns type T Service
     }
