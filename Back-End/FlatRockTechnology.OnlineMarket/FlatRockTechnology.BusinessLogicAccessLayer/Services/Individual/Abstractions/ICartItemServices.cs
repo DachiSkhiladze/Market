@@ -11,6 +11,8 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
     {
         Task<CartItemModel> InsertAsync(CartItemModel model, int quantity);
         IAsyncEnumerable<CartItemModel> GetModels(Func<CartItem, bool> predicate);
-        Task<CartItemModel> DecreaseQuantity(CartItemModel model);
+        Task<CartItemModel> DecreaseQuantity(CartItemModel model, int quantity);
+        Task DeleteFromCart(CartItemModel model);
+
     }
 }

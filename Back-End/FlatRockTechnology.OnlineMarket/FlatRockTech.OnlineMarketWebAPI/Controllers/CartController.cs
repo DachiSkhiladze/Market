@@ -15,7 +15,6 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
     [Route("api/[controller]")]
     public class CartController : ControllerBase
     {
-        static int count = 0;
         private readonly IServicesFlyweight servicesFactory;
         private readonly IMediator mediator;
         private readonly ICartItemServices service;
@@ -47,11 +46,6 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         [Route("AddInCart/{productId}")]
         public async Task<IActionResult> AddInCart(Guid productId, int quantity)
         {
-            count++;
-            if(count % 10 == 0)
-            {
-                var test = 2342;
-            }
             var userEmail = GetEmail();
     
             var userModel = await mediator.Send(new GetSingleQuery<User, UserModel>(o => o.Email.Equals(userEmail)));
@@ -66,16 +60,31 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         [Authorize(Roles = "User")]
         [HttpGet]
         [Route("DecreaseInCart/{productId}")]
-        public async Task<IActionResult> DecreaseInCart(Guid productId)
+        public async Task<IActionResult> DecreaseInCart(Guid productId, int quantity)
         {
-            count--;
             var userEmail = GetEmail();
 
             var userModel = await mediator.Send(new GetSingleQuery<User, UserModel>(o => o.Email.Equals(userEmail)));
 
             var cartItem = new CartItemModel() { UserId = userModel.Id, ProductId = productId };
-            System.Diagnostics.Debug.WriteLine("Bubu");
-            service.DecreaseQuantity(cartItem).Wait();
+
+            await service.DecreaseQuantity(cartItem, quantity);
+
+            return Ok();
+        }
+
+        [Authorize(Roles = "User")]
+        [HttpGet]
+        [Route("DeleteProductFromCart/{productId}")]
+        public async Task<IActionResult> DecreaseInCart(Guid productId)
+        {
+            var userEmail = GetEmail();
+
+            var userModel = await mediator.Send(new GetSingleQuery<User, UserModel>(o => o.Email.Equals(userEmail)));
+
+            var cartItem = new CartItemModel() { UserId = userModel.Id, ProductId = productId };
+
+            await service.DeleteFromCart(cartItem);
 
             return Ok();
         }

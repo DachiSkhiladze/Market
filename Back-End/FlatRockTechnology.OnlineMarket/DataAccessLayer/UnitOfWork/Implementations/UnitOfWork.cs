@@ -26,11 +26,14 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.UnitOfWork.Implementat
             Roles = new RoleRepository(_context);
             UserRoles = new UserRoleRepository(_context);
             CartItems = new CartItemRepository(_context);
+            ProductPictures = new ProductPicturesRepository(_context);
         }
         public IRepository<TEntity> GetRepository()
         {
             return _repository;
         }
+
+        public IProductPicturesRepository ProductPictures { get; private set; }
 
         public IUserRoleRepository UserRoles { get; private set; }
 

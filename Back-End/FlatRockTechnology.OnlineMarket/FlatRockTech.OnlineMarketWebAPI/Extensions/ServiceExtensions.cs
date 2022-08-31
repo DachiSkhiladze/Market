@@ -35,6 +35,11 @@ using FlatRockTechnology.OnlineMarket.Models.Categories;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.CartServices;
 using AuthenticationLayer.Token.Redis;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.ProductServices;
+using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.CategoryServices;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.CategoryServices;
+using FlatRockTechnology.OnlineMarket.Models.Addresses;
+using FlatRockTechnology.OnlineMarket.Models.Orders;
 
 namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 {
@@ -48,133 +53,176 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
                   ServiceLifetime.Transient); // Adding DB Context To The Container
         }
 
-        public static void ConfigureCQRSInjections(this IServiceCollection services)
+        private static Dictionary<Type, Type> cqrsModels;
+
+        private static void InitializeCQRSModels(this IServiceCollection services)
         {
-            services.AddTransient(typeof(IRequestHandler<GetAllQuery<User, UserModel>, IEnumerable<UserModel>>),
-                typeof(GetAllHandler<User, UserModel>));
-
-            services.AddTransient(typeof(IRequestHandler<GetAllQuery<CartItem, CartItemModel>, IEnumerable<CartItemModel>>),
-                typeof(GetAllHandler<CartItem, CartItemModel>));
-
-            services.AddTransient(typeof(IRequestHandler<GetAllQuery<Category, CategoryModel>, IEnumerable<CategoryModel>>),
-                typeof(GetAllHandler<Category, CategoryModel>));
-
-            services.AddTransient(typeof(IRequestHandler<GetAllQuery<SubCategory, SubCategoryModel>, IEnumerable<SubCategoryModel>>),
-                typeof(GetAllHandler<SubCategory, SubCategoryModel>));
-
-            services.AddTransient(typeof(IRequestHandler<IsExistsQuery<User>, bool>),
-                typeof(IsExistsHandler<User, UserModel>));
-
-            services.AddTransient(typeof(IStreamRequestHandler<GetQuery<User, UserModel>, UserModel>),
-                typeof(GetHandler<User, UserModel>));
-
-            services.AddTransient(typeof(IRequestHandler<GetSingleQuery<User, UserModel>, UserModel>),
-                typeof(GetSingleHandler<User, UserModel>));
-
-            services.AddTransient(typeof(IRequestHandler<GetSingleQuery<Role, RoleModel>, RoleModel>),
-                typeof(GetSingleHandler<Role, RoleModel>));
-
-            services.AddTransient(typeof(IRequestHandler<GetSingleQuery<CartItem, CartItemModel>, CartItemModel>),
-                typeof(GetSingleHandler<CartItem, CartItemModel>));
-
-            services.AddTransient(typeof(IRequestHandler<CreateCommand<User, UserModel>, UserModel>),
-                typeof(CreateHandler<User, UserModel>));
-
-            services.AddTransient(typeof(IRequestHandler<CreateCommand<CartItem, CartItemModel>, CartItemModel>),
-                typeof(CreateHandler<CartItem, CartItemModel>));
-
-            services.AddTransient(typeof(IRequestHandler<CreateCommand<UserRole, UserRoleModel>, UserRoleModel>),
-                typeof(CreateHandler<UserRole, UserRoleModel>));
-
-            services.AddTransient(typeof(IRequestHandler<DeleteCommand<User, UserModel>, bool>),
-                typeof(DeleteHandler<User, UserModel>));
-
-            services.AddTransient(typeof(IRequestHandler<UpdateCommand<User, UserModel>, UserModel>),
-                typeof(UpdateHandler<User, UserModel>));
-
-            services.AddTransient(typeof(IRequestHandler<GetRoleQuery, IEnumerable<RoleModel>>),
-                typeof(GetRoleHandler));
-
-            services.AddTransient(typeof(IRequestHandler<GetProductsBySubCategoryIDQuery, IEnumerable<ProductModel>>),
-                typeof(GetProductsBySubCategoryIDHandler));
-
-            services.AddTransient(typeof(IRequestHandler<CreateCommand<Product, ProductModel>, ProductModel>),
-                typeof(CreateHandler<Product, ProductModel>));
-
-            services.AddTransient(typeof(IRequestHandler<CreateProductCommand, ProductModel>),
-                typeof(CreateProductHandler));
-
-            services.AddTransient(typeof(IRequestHandler<IsExistsQuery<Product>, bool>),
-                typeof(IsExistsHandler<Product, ProductModel>));
-
-            services.AddTransient(typeof(IRequestHandler<UpdateCommand<CartItem, CartItemModel>, CartItemModel>),
-                typeof(UpdateHandler<CartItem, CartItemModel>));
-
-            services.AddTransient(typeof(IRequestHandler<GetAllQuery<Product, ProductModel>, IEnumerable<ProductModel>>),
-                typeof(GetAllHandler<Product, ProductModel>));
-
-            services.AddTransient(typeof(IStreamRequestHandler<GetQuery<Product, ProductModel>, ProductModel>),
-                typeof(GetHandler<Product, ProductModel>));
-
-            services.AddTransient(typeof(IStreamRequestHandler<GetQuery<CartItem, CartItemModel>, CartItemModel>),
-                typeof(GetHandler<CartItem, CartItemModel>));
+            cqrsModels = new Dictionary<Type, Type>()
+            {
+                { typeof(Address), typeof(AddressModel) },
+                { typeof(CartItem), typeof(CartItemModel) },
+                { typeof(Order), typeof(OrderModel) },
+                { typeof(OrderProduct), typeof(OrderProductModel) },
+                { typeof(Product), typeof(ProductModel) },
+                { typeof(ProductCategory), typeof(ProductCategoryModel) },
+                { typeof(ProductPictures), typeof(ProductPicturesModel) },
+                { typeof(Role), typeof(RoleModel) },
+                { typeof(Category), typeof(CategoryModel) },
+                { typeof(SubCategory), typeof(SubCategoryModel) },
+                { typeof(User), typeof(UserModel) },
+                { typeof(UserRole), typeof(UserRoleModel) },
+            };
+            IEnumerable<MethodInfo?> cqrsMethods = new List<MethodInfo?>() {
+                typeof(ServiceExtensions)?.GetMethod(nameof(ServiceExtensions.CQRSSharedCreateGeneric))
+            };
+            foreach (var modelsTypes in cqrsModels)
+            {
+                foreach (var method in cqrsMethods)
+                {
+                    var genericMethod = method.MakeGenericMethod(new Type[] { modelsTypes.Key, modelsTypes.Value });
+                    services = (IServiceCollection?)genericMethod?.Invoke(null, new object[] { (services) });
+                }
+            }
         }
 
-        public static void ConfigureServicesInjections(this IServiceCollection services)
+        public static void InjectionFacade(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            services.ConfigureServicesInjections();
+
+            services.ConfigureCQRSInjections();
+
+            services.ConfigureUnitOfWorkInjections();
+
+            services.ConfigureRepositoryInjections();
+
+            services.ConfigureIMapper();
+
+            services.ConfigureJWT(configuration);
 
             services.AddSignalR();
 
             services.AddAutoMapper(typeof(MappingProfile));
 
-            services.AddTransient<IRepository<User>, Repository<User>>();
+            services.AddTransient<IRedisDB, RedisDB>();
+        }
 
+        public static IServiceCollection CQRSSharedCreateGeneric<TEntity, TModel>(IServiceCollection services) where TEntity : class, new() where TModel : class, new()
+        {
+            services.AddTransient(typeof(IRequestHandler<CreateCommand<TEntity, TModel>, TModel>),
+                typeof(CreateHandler<TEntity, TModel>));
+
+            services.AddTransient(typeof(IStreamRequestHandler<GetQuery<TEntity, TModel>, TModel>),
+                typeof(GetHandler<TEntity, TModel>));
+
+            services.AddTransient(typeof(IRequestHandler<GetSingleQuery<TEntity, TModel>, TModel>),
+                typeof(GetSingleHandler<TEntity, TModel>));
+
+            services.AddTransient(typeof(IRequestHandler<GetAllQuery<TEntity, TModel>, IEnumerable<TModel>>),
+                typeof(GetAllHandler<TEntity, TModel>));
+
+            services.AddTransient(typeof(IRequestHandler<DeleteCommand<TEntity, TModel>, bool>),
+                typeof(DeleteHandler<TEntity, TModel>));
+
+            services.AddTransient(typeof(IRequestHandler<IsExistsQuery<TEntity>, bool>),
+                typeof(IsExistsHandler<TEntity, TModel>));
+
+            services.AddTransient(typeof(IRequestHandler<UpdateCommand<TEntity, TModel>, TModel>),
+                typeof(UpdateHandler<TEntity, TModel>));
+
+            return services;
+        }
+        public static void CQRSCustomInjections(this IServiceCollection services)
+        {
+            services.AddTransient(typeof(IRequestHandler<GetRoleQuery, IEnumerable<RoleModel>>),
+                typeof(GetRoleHandler));
+
+            services.AddTransient(typeof(IRequestHandler<GetProductPicturesByProductIDQuery, IEnumerable<ProductPicturesModel>>),
+                typeof(GetProductPicturesByProductIDHandler));
+
+            services.AddTransient(typeof(IRequestHandler<GetProductsBySubCategoryIDQuery, IEnumerable<ProductModel>>),
+                typeof(GetProductsBySubCategoryIDHandler));
+
+            services.AddTransient(typeof(IRequestHandler<CreateProductCommand, ProductModel>),
+                typeof(CreateProductHandler));
+        }
+
+        public static void ConfigureCQRSInjections(this IServiceCollection services)
+        {
+            services.InitializeCQRSModels();
+            services.CQRSCustomInjections();
+        }
+
+        public static void ConfigureUnitOfWorkInjections(this IServiceCollection services)
+        {
+            services.AddTransient<IUnitOfWork<Order>, UnitOfWork<Order>>();
+            services.AddTransient<IUnitOfWork<OrderProduct>, UnitOfWork<OrderProduct>>();
+            services.AddTransient<IUnitOfWork<Address>, UnitOfWork<Address>>();
+            services.AddTransient<IUnitOfWork<ProductPictures>, UnitOfWork<ProductPictures>>();
             services.AddTransient<IUnitOfWork<User>, UnitOfWork<User>>();
-
-            services.AddTransient<IRepository<CartItem>, Repository<CartItem>>();
-
             services.AddTransient<IUnitOfWork<CartItem>, UnitOfWork<CartItem>>();
-
-            services.AddTransient<IRepository<UserRole>, Repository<UserRole>>();
-
             services.AddTransient<IUnitOfWork<UserRole>, UnitOfWork<UserRole>>();
-
-            services.AddTransient<IRepository<Product>, Repository<Product>>();
-
             services.AddTransient<IUnitOfWork<Product>, UnitOfWork<Product>>();
-
-            services.AddTransient<IRepository<Role>, Repository<Role>>();
-
+            services.AddTransient<IUnitOfWork<ProductCategory>, UnitOfWork<ProductCategory>>();
             services.AddTransient<IUnitOfWork<Role>, UnitOfWork<Role>>();
-
-            services.AddTransient<IRepository<Category>, Repository<Category>>();
-
             services.AddTransient<IUnitOfWork<Category>, UnitOfWork<Category>>();
-
-            services.AddTransient<IRepository<SubCategory>, Repository<SubCategory>>();
-
             services.AddTransient<IUnitOfWork<SubCategory>, UnitOfWork<SubCategory>>();
+        }
 
-            services.AddTransient<IMapperConfiguration<CartItem, CartItemModel>, MapperConfiguration<CartItem, CartItemModel>>();
+        public static void ConfigureRepositoryInjections(this IServiceCollection services)
+        {
+            services.AddTransient<IRepository<Order>, Repository<Order>>();
+            services.AddTransient<IRepository<OrderProduct>, Repository<OrderProduct>>();
+            services.AddTransient<IRepository<Address>, Repository<Address>>();
+            services.AddTransient<IRepository<ProductPictures>, Repository<ProductPictures>>();
+            services.AddTransient<IRepository<User>, Repository<User>>();
+            services.AddTransient<IRepository<CartItem>, Repository<CartItem>>();
+            services.AddTransient<IRepository<UserRole>, Repository<UserRole>>();
+            services.AddTransient<IRepository<Product>, Repository<Product>>();
+            services.AddTransient<IRepository<ProductCategory>, Repository<ProductCategory>>();
+            services.AddTransient<IRepository<Role>, Repository<Role>>();
+            services.AddTransient<IRepository<Category>, Repository<Category>>();
+            services.AddTransient<IRepository<SubCategory>, Repository<SubCategory>>();
+        }
 
-            services.AddTransient<IMapperConfiguration<Product, ProductModel>, MapperConfiguration<Product, ProductModel>>();
-
-            services.AddTransient<IMapperConfiguration<Category, CategoryModel>, MapperConfiguration<Category, CategoryModel>>();
-
-            services.AddTransient<IMapperConfiguration<SubCategory, SubCategoryModel>, MapperConfiguration<SubCategory, SubCategoryModel>>();
-
+        public static void ConfigureIMapper(this IServiceCollection services)
+        {
+            services.AddTransient<IMapperConfiguration<OrderProduct, OrderProductModel>, MapperConfiguration<OrderProduct, OrderProductModel>>();
+            services.AddTransient<IMapperConfiguration<Address, AddressModel>, MapperConfiguration<Address, AddressModel>>();
+            services.AddTransient<IMapperConfiguration<ProductPictures, ProductPicturesModel>, MapperConfiguration<ProductPictures, ProductPicturesModel>>();
             services.AddTransient<IMapperConfiguration<User, UserModel>, MapperConfiguration<User, UserModel>>();
-
-            services.AddTransient<IMapperConfiguration<UserRegisterModel, UserModel>, MapperConfiguration<UserRegisterModel, UserModel>>();
-
-            services.AddTransient<IMapperConfiguration<Role, RoleModel>, MapperConfiguration<Role, RoleModel>>();
-
+            services.AddTransient<IMapperConfiguration<CartItem, CartItemModel>, MapperConfiguration<CartItem, CartItemModel>>();
             services.AddTransient<IMapperConfiguration<UserRole, UserRoleModel>, MapperConfiguration<UserRole, UserRoleModel>>();
+            services.AddTransient<IMapperConfiguration<Product, ProductModel>, MapperConfiguration<Product, ProductModel>>();
+            services.AddTransient<IMapperConfiguration<ProductCategory, ProductCategoryModel>, MapperConfiguration<ProductCategory, ProductCategoryModel>>();
+            services.AddTransient<IMapperConfiguration<Role, RoleModel>, MapperConfiguration<Role, RoleModel>>();
+            services.AddTransient<IMapperConfiguration<Category, CategoryModel>, MapperConfiguration<Category, CategoryModel>>();
+            services.AddTransient<IMapperConfiguration<SubCategory, SubCategoryModel>, MapperConfiguration<SubCategory, SubCategoryModel>>();
+            services.AddTransient<IMapperConfiguration<CartItem, CartItemModel>, MapperConfiguration<CartItem, CartItemModel>>();
+            services.AddTransient<IMapperConfiguration<ProductPictures, ProductPicturesModel>, MapperConfiguration<ProductPictures, ProductPicturesModel>>();
+            services.AddTransient<IMapperConfiguration<Product, ProductModel>, MapperConfiguration<Product, ProductModel>>();
+            services.AddTransient<IMapperConfiguration<Category, CategoryModel>, MapperConfiguration<Category, CategoryModel>>();
+            services.AddTransient<IMapperConfiguration<Order, OrderModel>, MapperConfiguration<Order, OrderModel>>();
+            services.AddTransient<IMapperConfiguration<SubCategory, SubCategoryModel>, MapperConfiguration<SubCategory, SubCategoryModel>>();
+            services.AddTransient<IMapperConfiguration<User, UserModel>, MapperConfiguration<User, UserModel>>();
+            services.AddTransient<IMapperConfiguration<UserRegisterModel, UserModel>, MapperConfiguration<UserRegisterModel, UserModel>>();
+            services.AddTransient<IMapperConfiguration<Role, RoleModel>, MapperConfiguration<Role, RoleModel>>();
+            services.AddTransient<IMapperConfiguration<UserRole, UserRoleModel>, MapperConfiguration<UserRole, UserRoleModel>>();
+            services.AddTransient<IMapperConfiguration<UserRegisterModel, UserModel>, MapperConfiguration<UserRegisterModel, UserModel>>();
+        }
 
+        public static void ConfigureServicesInjections(this IServiceCollection services)
+        {
             services.AddTransient<IUserServices, UserServices>();
 
             services.AddTransient<ICartItemServices, CartItemServices>();
+
+            services.AddTransient<IUserRoleServices, UserRoleServices>();
+
+            services.AddTransient<ISubCategoryServices, SubCategoryService>();
+
+            services.AddTransient<ICategoryServices, CategoryService>();
 
             services.AddTransient<IUserRoleServices, UserRoleServices>();
 
@@ -184,9 +232,9 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 
             services.AddTransient<IProductServices, ProductServices>();
 
-            services.AddScoped<IServicesFlyweight, ServicesFlyWeight>(); // Service Factory
+            services.AddTransient<IProductPicturesServices, ProductPicturesService>();
 
-            services.AddTransient<IRedisDB, RedisDB>();
+            services.AddScoped<IServicesFlyweight, ServicesFlyWeight>(); // Service Factory
         }
 
         public static void ConfigureIdentity(this IServiceCollection services)

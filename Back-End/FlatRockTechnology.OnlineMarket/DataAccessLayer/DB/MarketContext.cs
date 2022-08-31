@@ -66,6 +66,13 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.DB
                     .HasConstraintName("FK__Address__UserID__3F466844");
             });
 
+            modelBuilder.Entity<ProductPictures>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ID");
+            });
+
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.Property(e => e.Id)

@@ -1,4 +1,6 @@
-﻿using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
+﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory.Abstractions;
+using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions;
+using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
 using FlatRockTechnology.OnlineMarket.Models.Categories;
 using FlatRockTechnology.OnlineMarket.Models.Products;
 using MediatR;
@@ -15,9 +17,27 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IMediator mediator;
-        public ProductsController(IMediator mediator)
+        private readonly IServicesFlyweight services;
+        public ProductsController(IMediator mediator, IServicesFlyweight services)
         {
             this.mediator = mediator;
+            this.services = services;
+        }
+
+        [Route("InsertProduct")]
+        [HttpPost]
+        public async Task<IActionResult> InsertProduct([FromForm] ProductModel productModel)
+        {
+            await services.GetService<IProductServices>().InsertAsync(productModel);
+            return Ok();
+        }
+
+
+        [Route("GetAllProductsWithPictures")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllProductsWithPictures()
+        {
+            return Ok(services.GetService<IProductServices>().GetProductsWithPictures());
         }
 
         [Route("GetAllProducts")]
@@ -48,6 +68,22 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         {
             var cat = (IEnumerable<SubCategoryModel>)(await mediator.Send(new GetAllQuery<SubCategory, SubCategoryModel>()));
             return Ok(cat.Where(o => o.CategoryId.Equals(id)));
+        }
+
+        [Route("DeleteProduct/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> DeleteProduct(Guid id)
+        {
+            var result = await services.GetService<IProductServices>().GetModels(o => o.Id.Equals(id)).FirstOrDefaultAsync();
+            if(result == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                await services.GetService<IProductServices>().DeleteAsync(result);
+                return Ok();
+            }
         }
     }
 }

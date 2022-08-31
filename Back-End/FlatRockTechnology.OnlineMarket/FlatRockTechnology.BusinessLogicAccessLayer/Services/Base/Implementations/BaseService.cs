@@ -10,7 +10,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base
                                                               where TEntity : class, new()
                                                               where TModel : class, new()
     {
-        private readonly IMediator mediator;
+        protected readonly IMediator mediator;
         public BaseService(IMediator mediator)
         {
             this.mediator = mediator;
