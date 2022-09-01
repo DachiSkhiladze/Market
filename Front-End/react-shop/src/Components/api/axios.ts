@@ -15,7 +15,7 @@ import {
 
 //const BASE_URL = 'https://marketplacefrt.azurewebsites.net';
 const BASE_URL = 'https://localhost:7223';
-const REFRESH_METHOD_URL = '/User/refresh-token'
+const REFRESH_METHOD_URL = '/api/User/refresh-token'
 
 
 export default axios.create({
@@ -82,6 +82,6 @@ const refreshToken = async () => {
     if(response.status < 250){
         return true;
     }
-    store.dispatch(logOut()); // log out of system
+    //store.dispatch(logOut()); // log out of system
     return false;
 }

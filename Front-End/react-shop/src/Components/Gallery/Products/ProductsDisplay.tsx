@@ -20,7 +20,7 @@ const ProductsDisplay: React.FC<{products:any}> = ({products}) => {
     <div className="ProductsDisplay">
               {products?.map((item : Product)=>{
                 return (
-                    <div key={item?.name} className='product'>
+                    <div key={item?.id} className='product'>
                         <div className='TitleContainer'>
                           <h1>{item?.name}</h1>
                         </div>

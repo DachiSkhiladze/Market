@@ -10,7 +10,7 @@ import {
   } from '../../features/counter/counterSlice';
 import RegistrationFailure from './IncorrectRegister/RegistrationFailure';
 
-const LOGIN_URL = '/User/RegisterUser';
+const LOGIN_URL = '/api/User/RegisterUser';
 
 const Register: React.FC<{setPage:any}> = ({ setPage }) => {
     const [success, setSuccess]  = useState(false);

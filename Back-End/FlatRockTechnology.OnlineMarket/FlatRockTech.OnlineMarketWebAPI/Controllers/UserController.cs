@@ -17,7 +17,7 @@ using FlatRockTechnology.OnlineMarket.Models;
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserServices _userServices;
@@ -30,7 +30,13 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             this.servicesFactory = servicesFactory;
         }
 
-        
+        [Authorize(Roles = "User")]
+        [HttpGet]
+        [Route("IsLogged")]
+        public async Task<IActionResult> IsLogged()
+        {
+            return Ok();
+        }
 
         [HttpPost]
         [Route("RegisterUser")]

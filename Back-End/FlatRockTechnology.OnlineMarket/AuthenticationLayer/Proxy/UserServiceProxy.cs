@@ -130,7 +130,7 @@ namespace AuthenticationLayer.Proxy
 
             var PasswordHash = Hasher.Encrypt(userLoginModel.Password);
             var model = await servicesFactory.GetService<IUserServices>().GetModels(o => o.Email.Equals(userLoginModel.Email)).FirstOrDefaultAsync();
-            if (model == null || model.IsEmailConfirmed == false || !PasswordHash.Equals(model.PasswordHash))
+            if (model == null /*|| model.IsEmailConfirmed == false*/ || !PasswordHash.Equals(model.PasswordHash))
             {
                 throw new Exception("Invalid Credentials");
             }

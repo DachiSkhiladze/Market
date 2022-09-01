@@ -13,7 +13,7 @@ import {
   selectLoad
 } from '../../features/counter/counterSlice';
 
-const SENDRECORVERYMAIL_URL = '/User/RecoverPassword';
+const SENDRECORVERYMAIL_URL = '/api/User/RecoverPassword';
 
 const ForgotPassword: React.FC<{token:string}> = ({ token }) => {
   

@@ -12,7 +12,7 @@ import {
   selectLoad
 } from '../../features/counter/counterSlice';
 
-const SENDRECORVERYMAIL_URL = '/User/SendRecoveryMail';
+const SENDRECORVERYMAIL_URL = '/api/User/SendRecoveryMail';
 
 function ForgotPassword() {
   

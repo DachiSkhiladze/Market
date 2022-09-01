@@ -9,7 +9,7 @@ import {
   selectLoad
 } from '../../features/counter/counterSlice';
 
-const CONFIRM_URL = '/User/ConfirmEmail';
+const CONFIRM_URL = '/api/User/ConfirmEmail';
 
 const Verification: React.FC<{code:any}> = ({ code }) => {
 
