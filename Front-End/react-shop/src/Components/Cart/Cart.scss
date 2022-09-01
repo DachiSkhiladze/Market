@@ -1,10 +1,32 @@
 .Cart{
     width: 70%;
     margin: auto;
+    .CartProductsDisplay{
+        overflow-y: scroll;
+        height: 400px;
+    }
+    .pr{
+        display: flex;
+    }
+    .trash{
+        width: 100px;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        i{
+            font-size: 30px;
+        }
+    }
+    .trash:hover{
+        i{
+            color: rgb(212, 52, 52);
+        }
+    }
     .cartProduct{
         width: 70%;
         height: 150px;
         margin: auto;
+        border-top: 1px solid black;
         h1{
             text-align: center;
         }
@@ -43,6 +65,21 @@
                 font-size: 25px;
             }
         }
+    }
+    .Continue{
+        border: 1px solid rgb(2, 108, 223);
+        border-radius: 7px;
+        width: 300px;
+        height: 40px;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .Continue:hover{
+        background-color: rgb(2, 108, 223);
+        font-size: 20px;
+        cursor: pointer;
+        color: white;
     }
 }
 

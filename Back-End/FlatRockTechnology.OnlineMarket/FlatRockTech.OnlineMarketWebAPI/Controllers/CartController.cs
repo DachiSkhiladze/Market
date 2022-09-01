@@ -59,22 +59,6 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 
         [Authorize(Roles = "User")]
         [HttpGet]
-        [Route("DecreaseInCart/{productId}")]
-        public async Task<IActionResult> DecreaseInCart(Guid productId, int quantity)
-        {
-            var userEmail = GetEmail();
-
-            var userModel = await mediator.Send(new GetSingleQuery<User, UserModel>(o => o.Email.Equals(userEmail)));
-
-            var cartItem = new CartItemModel() { UserId = userModel.Id, ProductId = productId };
-
-            await service.DecreaseQuantity(cartItem, quantity);
-
-            return Ok();
-        }
-
-        [Authorize(Roles = "User")]
-        [HttpGet]
         [Route("DeleteProductFromCart/{productId}")]
         public async Task<IActionResult> DecreaseInCart(Guid productId)
         {

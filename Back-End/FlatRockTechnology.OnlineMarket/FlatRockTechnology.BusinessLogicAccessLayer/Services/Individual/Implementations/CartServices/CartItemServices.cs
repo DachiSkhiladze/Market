@@ -36,24 +36,13 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
             lock (locker)
             {
                 var entity = CheckIfAlreadyExists(model).Result;
-                if (entity != null)
+                if (entity == null)
+                {
+                    return base.InsertAsync(model).Result;
+                }
+                else if (quantity >= 1)
                 {
                     entity.Quantity = quantity;   // Increasing Quantity If Already Exists
-                    return this.UpdateAsync(entity).Result;
-                }
-                return base.InsertAsync(model).Result;   // Otherwise Returning Newly Created Record
-            }
-        }
-
-
-        public async Task<CartItemModel> DecreaseQuantity(CartItemModel model, int quantity)
-        {
-            lock (locker)
-            {
-                var entity = CheckIfAlreadyExists(model).Result;
-                if (entity != null & entity.Quantity >= 1)
-                {
-                    entity.Quantity = quantity;   // Decreasing Quantity If Exists Such Item
                     return this.UpdateAsync(entity).Result;
                 }
                 throw new InvalidOperationException();
@@ -62,7 +51,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
 
         public async Task DeleteFromCart(CartItemModel model)
         {
-            var entity = CheckIfAlreadyExists(model).Result;
+            var entity = await CheckIfAlreadyExists(model);
             await base.DeleteAsync(entity);
         }
     }
