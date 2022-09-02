@@ -23,7 +23,7 @@ const Register: React.FC<{setPage:any}> = ({ setPage }) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        setErrMsg('');
+        setErrMsg('Error');
     }, [email, password, firstName, lastName])
 
     const handleSubmit = async (e:any) => {
