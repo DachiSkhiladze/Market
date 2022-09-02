@@ -40,8 +40,8 @@ export const axiosGet = async (url : string) => {
 
 export const axiosAuthGet : any = async (methodUrl : string) => {
     var tkn = localStorage.getItem('token')!;
-    var token : any = JSON.parse(tkn);
 
+    var token : any = JSON.parse(tkn);
     try{
         const response = await axios.get(BASE_URL+methodUrl, {
             headers: {

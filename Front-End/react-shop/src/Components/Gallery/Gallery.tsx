@@ -5,29 +5,42 @@ import ProductsDisplay from './Products/ProductsDisplay'
 import axios, { axiosGet } from '../api/axios';
 import ProductsLoad from '../LoadingAnimation/ProductsLoad';
 import { Product } from '../models/Product';
-
+import {
+  decrement,
+  increment,
+  selectLoad,
+} from '../../features/counter/counterSlice';
+import { useAppDispatch } from '../../app/hooks';
 function Gallery() {
   const [products, setProducts] : any= useState();  
   const [selectedCategory, SetSelectedCategory] = useState(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
       setProductsArr();
   }, [selectedCategory])
 
   async function setProductsArr(){
-    var response;
-    if(selectedCategory){
-      response = await axiosGet('/api/Products/GetProductsBySubCategoryID/' + selectedCategory);
+    var response:any;
+    dispatch(increment());
+    try{
+      if(selectedCategory){
+        response = await axiosGet('/api/Products/GetProductsBySubCategoryID/' + selectedCategory);
+      }
+      else{
+        response = await axiosGet('/api/Products/GetAllProducts');
+      }
     }
-    else{
-      response = await axiosGet('/api/Products/GetAllProducts');
+    catch(er : any){
+      dispatch(decrement());
     }
+    dispatch(decrement());
+
     setProducts(response.data);
   }
 
   return (
     <div className="Gallery">
-      <h1>{selectedCategory}</h1>
         <div className='sideMenu'>
             <SubCategories SetSelectedCategory = {SetSelectedCategory}/>
         </div>

@@ -21,11 +21,15 @@
     padding: 15px;
     animation: fadeIn;
     animation-fill-mode: both;
+    cursor: pointer;
 }
 
 .product:hover{
-    border-top: 5px solid black;
-    cursor: pointer;
+    border-top: 5px solid rgb(2, 108, 223);
+    h1{
+      color: rgb(2, 108, 223);
+    }
+    
 }
 
 @for $i from 1 through 4 {
