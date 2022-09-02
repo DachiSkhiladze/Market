@@ -76,30 +76,29 @@ function Cart() {
   
     return (
       <div className="Cart">
+        <h1 className='Title'>Cart</h1>
         <div className='CartProductsDisplay'>
         {cartProducts?.map((item : any, index : any)=>{
                 return (
                   <div key={index} className='pr'>
                     <div key={item?.id} className='cartProduct'>
-                        <h1>{item?.product?.name}</h1>
-                        <h2>price: {item?.product.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h2>
-
-                    </div>
-                    <div>
-                      <div className='CartProductActionsDisplay'>
-                        <div className='quantityDisplay'>
-                          <button onClick={() => Minus(index)} className='minus'>
-                                <i className="fa-solid fa-minus"></i>
-                          </button>
-                          <p>{item.quantity}</p>
-                          <button onClick={() => Plus(index)} className='plus'>
-                                <i className="fa-solid fa-plus"></i>
-                          </button>
+                        <div className='CartProductDataDisplay'>
+                          <h1>{item?.product?.name}</h1>
+                          <h2>Price: {item?.product.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD</h2>
                         </div>
-                        
-                        <button onClick={() => Delete(item.product.id)} className='trash'>
-                          <i className="fa-sharp fa-solid fa-trash"></i>
-                        </button>
+                        <div className='CartProductActionsDisplay'>
+                          <div className='quantityDisplay'>
+                            <button onClick={() => Minus(index)} className='minus'>
+                                  <i className="fa-solid fa-minus"></i>
+                            </button>
+                            <p>{item.quantity}</p>
+                            <button onClick={() => Plus(index)} className='plus'>
+                                  <i className="fa-solid fa-plus"></i>
+                            </button>
+                          </div>
+                          <button onClick={() => Delete(item.product.id)} className='trash'>
+                            <i className="fa-sharp fa-solid fa-trash"></i>
+                          </button>
                       </div>
                     </div>
                   </div>
@@ -108,7 +107,7 @@ function Cart() {
               )
             }
         </div>
-        <div>
+        <div className='MoveToCheckoutDisplay'>
             <h3>Total Unique Items: {cartProducts.length}</h3>
             <h3>Total Price: {price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD</h3>
             <button className='Continue'>Continue To Checkout</button>
