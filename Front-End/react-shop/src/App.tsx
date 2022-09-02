@@ -44,10 +44,12 @@ function App() {
           <Routes>
             {
             (!isLogged) ? 
-            <Route  path="/login" element={<AuthorizationLayer />}/>  : <></>
+            <Route  path="/login" element={<AuthorizationLayer />}/>  : 
+            <>
+                <Route  path="/Cart" element={<Cart />}/>
+            </>
             }
             <Route  path="/Gallery" element={<Gallery />}/>
-            <Route  path="/Cart" element={<Cart />}/>
             <Route path='*' element={<Gallery />}/>
           </Routes>
         </div>

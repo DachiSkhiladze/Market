@@ -54,7 +54,6 @@ const Login : React.FC<{setPage:any}> = ({ setPage }) => {
             if(response.status < 250)
             {
                 const tokenObject = response?.data;
-                //const roles = response?.data?.roles;
                 setEmail('');
                 setPassword('');
                 localStorage.setItem('token', JSON.stringify(tokenObject));

@@ -13,8 +13,8 @@ import {
     selectLoad
   } from '../../features/counter/counterSlice';
 
-//const BASE_URL = 'https://marketplacefrt.azurewebsites.net';
-const BASE_URL = 'https://localhost:7223';
+const BASE_URL = 'https://marketplacefrt.azurewebsites.net';
+//const BASE_URL = 'https://localhost:7223';
 const REFRESH_METHOD_URL = '/api/User/refresh-token'
 
 

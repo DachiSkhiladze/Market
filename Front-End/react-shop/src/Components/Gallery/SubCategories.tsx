@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { axiosAuthGet } from '../api/axios'
+import { axiosAuthGet, axiosGet } from '../api/axios'
 import './SubCats.scss'
 import {
     decrement,
@@ -20,7 +20,7 @@ const SubCategories: React.FC<{SetSelectedCategory:any}> = ({SetSelectedCategory
         dispatch(increment());
         try {
             var categoryId = 'eca89582-50b9-4ea6-8445-589be64ca7db';
-            const response = await axiosAuthGet(METHOD_URL + categoryId);
+            const response = await axiosGet(METHOD_URL + categoryId);
             
             if(response!.status < 250)
             {

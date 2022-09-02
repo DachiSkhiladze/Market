@@ -28,9 +28,9 @@ const Header : React.FC<{isLogged:any, setIsLogged:any}> = ({ isLogged, setIsLog
                     {logged ?
                     <>
                         <li><a href="/Cart">Cart</a></li>
-                        <li className='LogOut'><a href='/login' onClick={logout}>Logout</a></li>
+                        <li className='LogOut'><a href='/login' onClick={logout}>Log Out</a></li>
                     </>
-                     : <></>}
+                     :  <li><a href="/Login">Log In</a></li>}
                 </ul>
             </div>
             <span className="navTrigger">
