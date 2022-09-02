@@ -12,7 +12,7 @@ const ProductsDisplay: React.FC<{products:any}> = ({products}) => {
       const response = await axiosAuthGet(METHOD_URL + id);
       
     } catch (err:any) {
-
+      
     }
   }
 
