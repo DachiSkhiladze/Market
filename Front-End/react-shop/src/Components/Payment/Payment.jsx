@@ -18,8 +18,7 @@ const Payemnt = () => {
     const [price, setPrice] = useState(0);
     const [nameOnCard, setNameOnCard] = useState('');
     const [cardNumber, setCardNumber] = useState('');
-    const [month, setMonth] = useState('');
-    const [year, setYear] = useState('');
+    const [expiryDate, setExpiryDate] = useState('');
     const [cvc, setCVC] = useState('');
     const [value, setValue] = useState('');
 
@@ -27,6 +26,7 @@ const Payemnt = () => {
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
 
+    const { meta } = usePaymentInputs();
     const {
         wrapperProps,
         getCardImageProps,
@@ -37,7 +37,11 @@ const Payemnt = () => {
 
     useEffect(() => {
         GetPrice();
-    }, [])
+    }, []);
+
+    const submitPayment = ()  => {
+        console.log(cardNumber);
+    }
 
     async function GetPrice(){
         var response = await axiosAuthGet('/api/Payment/GetPriceForPaying');
@@ -47,7 +51,7 @@ const Payemnt = () => {
     return (
     <div className="PaymentDisplay">
         <div className='AddressDisplay'>
-            <h3>Address</h3>
+            <h3>{cardNumber}</h3>
             <label>Country</label>
             <input
                 className='inp'
@@ -96,14 +100,14 @@ const Payemnt = () => {
             <label>Details</label>
             <PaymentInputsWrapper className="CardInput" {...wrapperProps}>
                 <svg {...getCardImageProps({ images })} />
-                <input maxLength={19} {...getCardNumberProps()} />
-                <input {...getExpiryDateProps()} />
-                <input {...getCVCProps()} />
+                <input onChange={(e) => setCardNumber(e.target.value)} maxLength={19} {...getCardNumberProps()} />
+                <input onChange={(e) => setExpiryDate(e.target.value)} {...getExpiryDateProps()} />
+                <input onChange={(e) => setCVC(e.target.value)} {...getCVCProps()} />
             </PaymentInputsWrapper>
                             
             <div className='MoveToCheckoutDisplay'>
                 <h3>Total Price: {price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD</h3>
-            <button className='Continue'>Proceed Payment</button>
+            <button onClick={() => submitPayment()} className='Continue'>Pay</button>
         </div>
         </div>
 
