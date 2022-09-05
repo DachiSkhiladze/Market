@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.AddressServices;
 using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.CartServices;
 using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.OrderServices;
+using OnlineMarket.Models.Payment;
 using Payment.Models;
 using Payment.Processing.Implementations;
 using Queries.Declarations.Shared;
@@ -15,6 +16,7 @@ using System.Security.Claims;
 
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class PaymentController : ControllerBase
     {
@@ -35,24 +37,24 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 
         [HttpPost]
         [Route("MakeOrder")]
-        public async Task<OrderModel> MakeOrder(PaymentModel payment, AddressModel address)
+        public async Task<OrderModel> MakeOrder([FromBody]PaymentSubmissionModel model)
         {
 
             var userEmail = GetEmailFromClaims();
             var user = await GetUserByEmailAsync(userEmail);
-            payment.Value = (long)await servicesFlyweight.GetService<ICartItemServices>().GetPrice(user.Id);
-
-
+            model.PaymentDetails.Value = (long)await servicesFlyweight.GetService<ICartItemServices>().GetPrice(user.Id);
+            var payment = model.PaymentDetails;
+            model.Address.UserId = user.Id;
 
             await MakePayment.PayAsync(payment.CardNumber, payment.Month, payment.Year, payment.CVC, payment.Value);
-            var addressEntity = await servicesFlyweight.GetService<IAddressServices>().InsertAsync(address);
+            var addressEntity = await servicesFlyweight.GetService<IAddressServices>().InsertAsync(model.Address);
             var order = new OrderModel() { AddressId = addressEntity.Id, Status = "In Proccess", UserId = user.Id };
             return await servicesFlyweight.GetService<IOrderServices>().InsertAsync(order);
         }
 
         [HttpGet]
         [Route("GetPriceForPaying")]
-        public async Task<double> GetPriceForPaying(PaymentModel model)
+        public async Task<double> GetPriceForPaying()
         {
             var userEmail = GetEmailFromClaims();
             var user = await GetUserByEmailAsync(userEmail);

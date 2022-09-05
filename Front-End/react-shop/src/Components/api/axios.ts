@@ -38,6 +38,33 @@ export const axiosGet = async (url : string) => {
     return response;
 }
 
+export const axiosAuthPost : any = async (methodUrl : string, body : string) => {
+    var tkn = localStorage.getItem('token')!;
+
+    var token : any = JSON.parse(tkn);
+    try{
+        var customConfig = {
+            headers: {
+                'Authorization': 'Bearer ' + token.accessToken,
+                'Content-Type': 'application/json;charset=UTF-8',
+                "Access-Control-Allow-Origin": "*"
+            }
+        };
+        const data = JSON.stringify(body);
+        const response = axios.post(BASE_URL+methodUrl, data, customConfig)
+                                    .then(res => console.log(res))
+                                    .catch(err => console.log('Login: ', err));
+        return response;
+    }
+    catch(err:any){
+        var isRefreshed : boolean = false;
+            //await refreshToken();
+        if(isRefreshed){
+            //return axiosAuthGet(methodUrl);
+        }
+    }
+}
+
 export const axiosAuthGet : any = async (methodUrl : string) => {
     var tkn = localStorage.getItem('token')!;
 
