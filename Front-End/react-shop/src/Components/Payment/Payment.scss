@@ -4,6 +4,11 @@
     background-color: rgb(246, 246, 246);
 }
 
+h3{
+    text-align: center;
+    font-size: 20px;
+}
+
 .loginContainer:before, .loginContainer:after
 {
     content:"";
@@ -23,22 +28,15 @@
     transform:skew(8deg) rotate(3deg);
 }
 
-.loginContainer{    
-    
-    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-
+.PaymentDisplay{    
     padding-top: 30px;
-
     overflow: hidden!important;
     outline: none;
     box-sizing: border-box;
-    background-color: rgb(255, 255, 255);
     overflow: auto;
     height: 100%;
     min-height: 320px;
     border-radius: 4px;
-
-    position: absolute;
     height: 100vh;
     max-height: 697px;
     width: 550px;
@@ -48,20 +46,9 @@
     top: 0; 
     bottom: 0; 
     margin: auto;
-    
-    .loginFormDisplay{  
-        display: inline-table;
-        height: auto;
-        position: absolute; 
-        width: 80%;
-        left: 0; 
-        right: 0; 
-        top: 50%;
-        transform: translateY(-70%);
-        margin: auto;
-    }
 
     label{
+        margin-top: 30px!important;
         font-size: 12px;
         line-height: 1.25;
         text-align: left;
@@ -69,7 +56,7 @@
         position: relative;
     }
 
-    input{
+    .inp{
         height: 36px;
         width: 100%;
         box-sizing: border-box;
@@ -83,7 +70,7 @@
         color: rgb(38, 38, 38);
     }
 
-    input:focus {
+    .inp:focus {
         border: 1px solid rgb(2, 108, 223);
         padding-left: 10px;
         padding-right: 10px;
@@ -120,5 +107,52 @@
         font-weight: 600;
         font-size: 14px;
         cursor: pointer;
+    }
+
+    .CardInput{
+        width: 100%;
+        input{
+            width: auto;
+        }
+        input#cardNumber{
+            width: 70%!important;
+            font-size: 14px;
+        }
+        input#expiryDate{
+            width: 10%!important;
+            font-size: 14px;
+        }
+        input#cvc{
+            width: 10%!important;
+            font-size: 14px;
+        }
+        svg{
+            width: 10%;
+        }
+    }
+
+    .MoveToCheckoutDisplay{
+        font-size: 40px;
+        h3{
+            font-size: 15px;
+            text-align: center;
+        }
+        .Continue{
+            display: block;
+            margin: auto;
+            margin-top: 30px;
+            border: 0px solid rgb(2, 108, 223);
+            border-radius: 7px;
+            width: 300px;
+            height: 40px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .Continue:hover{
+            background-color: rgb(2, 108, 223);
+            font-size: 20px;
+            cursor: pointer;
+            color: white;
+        }
     }
 }

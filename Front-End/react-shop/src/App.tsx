@@ -14,6 +14,7 @@ import Gallery from './Components/Gallery/Gallery'
 import Cart from './Components/Cart/Cart';
 import Header from './Header';
 import { axiosAuthGet } from './Components/api/axios';
+import Payment from './Components/Payment/Payment';
 
 function App() {
   const load = useAppSelector(selectLoad);
@@ -44,11 +45,12 @@ function App() {
           <Routes>
             {
             (!isLogged) ? 
-            <Route  path="/login" element={<AuthorizationLayer />}/>  : 
+            <Route  path="/login" element={<AuthorizationLayer />}/>  :
             <>
                 <Route  path="/Cart" element={<Cart />}/>
             </>
             }
+            <Route  path="/Payment" element={<Payment />}/>
             <Route  path="/Gallery" element={<Gallery />}/>
             <Route path='*' element={<Gallery />}/>
           </Routes>

@@ -52,7 +52,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
 
         public async Task<double> GetPrice(Guid userId)
         {
-            var cart = base.GetModels(o => o.UserId.Equals(userId));
+            var cart = this.GetModels(o => o.UserId.Equals(userId));
             double price = 0;
             await foreach (var item in cart)
             {

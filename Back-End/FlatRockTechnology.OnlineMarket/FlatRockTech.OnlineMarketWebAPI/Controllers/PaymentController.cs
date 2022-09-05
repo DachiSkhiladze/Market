@@ -15,6 +15,7 @@ using System.Security.Claims;
 
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
+    [Route("api/[controller]")]
     public class PaymentController : ControllerBase
     {
         private readonly IServicesFlyweight servicesFlyweight;
@@ -49,8 +50,8 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return await servicesFlyweight.GetService<IOrderServices>().InsertAsync(order);
         }
 
-        [HttpPost]
-        [Route("Get")]
+        [HttpGet]
+        [Route("GetPriceForPaying")]
         public async Task<double> GetPriceForPaying(PaymentModel model)
         {
             var userEmail = GetEmailFromClaims();
