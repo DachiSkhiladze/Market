@@ -1,7 +1,13 @@
 import { privateDecrypt } from 'crypto';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { axiosAuthGet } from '../api/axios';
-import './Cart.scss'
+import './Cart.scss';
+import {
+  decrement,
+  increment
+} from '../../features/counter/counterSlice';
+import { useDispatch } from 'react-redux';
 
 function Cart() {
     const [cartProducts, setCartProducts] : any = useState([]);  
@@ -31,7 +37,7 @@ function Cart() {
             clearTimeout(timer);
             timer = setTimeout(callback, ms);
         };
-    })()
+    })();
 
     function GetSumPrice(pr:any){
       var sumPrice = 0;
@@ -110,7 +116,7 @@ function Cart() {
         <div className='MoveToCheckoutDisplay'>
             <h3>Total Unique Items: {cartProducts.length}</h3>
             <h3>Total Price: {price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD</h3>
-            <button className='Continue'>Continue To Checkout</button>
+            <Link to="/Payment"><button className='Continue'>Continue To Checkout</button></Link>
         </div>
       </div>
     );

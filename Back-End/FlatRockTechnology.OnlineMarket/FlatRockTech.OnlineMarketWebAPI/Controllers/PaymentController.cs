@@ -37,19 +37,33 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 
         [HttpPost]
         [Route("MakeOrder")]
-        public async Task<OrderModel> MakeOrder([FromBody]PaymentSubmissionModel model)
+        public async Task<IActionResult> MakeOrder([FromBody]PaymentSubmissionModel model)
         {
 
             var userEmail = GetEmailFromClaims();
             var user = await GetUserByEmailAsync(userEmail);
             model.PaymentDetails.Value = (long)await servicesFlyweight.GetService<ICartItemServices>().GetPrice(user.Id);
+            var cartService =  servicesFlyweight.GetService<ICartItemServices>();
+            var cartItems = await cartService.GetModels(o => o.UserId.Equals(user.Id)).ToListAsync();
             var payment = model.PaymentDetails;
             model.Address.UserId = user.Id;
 
-            await MakePayment.PayAsync(payment.CardNumber, payment.Month, payment.Year, payment.CVC, payment.Value);
+            var success = await MakePayment.PayAsync(payment.CardNumber, payment.Month, payment.Year, payment.CVC, payment.Value);
+            if (!success)
+            {
+                return Accepted();
+            }
             var addressEntity = await servicesFlyweight.GetService<IAddressServices>().InsertAsync(model.Address);
             var order = new OrderModel() { AddressId = addressEntity.Id, Status = "In Proccess", UserId = user.Id };
-            return await servicesFlyweight.GetService<IOrderServices>().InsertAsync(order);
+            var orderEntity = await servicesFlyweight.GetService<IOrderServices>().InsertAsync(order);
+            var orderProductService = servicesFlyweight.GetService<IOrderProductServices>();
+            foreach (var item in cartItems)
+            {
+                var orderProduct = new OrderProductModel() { OrderId = orderEntity.Id, ProductId = item.Id, Quantity = (long)item.Quantity, PriceOfSingleProduct = (long)item.Product.Price };
+                await orderProductService.InsertAsync(orderProduct);
+                await cartService.DeleteAsync(item);
+            }
+            return Accepted();
         }
 
         [HttpGet]

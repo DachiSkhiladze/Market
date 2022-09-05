@@ -17,7 +17,7 @@ namespace FlatRockTechnology.OnlineMarket.Models.Mapper
                 CreateMap<CartItemModel, CartItem>().ReverseMap();
                 CreateMap<CategoryModel, Category>().ReverseMap();
                 CreateMap<OrderModel, Order>().ReverseMap();
-                CreateMap<OrderProductModel, Order>().ReverseMap();
+                CreateMap<OrderProductModel, OrderProduct>().ReverseMap();
                 CreateMap<ProductModel, Product>().ReverseMap();
                 CreateMap<ProductCategoryModel, ProductCategory>().ReverseMap();
                 CreateMap<SubCategoryModel, SubCategory>().ReverseMap();

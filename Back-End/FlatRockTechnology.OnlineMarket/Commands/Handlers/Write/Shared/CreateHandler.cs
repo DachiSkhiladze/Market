@@ -23,7 +23,6 @@ namespace Commands.Handlers.Write.Shared
                                           CancellationToken cancellationToken)
         {
             var entity = _mapperConfiguration.ConvertToEntity(request.model);
-            var bubu = 10;
             var savedEntity = await _unitOfWork.GetRepository().AddAsync(entity);
             var savedModel = _mapperConfiguration.ConvertToModel(savedEntity);
             return savedModel;

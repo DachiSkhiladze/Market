@@ -9,7 +9,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.DB
     public partial class OrderProduct : IEntity
     {
         public Guid Id { get; set; }
-        public long? ProductId { get; set; }
+        public Guid? ProductId { get; set; }
         public Guid? OrderId { get; set; }
         public long? Quantity { get; set; }
         public long? PriceOfSingleProduct { get; set; }

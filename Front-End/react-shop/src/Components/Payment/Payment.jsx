@@ -40,8 +40,8 @@ const Payemnt = () => {
     useEffect(() => {
         GetPrice();
     }, []);
-
     const submitPayment = async ()  => {
+        dispatch(increment());
         var body = {
             address: {
                 id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -61,76 +61,80 @@ const Payemnt = () => {
           }
 
         var response = await axiosAuthPost('/api/Payment/MakeOrder', body);
+        dispatch(decrement());
     }
 
     async function GetPrice(){
+        dispatch(increment());
         var response = await axiosAuthGet('/api/Payment/GetPriceForPaying');
         setPrice(response.data);
+        dispatch(decrement());
     }
 
     return (
     <div className="PaymentDisplay">
-        <div className='AddressDisplay'>
-            <h3>Address Details</h3>
-            <label>Country</label>
-            <input
-                className='inp'
-                type="text"
-                id="username"
-                autoComplete="off"
-                onChange={(e) => setCountry(e.target.value)}
-                value={country}
-                required
-                />
-                
-            <label>City</label>
-            <input
-                className='inp'
-                type="text"
-                id="username"
-                autoComplete="off"
-                onChange={(e) => setCity(e.target.value)}
-                value={city}
-                required
-                />
+        <form onSubmit={submitPayment} action="#">
+            <div className='AddressDisplay'>
+                <h3>Address Details</h3>
+                <label>Country</label>
+                <input
+                    className='inp'
+                    type="text"
+                    id="username"
+                    autoComplete="off"
+                    onChange={(e) => setCountry(e.target.value)}
+                    value={country}
+                    required
+                    />
+                    
+                <label>City</label>
+                <input
+                    className='inp'
+                    type="text"
+                    id="username"
+                    autoComplete="off"
+                    onChange={(e) => setCity(e.target.value)}
+                    value={city}
+                    required
+                    />
 
-            <label>Street & Floor</label>
-            <input
-                className='inp'
-                type="text"
-                id="username"
-                autoComplete="off"
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-                required
-                />  
-        </div>
-        <div className='PaymentDisplay'>
-            <h3>Payment Details</h3>
-            <label>Name On The Card</label>
-            <input
-                className='inp'
-                type="text"
-                id="username"
-                autoComplete="off"
-                onChange={(e) => setNameOnCard(e.target.value)}
-                value={nameOnCard}
-                required
-                />
-            <label>Details</label>
-            <PaymentInputsWrapper className="CardInput" {...wrapperProps}>
-                <svg {...getCardImageProps({ images })} />
-                <input maxLength={19} {...getCardNumberProps({ onChange: ((e) => setCardNumber(e.target.value)) })}/>
-                <input {...getExpiryDateProps({ onChange: ((e) => setExpiryDate(e.target.value)) })} />
-                <input {...getCVCProps({ onChange: ((e) => setExpiryDate(e.target.value)) })} />
-            </PaymentInputsWrapper>
-                            
-            <div className='MoveToCheckoutDisplay'>
-                <h3>Total Price: {price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD</h3>
-            <button onClick={() => submitPayment()} className='Continue'>Pay</button>
-        </div>
-        </div>
-
+                <label>Street & Floor</label>
+                <input
+                    className='inp'
+                    type="text"
+                    id="username"
+                    autoComplete="off"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                    required
+                    />  
+            </div>
+            <div className='PaymentDisplay'>
+                <h3>Payment Details</h3>
+                <label>Name On The Card</label>
+                <input
+                    className='inp'
+                    type="text"
+                    id="username"
+                    autoComplete="off"
+                    onChange={(e) => setNameOnCard(e.target.value)}
+                    value={nameOnCard}
+                    required
+                    />
+                <label>Details</label>
+                <PaymentInputsWrapper className="CardInput" {...wrapperProps}>
+                    <svg {...getCardImageProps({ images })} />
+                    <input maxLength={19} {...getCardNumberProps({ onChange: ((e) => setCardNumber(e.target.value)) })}/>
+                    <input {...getExpiryDateProps({ onChange: ((e) => setExpiryDate(e.target.value)) })} />
+                    <input {...getCVCProps({ onChange: ((e) => setExpiryDate(e.target.value)) })} />
+                </PaymentInputsWrapper>
+                                
+                <div className='MoveToCheckoutDisplay'>
+                    <h3>Total Price: {price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD</h3>
+                    <button className='Continue'>Pay</button>
+                </div>
+            </div>
+        </form>
     </div>
   );
 }
