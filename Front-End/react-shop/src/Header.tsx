@@ -18,15 +18,15 @@ const Header : React.FC<{isLogged:any, setIsLogged:any}> = ({ isLogged, setIsLog
     <nav className="nav">
         <div className="container">
             <div className="logo">
-                <a href="#">TicketMaster</a>
+                <a href="#">Ticket Shop</a>
             </div>
             <div id="mainListDiv" className="main_list">
                 <ul className="navlinks">
-                    <li><a href="/">Chat</a></li>
                     <li><a href="/Gallery">Gallery</a></li>
                     
                     {logged ?
                     <>
+                        <li><a href="/">Chat</a></li>
                         <li><a href="/Cart">Cart</a></li>
                         <li className='LogOut'><a href='/login' onClick={logout}>Log Out</a></li>
                     </>

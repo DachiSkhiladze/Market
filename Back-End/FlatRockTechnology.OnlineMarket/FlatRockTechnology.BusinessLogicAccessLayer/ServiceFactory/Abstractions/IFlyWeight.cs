@@ -1,6 +1,9 @@
-﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions;
-using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.CategoryServices;
+﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.CategoryServices;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.AddressServices;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.CartServices;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.OrderServices;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.ProductServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +18,9 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactor
                                     ICartItemServices,
                                     IProductPicturesServices,
                                     ISubCategoryServices,
-                                    ICategoryServices// Inheritence of all services is sacrosanct for using in upper tier layers
+                                    ICategoryServices,
+                                    IOrderServices,
+                                    IAddressServices// Inheritence of all services is sacrosanct for using in upper tier layers
     {
     }
 }

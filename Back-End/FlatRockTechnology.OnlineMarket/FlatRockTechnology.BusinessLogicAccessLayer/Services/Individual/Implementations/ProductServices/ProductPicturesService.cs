@@ -1,9 +1,9 @@
 ﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Implementations;
-using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
 using FlatRockTechnology.OnlineMarket.Models.Products;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.ProductServices;
 using Queries.Declarations.Individual;
 
 namespace OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.ProductServices

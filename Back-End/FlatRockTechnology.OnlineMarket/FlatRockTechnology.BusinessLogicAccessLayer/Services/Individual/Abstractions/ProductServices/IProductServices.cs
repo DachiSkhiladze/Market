@@ -3,15 +3,13 @@ using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
 using FlatRockTechnology.OnlineMarket.Models.Products;
 using FlatRockTechnology.OnlineMarket.Models.Users;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
-namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions
+namespace OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.ProductServices
 {
-    public interface IProductPicturesServices : IBaseService<ProductPictures, ProductPicturesModel>
+    public interface IProductServices : IBaseService<Product, ProductModel>
     {
-        Task InsertAsync(IFormFileCollection Files, Guid pictureId);
-
-        IAsyncEnumerable<string> GetPicturesByProductId(Guid productId);
+        IAsyncEnumerable<ProductModel> GetProductsWithPictures();
+        Task<ProductModel> InsertAsync(ProductModel model);
     }
 }

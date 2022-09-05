@@ -32,7 +32,6 @@ using EmailLayer;
 using Queries.Declarations.Individual;
 using Queries.Handlers.Individual;
 using FlatRockTechnology.OnlineMarket.Models.Categories;
-using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions;
 using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.CartServices;
 using AuthenticationLayer.Token.Redis;
 using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.ProductServices;
@@ -41,6 +40,12 @@ using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.
 using FlatRockTechnology.OnlineMarket.Models.Addresses;
 using FlatRockTechnology.OnlineMarket.Models.Orders;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database.Abstractions;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.CartServices;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.ProductServices;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.OrderServices;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.OrderServices;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.AddressServices;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.AddressServices;
 
 namespace FlatRockTech.OnlineMarket.WebApi.Extensions
 {
@@ -219,6 +224,8 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IProductServices, ProductServices>();
             services.AddTransient<IProductPicturesServices, ProductPicturesService>();
+            services.AddTransient<IOrderServices, OrderService>();
+            services.AddTransient<IAddressServices, AddressService>();
             services.AddScoped<IServicesFlyweight, ServicesFlyWeight>(); // Service Factory
         }
 

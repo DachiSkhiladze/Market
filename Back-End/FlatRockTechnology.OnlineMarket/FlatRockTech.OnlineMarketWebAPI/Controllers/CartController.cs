@@ -1,10 +1,10 @@
 ﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactory.Abstractions;
-using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
 using FlatRockTechnology.OnlineMarket.Models.Users;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.CartServices;
 using Queries.Declarations.Shared;
 using System.Collections.Concurrent;
 using System.Security.Claims;

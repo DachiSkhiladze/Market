@@ -1,7 +1,8 @@
 ﻿using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base.Implementations;
-using FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
 using MediatR;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.CartServices;
+using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.ProductServices;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.CartServices
 {
@@ -47,6 +48,17 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
                 }
                 throw new InvalidOperationException();
             }
+        }
+
+        public async Task<double> GetPrice(Guid userId)
+        {
+            var cart = base.GetModels(o => o.UserId.Equals(userId));
+            double price = 0;
+            await foreach (var item in cart)
+            {
+                price += (double)(item.Quantity * item.Product.Price);
+            }
+            return price;
         }
 
         public async Task DeleteFromCart(CartItemModel model)

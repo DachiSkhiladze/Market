@@ -4,7 +4,7 @@ namespace Payment.Processing.Implementations
 {
     public class MakePayment
     {
-        public static async Task<dynamic> PayAsync(string cardNumber, int month, double year, string cvc, long value)
+        public static async Task<bool> PayAsync(string cardNumber, int month, double year, string cvc, long value)
         {
             try
             {
@@ -35,18 +35,11 @@ namespace Payment.Processing.Implementations
                 var service = new ChargeService();
                 Charge charge = await service.CreateAsync(options);
 
-                if (charge.Paid)
-                {
-                    return "Success";
-                }
-                else
-                {
-                    return "Failed";
-                }
+                return charge.Paid;
             }
             catch (Exception e)
             {
-                return e.Message;
+                return false;
             }
         }
     }
