@@ -42,26 +42,30 @@ const Payemnt = () => {
     }, []);
     const submitPayment = async ()  => {
         dispatch(increment());
+        var year = 2000 + parseInt(expiryDate.split('/')[1]);
+        var month = parseInt(expiryDate.split('/')[0]);
         var body = {
             address: {
                 id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                name: "string",
+                name: name,
                 userId: "18477066-73a6-4885-a2ee-0b572edce2e2",
-                country: "string",
-                city: "string"
+                country: country,
+                city: city
                 },
                 paymentDetails: {
-                nameOnCard: "string",
-                cardNumber: "string",
-                month: 0,
-                year: 0,
-                cvc: "string",
-                value: 0
+                nameOnCard: nameOnCard,
+                cardNumber: cardNumber,
+                month: month,
+                year: year,
+                cvc: cvc,
+                value: price
                 }
           }
 
         var response = await axiosAuthPost('/api/Payment/MakeOrder', body);
         dispatch(decrement());
+        
+        console.log(2000 + parseInt(year));
     }
 
     async function GetPrice(){
@@ -73,7 +77,6 @@ const Payemnt = () => {
 
     return (
     <div className="PaymentDisplay">
-        <form onSubmit={submitPayment} action="#">
             <div className='AddressDisplay'>
                 <h3>Address Details</h3>
                 <label>Country</label>
@@ -126,15 +129,14 @@ const Payemnt = () => {
                     <svg {...getCardImageProps({ images })} />
                     <input maxLength={19} {...getCardNumberProps({ onChange: ((e) => setCardNumber(e.target.value)) })}/>
                     <input {...getExpiryDateProps({ onChange: ((e) => setExpiryDate(e.target.value)) })} />
-                    <input {...getCVCProps({ onChange: ((e) => setExpiryDate(e.target.value)) })} />
+                    <input {...getCVCProps({ onChange: ((e) => setCVC(e.target.value)) })} />
                 </PaymentInputsWrapper>
                                 
                 <div className='MoveToCheckoutDisplay'>
                     <h3>Total Price: {price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD</h3>
-                    <button className='Continue'>Pay</button>
+                    <button onClick={() => submitPayment()} className='Continue'>Pay</button>
                 </div>
             </div>
-        </form>
     </div>
   );
 }
