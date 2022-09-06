@@ -40,7 +40,7 @@ export const axiosGet = async (url : string) => {
 
 export const axiosAuthPost : any = async (methodUrl : string, body : string) => {
     var tkn = localStorage.getItem('token')!;
-
+    var response;
     var token : any = JSON.parse(tkn);
     try{
         var customConfig = {
@@ -51,9 +51,9 @@ export const axiosAuthPost : any = async (methodUrl : string, body : string) => 
             }
         };
         const data = JSON.stringify(body);
-        const response = axios.post(BASE_URL+methodUrl, data, customConfig)
+        response = axios.post(BASE_URL+methodUrl, data, customConfig)
                                     .then(res => console.log(res))
-                                    .catch(err => console.log('Login: ', err));
+                                    .catch(err => console.log('Payment Error: ', err));
         return response;
     }
     catch(err:any){
@@ -63,6 +63,7 @@ export const axiosAuthPost : any = async (methodUrl : string, body : string) => 
             //return axiosAuthGet(methodUrl);
         }
     }
+    return response;
 }
 
 export const axiosAuthGet : any = async (methodUrl : string) => {

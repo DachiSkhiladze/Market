@@ -13,6 +13,7 @@ function Cart() {
     const [cartProducts, setCartProducts] : any = useState([]);  
     const [item, setItem] : any = useState();
     const [price, setPrice] : any = useState();
+    const dispatch = useDispatch();
     useEffect(() => {
         setProductsArr();
     }, [])

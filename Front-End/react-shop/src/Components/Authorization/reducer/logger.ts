@@ -2,12 +2,12 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../../app/store';
 
 export interface LoggerState {
-  value: boolean;
+  value: string;
   status: 'idle' | 'loading' | 'failed';
 }
 
 const initialState: LoggerState = {
-  value: false,
+  value: 'Visitor',
   status: 'idle',
 };
 
@@ -16,16 +16,21 @@ export const logger = createSlice({
   initialState,
   reducers: {
     logIn: (state) => {
-      state.value = true;
-      console.log("Loggeeeeeeeeeeeed");
+      state.value = 'User';
+    },
+    logAdmin: (state) => {
+      state.value = 'Administrator';
+    },
+    logEmployee: (state) => {
+      state.value = 'Employee';
     },
     logOut: (state) => {
-      state.value = false;
+      state.value = 'Visitor';
     },
   }
 });
 
-export const { logIn, logOut } = logger.actions;
+export const { logIn, logAdmin, logEmployee, logOut } = logger.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

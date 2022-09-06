@@ -8,13 +8,13 @@ import {
     increment
   } from '../../features/counter/counterSlice';
 import { useDispatch } from 'react-redux';
-
+import { useNavigate } from "react-router-dom";
 
 const METHOD_URL = '/api/Products/GetCategories/';
 
-const Payemnt = () => {
+const Payment = () => {
     const dispatch = useDispatch();
-    const [success, setSuccess]  = useState(false);
+    const [valid, setValid]  = useState(false);
     const [price, setPrice] = useState(0);
     const [nameOnCard, setNameOnCard] = useState('');
     const [cardNumber, setCardNumber] = useState('');
@@ -26,7 +26,7 @@ const Payemnt = () => {
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
 
-
+    const navigate = useNavigate();
 
     const {
         meta,
@@ -40,6 +40,17 @@ const Payemnt = () => {
     useEffect(() => {
         GetPrice();
     }, []);
+
+    useEffect(() => {
+        var month = parseInt(expiryDate.split('/')[0]);
+        if(cardNumber.length > 14 && nameOnCard.length > 3 && expiryDate.length > 4 && month > 0 && month < 13 && name.length > 3 && city.length > 3 && cvc.length > 2 && country.length > 3){
+            setValid(true);
+        }
+        else{
+            setValid(false);
+        }
+    }, [nameOnCard, cardNumber, expiryDate, cvc, name, country, city])
+
     const submitPayment = async ()  => {
         dispatch(increment());
         var year = 2000 + parseInt(expiryDate.split('/')[1]);
@@ -62,10 +73,10 @@ const Payemnt = () => {
                 }
           }
 
-        var response = await axiosAuthPost('/api/Payment/MakeOrder', body);
+        const response = await axiosAuthPost('/api/Payment/MakeOrder', body);
+        console.log(response);
         dispatch(decrement());
-        
-        console.log(2000 + parseInt(year));
+        navigate(`/Payment/Success`);
     }
 
     async function GetPrice(){
@@ -134,11 +145,11 @@ const Payemnt = () => {
                                 
                 <div className='MoveToCheckoutDisplay'>
                     <h3>Total Price: {price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD</h3>
-                    <button onClick={() => submitPayment()} className='Continue'>Pay</button>
+                    <button disabled={!valid} onClick={() => submitPayment()} className={valid ? 'Valid Continue' : 'Continue'}>Pay</button>
                 </div>
             </div>
     </div>
   );
 }
 
-export default Payemnt;
+export default Payment;

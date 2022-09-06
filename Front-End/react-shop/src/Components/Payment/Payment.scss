@@ -98,10 +98,6 @@ h3{
         transition: background-color 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s;
     }
 
-    .submit:hover {
-        background-color: rgb(1, 80, 167);
-    }
-
     .TransparentButton{
         background-color: transparent;
         border: none;
@@ -144,17 +140,39 @@ h3{
             margin: auto;
             margin-top: 30px;
             border: 0px solid rgb(2, 108, 223);
+            background-color: gainsboro;
             border-radius: 7px;
             width: 300px;
             height: 40px;
             font-size: 20px;
             font-weight: 700;
         }
-        .Continue:hover{
+        .Valid{
+            background-color: gainsboro;
+            font-size: 20px;
+            cursor: pointer;
+            color: rgb(2, 108, 223);
+        }
+        .Valid:hover{
             background-color: rgb(2, 108, 223);
             font-size: 20px;
             cursor: pointer;
             color: white;
         }
+    }
+}
+
+.Fail, .Success{
+    width: 50%;
+    margin: auto;
+    h1{
+        font-size: 40px;
+        color: rgb(2, 108, 223);
+        text-align: center;
+    }
+    h2{
+        font-size: 20px;
+        margin-top: 20px;
+        text-align: center;
     }
 }

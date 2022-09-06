@@ -24,7 +24,7 @@ const Header : React.FC<{isLogged:any, setIsLogged:any}> = ({ isLogged, setIsLog
                 <ul className="navlinks">
                     <li><a href="/Gallery">Gallery</a></li>
                     
-                    {logged ?
+                    {logged !== 'Visitor' ?
                     <>
                         <li><a href="/">Chat</a></li>
                         <li><a href="/Cart">Cart</a></li>

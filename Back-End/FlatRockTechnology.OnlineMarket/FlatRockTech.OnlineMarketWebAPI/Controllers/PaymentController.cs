@@ -4,6 +4,7 @@ using FlatRockTechnology.OnlineMarket.Models.Addresses;
 using FlatRockTechnology.OnlineMarket.Models.Orders;
 using FlatRockTechnology.OnlineMarket.Models.Users;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.AddressServices;
 using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.CartServices;
@@ -35,6 +36,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return await MakePayment.PayAsync(model.CardNumber, model.Month, model.Year, model.CVC, model.Value);
         }
 
+        [Authorize(Roles = "User")]
         [HttpPost]
         [Route("MakeOrder")]
         public async Task<IActionResult> MakeOrder([FromBody]PaymentSubmissionModel model)
@@ -66,6 +68,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return Accepted();
         }
 
+        [Authorize(Roles = "User")]
         [HttpGet]
         [Route("GetPriceForPaying")]
         public async Task<double> GetPriceForPaying()
