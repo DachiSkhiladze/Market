@@ -27,6 +27,10 @@ namespace OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementati
 
         public async Task InsertAsync(IFormFileCollection Files, Guid productId)
         {
+            if(Files == null)
+            {
+                return;
+            }
             List<ProductPicturesModel> pictures = new List<ProductPicturesModel>();
             foreach (var formFile in Files)
             {

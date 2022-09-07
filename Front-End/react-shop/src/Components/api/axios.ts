@@ -34,7 +34,6 @@ export const axiosGet = async (url : string) => {
             'Content-Type': 'application/json'
         }}
     )
-    console.log(response.data)
     return response;
 }
 
@@ -52,7 +51,6 @@ export const axiosAuthPost : any = async (methodUrl : string, body : string) => 
         };
         const data = JSON.stringify(body);
         response = axios.post(BASE_URL+methodUrl, data, customConfig)
-                                    .then(res => console.log(res))
                                     .catch(err => console.log('Payment Error: ', err));
         return response;
     }
@@ -76,7 +74,7 @@ export const axiosAuthGet : any = async (methodUrl : string) => {
                 'Authorization': 'Bearer ' + token.accessToken,
                 'Content-Type': 'application/json',
             }}
-        )
+        );
         if(response.status > 240){
             var isRefreshed : boolean = await refreshToken();
             if(isRefreshed){

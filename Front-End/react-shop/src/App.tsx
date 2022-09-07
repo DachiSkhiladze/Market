@@ -17,6 +17,7 @@ import { axiosAuthGet } from './Components/api/axios';
 import Payment from './Components/Payment/Payment';
 import Success from './Components/Payment/Success';
 import Fail from './Components/Payment/Fail';
+import CreateProduct from './AdminComponents/CreateProduct';
 
 function App() {
   const load = useAppSelector(selectLoad);
@@ -37,7 +38,6 @@ function App() {
     if(response?.status < 240){
       setIsLogged(true);
       dispatch(logAdmin());
-      console.log("I am Almighty");
     }
   }
 
@@ -61,6 +61,12 @@ function App() {
             <>
                 <Route  path="/Cart" element={<Cart />}/>
             </>
+            }
+            {
+              (logged === 'Administrator') ? 
+              <Route  path="/CreateProduct" element={<CreateProduct />}/>  :
+              <>
+              </>
             }
             
             <Route path="/Payment/Success" element={<Success />}/>

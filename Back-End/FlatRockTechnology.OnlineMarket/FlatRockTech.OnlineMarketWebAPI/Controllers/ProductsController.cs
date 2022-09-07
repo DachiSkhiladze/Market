@@ -51,14 +51,16 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProductsBySubCategoryID(Guid id)
         {
-            return Ok(await mediator.Send(new GetProductsBySubCategoryIDQuery(id)));
+            var response = Ok(await mediator.Send(new GetProductsBySubCategoryIDQuery(id)));
+            return response;
         }
 
         [Route("GetCategories")]
         [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
-            return Ok(await mediator.Send(new GetAllQuery<Category, CategoryModel>()));
+            var response = await mediator.Send(new GetAllQuery<Category, CategoryModel>());
+            return Ok(response);
         }
 
         //[Authorize(Roles = "Administrator")]
@@ -66,7 +68,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCategories(Guid id)
         {
-            var cat = (IEnumerable<SubCategoryModel>)(await mediator.Send(new GetAllQuery<SubCategory, SubCategoryModel>()));
+            var cat = await mediator.Send(new GetAllQuery<SubCategory, SubCategoryModel>());
             return Ok(cat.Where(o => o.CategoryId.Equals(id)));
         }
 
