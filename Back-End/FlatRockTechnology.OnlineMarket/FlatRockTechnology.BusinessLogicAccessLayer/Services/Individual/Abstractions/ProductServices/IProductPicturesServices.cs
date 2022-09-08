@@ -10,8 +10,8 @@ namespace OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions
 {
     public interface IProductPicturesServices : IBaseService<ProductPictures, ProductPicturesModel>
     {
-        Task InsertAsync(IFormFileCollection Files, Guid pictureId);
+        Task InsertAsync(IEnumerable<string> Files, Guid pictureId);
 
-        IAsyncEnumerable<string> GetPicturesByProductId(Guid productId);
+        Task<IEnumerable<ProductPicturesModel>> GetPicturesByProductId(Guid productId);
     }
 }

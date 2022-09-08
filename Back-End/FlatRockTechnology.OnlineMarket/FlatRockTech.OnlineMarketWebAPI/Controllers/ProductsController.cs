@@ -26,18 +26,22 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 
         [Route("InsertProduct")]
         [HttpPost]
-        public async Task<IActionResult> InsertProduct([FromForm] ProductModel productModel)
+        public async Task<IActionResult> InsertProduct([FromBody] ProductModel productModel)
         {
             await services.GetService<IProductServices>().InsertAsync(productModel);
+
             return Ok();
         }
 
 
         [Route("GetAllProductsWithPictures")]
         [HttpGet]
-        public async Task<IActionResult> GetAllProductsWithPictures()
+        public async IAsyncEnumerable<ProductModel> GetAllProductsWithPictures()
         {
-            return Ok(services.GetService<IProductServices>().GetProductsWithPictures());
+            await foreach (var item in services.GetService<IProductServices>().GetProductsWithPictures())
+            {
+                yield return item;
+            }
         }
 
         [Route("GetAllProducts")]

@@ -12,6 +12,6 @@ namespace FlatRockTechnology.OnlineMarket.Models.Mapper.Abstractions
         TModel ConvertToModel(TEntity entity);
         IEnumerable<TEntity> ConvertToEntities(IEnumerable<TModel> models);
         IEnumerable<TModel> ConvertToModels(IEnumerable<TEntity> models);
-        IEnumerable<TModel> ConvertToModelsFromList(List<TEntity> models);
+        IEnumerable<TModel> ConvertToModelsFromList(IEnumerable<TEntity> models);
     }
 }

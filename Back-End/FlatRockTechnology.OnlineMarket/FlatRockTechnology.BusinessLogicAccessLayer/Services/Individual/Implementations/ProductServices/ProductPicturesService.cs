@@ -15,17 +15,13 @@ namespace OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementati
 
         }
 
-        public async IAsyncEnumerable<string> GetPicturesByProductId(Guid productId)
+        public async Task<IEnumerable<ProductPicturesModel>> GetPicturesByProductId(Guid productId)
         {
-            var col = await mediator.Send(new GetProductPicturesByProductIDQuery(productId));
-            foreach (var model in col)
-            {
-                yield return $"data:image/{model.FileExtension.Remove(0, 1)};base64," + Convert.ToBase64String(model.Bytes);
-            }
+            return await mediator.Send(new GetProductPicturesByProductIDQuery(productId));
         }
 
 
-        public async Task InsertAsync(IFormFileCollection Files, Guid productId)
+        public async Task InsertAsync(IEnumerable<string> Files, Guid productId)
         {
             if(Files == null)
             {
@@ -36,19 +32,18 @@ namespace OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementati
             {
                 if (formFile.Length > 0)
                 {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await formFile.CopyToAsync(memoryStream);
-                        // Upload the file if less than 2 MB
-                        if (memoryStream.Length < 2097152)
+                        //var extension = formFile.Split('/')[1].Split(';')[0];
+                        //var rawBase64 = formFile.Split(',')[1];
+                        if (formFile.Length < 2097152)
                         {
                             //based on the upload file to create Photo instance.
                             //In future I can also check the database, whether the image exists in the database.
                             var newphoto = new ProductPicturesModel()
                             {
-                                Bytes = memoryStream.ToArray(),
-                                Description = formFile.FileName,
-                                FileExtension = Path.GetExtension(formFile.FileName),
+                                ImageSaveType = "Base64",
+                                Base64 = formFile,
+                                Description = "Product Image",
+                                FileExtension = GetFileExtension(formFile),
                                 Size = formFile.Length,
                                 ProductId = productId,
                             };
@@ -59,7 +54,6 @@ namespace OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementati
                         {
                             throw new Exception("File is too large");
                         }
-                    }
                 }
             }
 
@@ -67,6 +61,36 @@ namespace OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementati
             {
                 // Inserting into Database
                 await base.InsertAsync(picture);
+            }
+        }
+
+        public static string GetFileExtension(string base64String)
+        {
+            var data = base64String.Substring(0, 5);
+
+            switch (data.ToUpper())
+            {
+                case "IVBOR":
+                    return "png";
+                case "/9J/4":
+                    return "jpg";
+                case "AAAAF":
+                    return "mp4";
+                case "JVBER":
+                    return "pdf";
+                case "AAABA":
+                    return "ico";
+                case "UMFYI":
+                    return "rar";
+                case "E1XYD":
+                    return "rtf";
+                case "U1PKC":
+                    return "txt";
+                case "MQOWM":
+                case "77U/M":
+                    return "srt";
+                default:
+                    return string.Empty;
             }
         }
     }

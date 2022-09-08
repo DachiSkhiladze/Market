@@ -13,7 +13,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstra
 
         Task<List<TEntity>> GetList();
 
-        IAsyncEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
+        IEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
 
         IQueryable<TEntity> Get(int skip, int take);
 

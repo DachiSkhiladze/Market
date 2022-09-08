@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { axiosAuthGet, axiosAuthPost } from '../Components/api/axios';
 import './CreateProduct.scss';
 import Select from 'react-select';
+import { useNavigate } from 'react-router-dom';
+import { decrement, increment } from '../features/counter/counterSlice';
 
 function CreateProduct() {
     const dispatch = useDispatch();
@@ -18,30 +20,48 @@ function CreateProduct() {
     const [subCategories, setSubCategories] : any = useState([]);
     const [selectedCategoryId, setSelectedCategoryId] : any  = useState([]);
 
+    const navigate = useNavigate();
 
     useEffect(() => {
         GetCategories();
     }, []);
 
     useEffect(() => {
+        if(parseInt(price) > 0 && selectedSubCategoryIds.length > 0){
+            setValid(true);
+        }
+        else{
+            setValid(false);
+        }
+    }, [price, selectedSubCategoryIds]);
+
+    useEffect(() => {
         GetSubCategories();
-    }, [selectedCategoryId])
+    }, [selectedCategoryId]);
 
     const SubmitProducts = async () => {
-        console.log(pictures);
-        var body = {
-            id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            name: name,
+        dispatch(increment());
+        var body : any = {
+            Id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            Name: name,
             description: description,
             price: parseInt(price),
             imageUrl: "string",
             categories: selectedSubCategoryIds,
-            pictures: ['string'],
-            files: pictures
+            pictures: pictures
           }
-        const formData = new FormData();
-        formData.append('body', pictures);
-        var response = await axiosAuthPost('/api/Products/InsertProduct', formData);
+        
+          try{
+            var response = await axiosAuthPost('/api/Products/InsertProduct', body).then((res:any) => 
+                    res.status > 210 ? navigate('/CreateProduct') : navigate('/Gallery')
+                );
+                dispatch(decrement());   
+          }
+          catch(er:any){
+            navigate('/Gallery'); 
+            dispatch(decrement());
+          }
+
     }
 
     const GetSubCategories = async () => {
@@ -66,6 +86,13 @@ function CreateProduct() {
         );
     }
 
+    const toBase64 = (file:any) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
     const handleSetCategories = (response : any) => {
         setCategories([]);
         var res = response.data;
@@ -76,10 +103,10 @@ function CreateProduct() {
         setCategories(options);
     }
 
-    const handleChangeImage = (e:any) => {
+    const handleChangeImage = async (e:any) => {
         for(var i = 0; i < e.target.files.length; i++){
             setFiles([...files, URL.createObjectURL(e.target.files[i])]);
-            setPictures([...pictures, e.target.value[i]]);
+            setPictures([...pictures, await toBase64(e.target.files[i])]);
         }
     }
 
@@ -145,7 +172,7 @@ function CreateProduct() {
                         )
                     }
                 </div>
-                <input type="file" accept="image/png, image/gif, image/jpeg, image/jpg, "  multiple onChange={e => handleChangeImage(e)} />
+                <input type="file" accept="image/png, image/gif, image/jpeg, image/jpg"  multiple onChange={e => handleChangeImage(e)} />
                 <label>Categories</label>
                 <Select className='Selector' 
                         onChange={(choice:any) => setSelectedCategoryId(choice.value)} 
@@ -157,7 +184,7 @@ function CreateProduct() {
                     options={subCategories} />
                 <div className='MoveToCheckoutDisplay'>
                     <h3>Total Price: {price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD</h3>
-                    <button onClick={() => SubmitProducts()}>Create</button>
+                    <button disabled={!valid} className={valid ? 'Valid Continue' : 'Continue'} onClick={() => SubmitProducts()}>Create</button>
                 </div>
 
         </div>

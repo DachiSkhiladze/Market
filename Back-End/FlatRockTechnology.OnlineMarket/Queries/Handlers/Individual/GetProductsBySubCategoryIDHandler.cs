@@ -27,16 +27,16 @@ namespace Queries.Handlers.Individual
         public async Task<IEnumerable<ProductModel>> Handle(GetProductsBySubCategoryIDQuery request, CancellationToken cancellationToken)
         {
 
-            IAsyncEnumerable<Guid?> productIds = _unitOfWork.ProductCategories
+            IEnumerable<Guid?> productIds = _unitOfWork.ProductCategories
                                                     .Get(o => o.SubCategoryId.Equals(request.subCategoryId))
                                                     .Select(o => o.ProductId);
-            if (productIds.CountAsync().Result == 0)
+            if (productIds.Count() == 0)
             {
                 throw new Exception();
             }
-            IAsyncEnumerable<Product> products = _unitOfWork.Products.Get((o) => productIds
-                                                            .AnyAsync(y => y.Equals(o.Id)).Result);
-            return _mapperConfiguration.ConvertToModelsFromList(products.ToListAsync().Result);
+            IEnumerable<Product> products = _unitOfWork.Products.Get((o) => productIds
+                                                            .Any(y => y.Equals(o.Id)));
+            return _mapperConfiguration.ConvertToModelsFromList(products.ToList());
         }
     }
 }

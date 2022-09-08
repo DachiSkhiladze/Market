@@ -19,7 +19,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
 
         public async Task<bool> ConfirmEmail(string? code)
         {
-            var models = GetModels().ToListAsync().Result;
+            var models = await GetModels();
             var model = models.FirstOrDefault(o => o.EmailVerificationCode.Equals(code));
             if (model != null)
             {
@@ -34,7 +34,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
         {
             if (await IsExists(o => o.Email.Equals(email)))
             {
-                var models = GetModels().ToListAsync().Result;
+                var models = await GetModels();
                 var model = models.FirstOrDefault(o => o.Email.Equals(email));
                 if (model != null)
                 {
@@ -52,7 +52,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
         {
             if (await IsExists(o => o.PasswordRecoveryCode == null ? false : o.PasswordRecoveryCode.Equals(passwordModel.code)))
             {
-                var models = GetModels().ToListAsync().Result;
+                var models = await GetModels();
                 var model = models.FirstOrDefault(o => o.PasswordRecoveryCode == null ? false : o.PasswordRecoveryCode.Equals(passwordModel.code));
                 if (model != null)
                 {

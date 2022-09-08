@@ -6,6 +6,9 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.DB
     public partial class ProductPictures : IEntity
     {
         public Guid Id { get; set; }
+        public string ImageSaveType { get; set; }
+        public string Base64 { get; set; }
+        public string ImageURL { get; set; }
         public Guid ProductId { get; set; }
         public byte[] Bytes { get; set; }
         public string Description { get; set; }

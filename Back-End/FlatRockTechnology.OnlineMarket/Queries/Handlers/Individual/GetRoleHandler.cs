@@ -21,14 +21,14 @@ namespace Queries.Declarations.Shared
         public async Task<IEnumerable<RoleModel>> Handle(GetRoleQuery request, CancellationToken cancellationToken)
         {
 
-            IAsyncEnumerable<Guid?> userRoleIds = _unitOfWork.UserRoles.Get(o => o.UserId.Equals(request.userId)).Select(o => o.RoleId);
-            if (userRoleIds.CountAsync().Result == 0) 
+            IEnumerable<Guid?> userRoleIds = _unitOfWork.UserRoles.Get(o => o.UserId.Equals(request.userId)).Select(o => o.RoleId);
+            if (userRoleIds.Count() == 0) 
             {
                 throw new Exception(); 
             }
-            IAsyncEnumerable<Role> roles = _unitOfWork.Roles.Get((o) => userRoleIds
-                                                            .AnyAsync(y => y.Equals(o.Id)).Result);
-            return _mapperConfiguration.ConvertToModelsFromList(roles.ToListAsync().Result);
+            IEnumerable<Role> roles = _unitOfWork.Roles.Get((o) => userRoleIds
+                                                            .Any(y => y.Equals(o.Id)));
+            return _mapperConfiguration.ConvertToModelsFromList(roles.ToList());
         }
     }
 }

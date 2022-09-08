@@ -18,10 +18,10 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
 
         public async IAsyncEnumerable<ProductModel> GetProductsWithPictures()
         {
-            var col = base.GetModels();
-            await foreach (var model in col)
+            var col = await base.GetModels();
+            foreach (var model in col)
             {
-                model.Pictures = await productPicturesService.GetPicturesByProductId(model.Id).ToListAsync();
+                model.Pictures = new List<string>() { (await productPicturesService.GetPicturesByProductId(model.Id)).Count().ToString()};
                 yield return model;
             }
         }
@@ -30,7 +30,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
         public async Task<ProductModel> InsertAsync(ProductModel model)
         {
             var product = await mediator.Send(new CreateProductCommand(model));
-            await productPicturesService.InsertAsync(model.Files, product.Id); // Inserting Pictures
+            await productPicturesService.InsertAsync(model.Pictures, product.Id); // Inserting Pictures
             return product;// Inserting New Data
         }
 
