@@ -1,25 +1,101 @@
+.ProductsDisplay{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 .product{
-    height: 50px;
+    position: relative;
+    border: 1px solid transparent;
+    height: 300px;
+    width: 200px;
+    overflow: hidden;
+    margin: 5px 10px;
+    cursor: pointer;
+    .PictureContainer{
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        background-color: black;
+        img{
+            position: absolute;
+            width: 100%;
+            top: 0px;
+            bottom: 0px;
+            right: 0px;
+            left: 0px;
+            margin: auto;
+        }
+    }
     .TitleContainer{
-        width: 90%;
+        margin-top: 10px;
+        width: 100%;
         float: left;
+        h1{
+            text-align: center;
+            span {
+                display: inline-block;
+                width: 180px;
+                white-space: nowrap;
+                overflow: hidden !important;
+                text-overflow: ellipsis;
+            }
+        }
+        h3{
+            font-size: 15px;
+            color: rgb(94, 109, 122);
+        }
     }
     .AddContainer{
-        width: 10%;
-        height: 100%;
-        float: right;
+        width: auto;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        left: 0px;
+        margin: auto;
         button{
             background-color: transparent;
             border: none;
+            padding: 0px;
+            margin: 0px;
             cursor: pointer;
+            display: block;
+            margin: auto;
         }
-        i{
-            font-size: 30px;
+        p{
+            font-size: 15px;
+            font-weight: 700;
         }
         button:hover{
-            i{
+            p{
                 color: rgb(2, 108, 223);
             }
         }
+    }
+}
+
+.ViewMore{
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    top: 30%;
+    margin: auto;
+    opacity: 0;
+    h1{
+        font-size: 20px;
+        font-weight: 100;
+        color: white;
+        text-align: center;
+    }
+}
+
+.product:hover{
+    border-radius: 10px;
+    .PictureContainer{
+        filter: blur(4px);
+    }
+    .ViewMore{
+        opacity: 1;
     }
 }

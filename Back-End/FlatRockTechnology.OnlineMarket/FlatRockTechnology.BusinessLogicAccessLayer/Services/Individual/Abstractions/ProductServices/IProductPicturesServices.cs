@@ -12,6 +12,6 @@ namespace OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions
     {
         Task InsertAsync(IEnumerable<string> Files, Guid pictureId);
 
-        Task<IEnumerable<ProductPicturesModel>> GetPicturesByProductId(Guid productId);
+        IAsyncEnumerable<ProductPicturesModel> GetPicturesByProductId(Guid productId);
     }
 }

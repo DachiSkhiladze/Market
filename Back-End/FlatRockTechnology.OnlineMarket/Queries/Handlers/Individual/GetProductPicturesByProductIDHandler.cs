@@ -27,7 +27,7 @@ namespace Queries.Handlers.Individual
         public async Task<IEnumerable<ProductPicturesModel>> Handle(GetProductPicturesByProductIDQuery request, CancellationToken cancellationToken)
         {
 
-            var productPictures = _unitOfWork.ProductPictures.Get(o => o.ProductId.Equals(request.productId)).Select(o => new ProductPictures() { Id = o.Id});
+            var productPictures = _unitOfWork.ProductPictures.Get(o => o.ProductId.Equals(request.productId));
             var con = _mapperConfiguration.ConvertToModelsFromList(productPictures);
             return con;
         }
