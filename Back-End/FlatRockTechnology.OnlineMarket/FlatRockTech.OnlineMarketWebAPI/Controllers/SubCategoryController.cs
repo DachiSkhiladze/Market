@@ -16,6 +16,13 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         {
             this.servicesFlyweight = servicesFactory;
         }
+        [HttpGet]
+        [Route("GetSubCategories")]
+        public async Task<ActionResult> GetSubCategories(Guid id)
+        {
+            var cat = await servicesFlyweight.GetService<ISubCategoryServices>().GetModels();
+            return Ok(cat);
+        }
         [Route("CreateSubCategory")]
         [HttpPost]
         public async Task<ActionResult> CreateCategory([FromBody]SubCategoryModel categoryModel)
@@ -24,8 +31,8 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return Ok();
         }
         [HttpGet]
-        [Route("DeleteCategory")]
-        public async Task<ActionResult> DeleteCategory(Guid id)
+        [Route("DeleteSubCategory/{id}")]
+        public async Task<ActionResult> DeleteSubCategory(Guid id)
         {
             var cat = await servicesFlyweight.GetService<ISubCategoryServices>().GetModels(o => o.Id.Equals(id)).FirstOrDefaultAsync();
             if(cat == null)

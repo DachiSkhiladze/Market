@@ -118,7 +118,7 @@ namespace EmailLayer
                                                     font-size: 20px;'>Set new password by clicking the button below</p>
                                    <p style='       text-align: center;
                                                     font-size: 20px;'>If you have not requested password recovery, please ignore this email</p>
-                                    <a href='{origin}?recovery={code}' >
+                                    <a href='{origin}/login?recovery={code}' >
                                      <input style=' display: block;
                                                     font-family: inherit;
                                                     font-weight: 600;

@@ -1,28 +1,31 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { axiosAuthGet, axiosAuthPost } from '../Components/api/axios';
+import { axiosAuthGet, axiosAuthPost, axiosGet } from '../Components/api/axios';
 import './CreateProduct.scss';
 import Select from 'react-select';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { decrement, increment } from '../features/counter/counterSlice';
 
-function CreateProduct() {
+function UpdateProduct (){
     const dispatch = useDispatch();
     const [valid, setValid] : any = useState(false);
     const [name, setName] : any = useState('');
     const [description, setDescription] : any = useState('');
     const [price, setPrice] : any = useState('');
     const [selectedSubCategoryIds, setSelectedSubCategoryIds] : any = useState('');
-    const [pictures, setPictures] : any = useState([]);
+    const [pictures, setPictures] : any = useState(['']);
 
     const [files, setFiles] : any = useState([]);
     const [categories, setCategories] : any = useState([]);
     const [subCategories, setSubCategories] : any = useState([]);
     const [selectedCategoryId, setSelectedCategoryId] : any  = useState([]);
 
+    const { id } = useParams()
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log(id);
+        GetData();
         GetCategories();
     }, []);
 
@@ -39,26 +42,43 @@ function CreateProduct() {
         GetSubCategories();
     }, [selectedCategoryId]);
 
+    async function GetData(){
+        var response = await axiosGet('/api/Products/GetProductWithPictures/' + id).then((res:any) => 
+            InitializeValues(res.data)
+        );
+    }
+
+    async function InitializeValues(data : any){
+        console.log(data.name);
+        setName(data.name);
+        setDescription(data.description);
+        setPrice(data.price);
+        var pics = pictures;
+        for(var i = 0; i < data.productPictures.length; i++){
+            pics.push(data.productPictures[i]);
+        }
+        setPictures(pics);
+    }
+
     const SubmitProducts = async () => {
         dispatch(increment());
         var body : any = {
-            Id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            Id: id,
             Name: name,
             description: description,
             price: parseInt(price),
             imageUrl: "string",
             categories: selectedSubCategoryIds,
-            pictures: pictures
           }
         
           try{
-            var response = await axiosAuthPost('/api/Products/InsertProduct', body).then((res:any) => 
+            var response = await axiosAuthPost('/api/Products/UpdateProduct', body).then((res:any) => 
                     res.status > 210 ? navigate('/CreateProduct') : navigate('/Gallery')
                 );
                 dispatch(decrement());   
           }
           catch(er:any){
-            navigate('/Gallery'); 
+            navigate('/Gallery');
             dispatch(decrement());
           }
 
@@ -115,8 +135,12 @@ function CreateProduct() {
         setPrice(value);
     }
 
+
+    //Image
     const handleDelete = (indexToDelete : any) => {
-        setFiles(files.filter((item : any, index : any) => indexToDelete !== index));
+        var pics = pictures;
+        setPictures([]);
+        setPictures(pics.filter((item : any) => item.id !== indexToDelete));
     }
 
     const handleSubCategoryIds = (selectedItems : any) => {
@@ -161,30 +185,18 @@ function CreateProduct() {
                     value={price}
                     required
                     />  
-                <label>Pictures</label>
-                <div className='Preview'>
-                    {
-                        files?.map((file : any, index : any) => 
-                            <div key={index} className='ImageWrapper'>
-                                <button onClick={() => handleDelete(index)} className='Delete'><i className="fa-sharp fa-solid fa-circle-xmark"></i></button>
-                                <img src={file}/>
-                            </div>
-                        )
-                    }
-                </div>
-                <input type="file" accept="image/png, image/gif, image/jpeg, image/jpg"  multiple onChange={e => handleChangeImage(e)} />
                 <label>Categories</label>
                 <Select className='Selector' 
                         onChange={(choice:any) => setSelectedCategoryId(choice.value)} 
                         options={categories} />
                 <label>SubCategories</label>
                 <Select className='Selector'
-                    onChange={(choice:any) => handleSubCategoryIds(choice)} 
+                    onChange={(choice:any) => handleSubCategoryIds(choice)}
                     isMulti
                     options={subCategories} />
                 <div className='MoveToCheckoutDisplay'>
                     <h3>Total Price: {price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD</h3>
-                    <button disabled={!valid} className={valid ? 'Valid Continue' : 'Continue'} onClick={() => SubmitProducts()}>Create</button>
+                    <button disabled={!valid} className={valid ? 'Valid Continue' : 'Continue'} onClick={() => SubmitProducts()}>Update</button>
                 </div>
 
         </div>
@@ -192,4 +204,4 @@ function CreateProduct() {
   );
 }
 
-export default CreateProduct;
+export default UpdateProduct;

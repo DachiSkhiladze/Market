@@ -18,6 +18,12 @@ import Payment from './Components/Payment/Payment';
 import Success from './Components/Payment/Success';
 import Fail from './Components/Payment/Fail';
 import CreateProduct from './AdminComponents/CreateProduct';
+import CreateCategory from './AdminComponents/CreateCategory';
+import CreateSubCategory from './AdminComponents/CreateSubCategory';
+import Products from './AdminComponents/Products';
+import UpdateProduct from './AdminComponents/UpdateProduct';
+import Categories from './AdminComponents/Categories';
+import SubCategoriesList from './AdminComponents/SubCategoriesList';
 
 function App() {
   const load = useAppSelector(selectLoad);
@@ -64,7 +70,18 @@ function App() {
             }
             {
               (logged === 'Administrator') ? 
-              <Route  path="/CreateProduct" element={<CreateProduct />}/>  :
+              <>
+                <Route  path="/CreateProduct" element={<CreateProduct />}/>
+                <Route  path="/Products" element={<Products />}/>
+                <Route  path="/Categories" element={<Categories /> } />
+                <Route  path="/SubCategories" element={<SubCategoriesList />}/>
+                <Route  path="/CreateCategory" element={<CreateCategory />}/>
+                <Route  path="/CreateSubCategory" element={<CreateSubCategory />}/>
+
+                <Route  path="/UpdateProduct/:id" element={<UpdateProduct /> } />
+
+              </>
+              :
               <>
               </>
             }

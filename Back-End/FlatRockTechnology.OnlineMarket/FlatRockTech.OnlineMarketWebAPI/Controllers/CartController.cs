@@ -25,7 +25,8 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             service = servicesFactory.GetService<ICartItemServices>();
         }
 
-        [Authorize(Roles = "User")]
+
+        [Authorize(Roles = "User, Administrator")]
         [HttpGet]
         [Route("GetCartItems")]
         public async IAsyncEnumerable<CartItemModel> GetCartItems()
@@ -41,7 +42,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             } 
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Administrator")]
         [HttpGet]
         [Route("AddInCart/{productId}")]
         public async Task<IActionResult> AddInCart(Guid productId, int quantity)
@@ -57,7 +58,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Administrator")]
         [HttpGet]
         [Route("DeleteProductFromCart/{productId}")]
         public async Task<IActionResult> DecreaseInCart(Guid productId)

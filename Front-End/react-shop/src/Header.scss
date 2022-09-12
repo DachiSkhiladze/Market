@@ -366,3 +366,13 @@ body {
 		padding:2%;
 	}
 }
+
+.AdminPanel{
+    background-color: blue;
+    padding: 0px 10px;
+    li{
+        a{
+            color: white!important;
+        }
+    }
+}

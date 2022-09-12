@@ -18,6 +18,11 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base
 
         public async Task<bool> IsExists(Expression<Func<TEntity, bool>> predicate) => await mediator.Send(new IsExistsQuery<TEntity>(predicate));
 
+        public async Task<TModel> GetSingleModel(Func<TEntity, bool> predicate)
+        {
+            return await mediator.Send(new GetSingleQuery<TEntity, TModel>(predicate));
+        }
+
         public async Task<IEnumerable<TModel>> GetModels()
         {
             return await mediator.Send(new GetAllQuery<TEntity, TModel>());

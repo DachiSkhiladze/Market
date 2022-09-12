@@ -26,6 +26,13 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
             }
         }
 
+        public async Task<ProductModel> GetProductWithPictures(Func<Product, bool> predicate)
+        {
+            var product = await base.GetSingleModel(predicate);
+            product.ProductPictures = await productPicturesService.GetPicturesByProductId(product.Id).ToListAsync();
+            product.Pictures = product.ProductPictures.Select(o => o.ImageURL);
+            return product;
+        }
 
         public async Task<ProductModel> InsertAsync(ProductModel model)
         {
@@ -34,5 +41,10 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
             return product;
         }
 
+        public async Task<ProductModel> UpdateAsync(ProductModel model)
+        {
+            var product = await mediator.Send(new UpdateProductCommand(model));
+            return product;
+        }
     }
 }

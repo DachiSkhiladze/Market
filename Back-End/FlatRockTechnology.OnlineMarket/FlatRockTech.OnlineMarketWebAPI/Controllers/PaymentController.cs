@@ -36,7 +36,8 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return await MakePayment.PayAsync(model.CardNumber, model.Month, model.Year, model.CVC, model.Value);
         }
 
-        [Authorize(Roles = "User")]
+
+        [Authorize(Roles = "User, Administrator")]
         [HttpPost]
         [Route("MakeOrder")]
         public async Task<IActionResult> MakeOrder([FromBody]PaymentSubmissionModel model)
@@ -68,7 +69,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return Accepted();
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Administrator")]
         [HttpGet]
         [Route("GetPriceForPaying")]
         public async Task<double> GetPriceForPaying()

@@ -22,8 +22,19 @@ const Header : React.FC<{isLogged:any, setIsLogged:any}> = ({ isLogged, setIsLog
             </div>
             <div id="mainListDiv" className="main_list">
                 <ul className="navlinks">
+                    {logged === "Administrator" ? 
+                    <li>
+                        <ul className='AdminPanel'>
+                            <li><a href="/Categories">Categories</a></li>
+                            <li><a href="/SubCategories">SubCategories</a></li>
+                            <li><a href="/Products">Products</a></li>
+                        </ul>
+                    </li>
+                    :
+                    <>
+                    </>
+                    }
                     <li><a href="/Gallery">Gallery</a></li>
-                    
                     {logged !== 'Visitor' ?
                     <>
                         <li><a href="/">Chat</a></li>

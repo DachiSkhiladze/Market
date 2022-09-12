@@ -144,6 +144,9 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient(typeof(IRequestHandler<GetRoleQuery, IEnumerable<RoleModel>>),
                 typeof(GetRoleHandler));
 
+            services.AddTransient(typeof(IRequestHandler<UpdateProductCommand, ProductModel>),
+                typeof(UpdateProductHandler));
+
             services.AddTransient(typeof(IRequestHandler<GetProductPicturesByProductIDQuery, IEnumerable<ProductPicturesModel>>),
                 typeof(GetProductPicturesByProductIDHandler));
 

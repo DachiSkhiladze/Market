@@ -72,6 +72,21 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
             }
         }
 
+        public TEntity GetSingle(Func<TEntity, bool> predicate)
+        {
+            try
+            {
+                return _marketContext.Set<TEntity>()
+                                     .AsQueryable()
+                                     .AsNoTracking()
+                                     .First(predicate);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Could not be returned: {ex.Message}");
+            }
+        }
+
         public async Task<TEntity> AddAsync(TEntity entity)
         {
             if (entity == null)
