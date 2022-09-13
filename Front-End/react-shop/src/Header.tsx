@@ -25,6 +25,7 @@ const Header : React.FC<{isLogged:any, setIsLogged:any}> = ({ isLogged, setIsLog
                     {logged === "Administrator" ? 
                     <li>
                         <ul className='AdminPanel'>
+                            <li><a href="/Users">Users</a></li>
                             <li><a href="/Categories">Categories</a></li>
                             <li><a href="/SubCategories">SubCategories</a></li>
                             <li><a href="/Products">Products</a></li>

@@ -24,6 +24,7 @@ import Products from './AdminComponents/Products';
 import UpdateProduct from './AdminComponents/UpdateProduct';
 import Categories from './AdminComponents/Categories';
 import SubCategoriesList from './AdminComponents/SubCategoriesList';
+import Users from './AdminComponents/Users';
 
 function App() {
   const load = useAppSelector(selectLoad);
@@ -72,6 +73,7 @@ function App() {
               (logged === 'Administrator') ? 
               <>
                 <Route  path="/CreateProduct" element={<CreateProduct />}/>
+                <Route  path="/Users" element={<Users />}/>
                 <Route  path="/Products" element={<Products />}/>
                 <Route  path="/Categories" element={<Categories /> } />
                 <Route  path="/SubCategories" element={<SubCategoriesList />}/>

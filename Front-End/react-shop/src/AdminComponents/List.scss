@@ -15,7 +15,7 @@
             height: 70%;
             width: 50%;
             float: right;
-            div{
+            .Update, .Delete{
                 height: 90%;
                 width: 30%;
                 display: block;
@@ -53,6 +53,22 @@
         width: 30%!important;
         div{
             width: 90%!important;
+        }
+    }
+}
+
+.Users{
+    width: 70%;
+    .User{
+        .operationsContainer{
+            .RoleUpdate{
+                width: 70%;
+                float: left;
+            }
+            .Delete{
+                width: 25%;
+                float: right;
+            }
         }
     }
 }

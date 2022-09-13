@@ -23,6 +23,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             this.mediator = mediator;
             this.services = services;
         }
+
         [Authorize(Roles = "Administrator")]
         [Route("InsertProduct")]
         [HttpPost]

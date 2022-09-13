@@ -21,7 +21,8 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.ServiceFactor
                                     ICategoryServices,
                                     IOrderServices,
                                     IAddressServices,
-                                    IOrderProductServices
+                                    IOrderProductServices,
+                                    IRoleServices
         // Inheritence of all services is sacrosanct for using in upper tier layers
     {
 

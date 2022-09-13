@@ -13,7 +13,6 @@ using FlatRockTechnology.OnlineMarket.Models.Users;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Queries.Declarations.Shared;
-using System.Security.Claims;
 
 namespace AuthenticationLayer.Proxy
 {
