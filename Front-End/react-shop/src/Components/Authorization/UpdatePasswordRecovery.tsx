@@ -12,9 +12,8 @@ import {
   incrementByAmount,
   selectLoad
 } from '../../features/counter/counterSlice';
-import { resetClipboardStubOnView } from '@testing-library/user-event/dist/types/utils';
 
-const SENDRECORVERYMAIL_URL = '/User/RecoverPassword';
+const SENDRECORVERYMAIL_URL = '/api/User/RecoverPassword';
 
 const ForgotPassword: React.FC<{token:string}> = ({ token }) => {
   

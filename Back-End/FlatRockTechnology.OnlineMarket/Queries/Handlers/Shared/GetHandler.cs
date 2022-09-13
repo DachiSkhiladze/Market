@@ -22,7 +22,7 @@ namespace Queries.Handlers.Shared
         public async IAsyncEnumerable<TModel> Handle(GetQuery<TEntity, TModel> request,
                                                     [EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            await foreach (var entity in _unitOfWork.GetRepository().Get(request.predicate))
+            foreach (var entity in _unitOfWork.GetRepository().Get(request.predicate))
             {
                 yield return _mapperConfiguration.ConvertToModel(entity);
             }

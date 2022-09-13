@@ -13,52 +13,30 @@ using Payment.Models;
 using Payment.Processing.Implementations;
 using System.Linq;
 using FlatRockTechnology.OnlineMarket.Models;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserServices _userServices;
-        private readonly IMediator _mediator;
-        private readonly IServiceProvider _serviceProvider;
         private readonly IUserServiceProxy userServiceProxy;
-        private readonly IServicesFactory servicesFactory;
+        private readonly IServicesFlyweight servicesFactory;
 
-        public UserController(IServicesFactory servicesFactory, IMediator mediator, IServiceProvider service, IUserServiceProxy userServiceProxy)
+        public UserController(IServicesFlyweight servicesFactory, IUserServiceProxy userServiceProxy)
         {
-            _mediator = mediator;
-            _serviceProvider = service;
             this.userServiceProxy = userServiceProxy;
             this.servicesFactory = servicesFactory;
         }
 
-        [HttpPost]
-        [Route("Pay")]
-        public async Task<dynamic> Pay(PaymentModel model)
-        {
-            return await MakePayment.PayAsync(model.CardNumber, model.Month, model.Year, model.CVC, model.Value);
-        }
 
-        [Authorize(Roles = "Administrator")]
         [HttpGet]
-        [Route("GetAllUsers")]
-        public async IAsyncEnumerable<ProductModel> GetAll()
+        [Route("RegisterUser")]
+        public async Task<IActionResult> IsLogged()
         {
-            ServicesFlyWeight servicesFlyWeight = new ServicesFlyWeight(_serviceProvider);
-            var bubu = servicesFlyWeight.GetService<IProductServices>();
-            await foreach (var user in bubu.GetModels())
-            {
-                yield return user;
-            }
-        }
-
-        [HttpPost]
-        [Route("CreateProduct")]
-        public async Task<ProductModel> CreateProduct([FromBody] ProductModel model)
-        {
-            return await _mediator.Send(new CreateProductCommand(model));
+            return Ok();
         }
 
         [HttpPost]
@@ -100,8 +78,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
              return Ok(model);
         }
 
-        [HttpGet]
-        [Route("SendEmail")]
+        [HttpGet("SendEmail")]
         public string Send()
         {
             EmailSender emailSender = new EmailSender();
@@ -132,6 +109,36 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         public async Task<IActionResult> RecoverPassword([FromBody] ForgotPasswordModel model)
         {
             return await servicesFactory.GetService<IUserServices>().RecoverPassword(model) ? Ok() : NotFound();
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            return Ok(await servicesFactory.GetService<IUserServices>().GetUsersWithRoles().ToListAsync());
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        [Route("UpdateRole")]
+        public async Task<IActionResult> UpdateRole(Guid guid, string role)
+        {
+            return Ok(await servicesFactory.GetService<IUserServices>().GetModels());
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpGet]
+        [Route("DeleteUser/{id}")]
+        public async Task<ActionResult> DeleteCategory(Guid id)
+        {
+            var cat = await servicesFactory.GetService<IUserServices>().GetModels(o => o.Id.Equals(id)).FirstOrDefaultAsync();
+            if (cat == null)
+            {
+                return BadRequest();
+            }
+            await servicesFactory.GetService<IUserServices>().DeleteAsync(cat);
+            return Ok();
         }
     }
 }

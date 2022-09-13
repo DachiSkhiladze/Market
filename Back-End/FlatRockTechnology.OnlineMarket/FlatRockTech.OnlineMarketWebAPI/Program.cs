@@ -1,6 +1,7 @@
 
 using FlatRockTech.OnlineMarket.WebApi.Extensions;
 using FlatRockTech.OnlineMarketWebAPI.Hubs;
+using Microsoft.AspNetCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,13 +64,13 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.ConfigureDBContext();
-builder.Services.ConfigureServicesInjections();
-builder.Services.ConfigureCQRSInjections();
-
 
 builder.Services.AddAuthentication();
+builder.Services.InjectionFacade(builder.Configuration);
+
+
 //builder.Services.ConfigureIdentity();
-builder.Services.ConfigureJWT(builder.Configuration);
+//builder.Services.ConfigureJWT(builder.Configuration);
 
 var app = builder.Build();
 

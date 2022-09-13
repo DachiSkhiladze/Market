@@ -8,6 +8,7 @@ namespace Payment.Models
 {
     public class PaymentModel
     {
+        public string NameOnCard { get; set; }
         public string CardNumber { get; set; }
         public int Month { get; set; }
         public double Year { get; set; }

@@ -1,7 +1,6 @@
 .SubCategories{
     width: 90%;
     margin: auto;
-    background-color: white;
     border-radius: 20px;
     padding: 10px 0px;
     .cat{
@@ -19,7 +18,11 @@
         }
 
         button:hover{
-            background-color: rgb(246, 246, 246);
+            background-color: rgb(2, 108, 223);
+            h1{
+                color: white;
+                text-align: right!important;
+            }
             cursor: pointer;
         }
     }

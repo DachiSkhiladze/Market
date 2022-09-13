@@ -5,7 +5,15 @@
 }
 
 .sideMenu{
-    width: 400px;
+    min-width: 200px;
+    width: 30%;
     overflow: hidden;
-
+    float: left;
 }
+
+@for $i from 1 through 4 {
+    div:nth-child(#{$i}) {
+      animation-delay: .25s * $i;
+    }
+  }
+  

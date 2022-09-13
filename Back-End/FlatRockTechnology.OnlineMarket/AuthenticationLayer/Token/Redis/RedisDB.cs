@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace AuthenticationLayer.Token.Redis
 {
-    internal class RedisDB
+    public class RedisDB : IRedisDB
     {
-        IDatabase cache;
+        private readonly IDatabase cache;
         public RedisDB()
         {
             cache = lazyConnection.Value.GetDatabase();

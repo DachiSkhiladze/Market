@@ -1,14 +1,10 @@
 ﻿using FlatRockTechnology.OnlineMarket.Models.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AuthenticationLayer.Token
 {
@@ -35,7 +31,7 @@ namespace AuthenticationLayer.Token
             var token = new JwtSecurityToken(config["Jwt:Issuer"],
                 config["Jwt:Issuer"],
                 claims,
-                expires: DateTime.Now.AddMinutes(1),
+                expires: DateTime.Now.AddMinutes(60),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

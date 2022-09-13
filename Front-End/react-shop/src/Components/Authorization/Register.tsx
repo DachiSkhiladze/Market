@@ -10,7 +10,7 @@ import {
   } from '../../features/counter/counterSlice';
 import RegistrationFailure from './IncorrectRegister/RegistrationFailure';
 
-const LOGIN_URL = '/User/RegisterUser';
+const REGISTER_URL = '/api/User/RegisterUser';
 
 const Register: React.FC<{setPage:any}> = ({ setPage }) => {
     const [success, setSuccess]  = useState(false);
@@ -23,7 +23,7 @@ const Register: React.FC<{setPage:any}> = ({ setPage }) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        setErrMsg('');
+        setErrMsg('Erasdasdasdasdsror');
     }, [email, password, firstName, lastName])
 
     const handleSubmit = async (e:any) => {
@@ -36,7 +36,7 @@ const Register: React.FC<{setPage:any}> = ({ setPage }) => {
                 "firstName": firstName,
                 "lastName": lastName
               });
-            const response = await axios.post(LOGIN_URL, model, {
+            const response = await axios.post(REGISTER_URL, model, {
                 headers: {
                     'Content-Type': 'application/json'
                 }}

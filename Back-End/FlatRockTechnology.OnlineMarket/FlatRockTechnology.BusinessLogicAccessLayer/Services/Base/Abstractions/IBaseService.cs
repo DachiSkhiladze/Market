@@ -15,8 +15,9 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Base
     public interface IBaseService<TEntity, TModel> : IBaseService
     {
         Task<bool> IsExists(Expression<Func<TEntity, bool>> predicate);
-        IAsyncEnumerable<TModel> GetModels();
+        Task<IEnumerable<TModel>> GetModels();
         IAsyncEnumerable<TModel> GetModels(Func<TEntity, bool> predicate);
+        Task<TModel> GetSingleModel(Func<TEntity, bool> predicate);
         Task<TModel> InsertAsync(TModel model);
         Task<TModel> UpdateAsync(TModel model);
         Task<bool> DeleteAsync(TModel model);

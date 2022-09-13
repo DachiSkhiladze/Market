@@ -17,10 +17,9 @@ import{
 } from './reducer/logger'
 import LoginFailure from './IncorrectLogin/LoginFailure';
 import ForgotPassword from './ForgotPassword';
-import { logger } from './reducer/logger';
-const LOGIN_URL = '/User/LoginUser';
+const LOGIN_URL = '/api/User/LoginUser';
 
-const Login: React.FC<{setPage:any}> = ({ setPage }) => {
+const Login : React.FC<{setPage:any}> = ({ setPage }) => {
 
     let navigate = useNavigate();
     
@@ -55,7 +54,6 @@ const Login: React.FC<{setPage:any}> = ({ setPage }) => {
             if(response.status < 250)
             {
                 const tokenObject = response?.data;
-                //const roles = response?.data?.roles;
                 setEmail('');
                 setPassword('');
                 localStorage.setItem('token', JSON.stringify(tokenObject));

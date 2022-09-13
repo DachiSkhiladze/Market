@@ -28,6 +28,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.DB
         public virtual DbSet<SubCategory> SubCategory { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
+        public virtual DbSet<CartItem> CartItem { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -63,6 +64,13 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.DB
                     .WithMany(p => p.AddressUser)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK__Address__UserID__3F466844");
+            });
+
+            modelBuilder.Entity<ProductPictures>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ID");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -232,6 +240,13 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.DB
                 entity.Property(e => e.NormalizedName).HasMaxLength(50);
 
                 entity.Property(e => e.Title).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<CartItem>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ID");
             });
 
             modelBuilder.Entity<SubCategory>(entity =>

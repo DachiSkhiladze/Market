@@ -12,8 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EmailLayer\EmailLayer.csproj" />
-    <ProjectReference Include="..\FlatRockTechnology.BusinessLogicAccessLayer\FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.csproj" />
+    <ProjectReference Include="..\EmailLayer\EmailServiceLayer.csproj" />
+    <ProjectReference Include="..\FlatRockTechnology.BusinessLogicAccessLayer\OnlineMarket.BusinessLogicAccessLayer.csproj" />
+    <ProjectReference Include="..\Models\OnlineMarket.Models.csproj" />
   </ItemGroup>
 
 </Project>

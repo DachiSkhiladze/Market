@@ -13,8 +13,9 @@ import {
     selectLoad
   } from '../../features/counter/counterSlice';
 
+//const BASE_URL = 'https://marketplacefrt.azurewebsites.net';
 const BASE_URL = 'https://localhost:7223';
-const REFRESH_METHOD_URL = '/User/refresh-token'
+const REFRESH_METHOD_URL = '/api/User/refresh-token'
 
 
 export default axios.create({
@@ -33,33 +34,60 @@ export const axiosGet = async (url : string) => {
             'Content-Type': 'application/json'
         }}
     )
-    console.log(response.data)
+    return response;
+}
+
+export const axiosAuthPost : any = async (methodUrl : string, body : string) => {
+    var tkn = localStorage.getItem('token')!;
+    var response;
+    var token : any = JSON.parse(tkn);
+    try{
+        var customConfig = {
+            headers: {
+                'Authorization': 'Bearer ' + token.accessToken,
+                'Content-Type': 'application/json;charset=UTF-8',
+                "Access-Control-Allow-Origin": "*"
+            }
+        };
+        const data = JSON.stringify(body);
+        response = axios.post(BASE_URL+methodUrl, data, customConfig)
+                                    .catch(err => console.log('Payment Error: ', err));
+        return response;
+    }
+    catch(err:any){
+        var isRefreshed : boolean = false;
+            //await refreshToken();
+        if(isRefreshed){
+            //return axiosAuthGet(methodUrl);
+        }
+    }
     return response;
 }
 
 export const axiosAuthGet : any = async (methodUrl : string) => {
     var tkn = localStorage.getItem('token')!;
-    var token : any = JSON.parse(tkn);
 
+    var token : any = JSON.parse(tkn);
     try{
         const response = await axios.get(BASE_URL+methodUrl, {
             headers: {
                 'Authorization': 'Bearer ' + token.accessToken,
                 'Content-Type': 'application/json',
             }}
-        )
+        );
         if(response.status > 240){
             var isRefreshed : boolean = await refreshToken();
             if(isRefreshed){
-                axiosAuthGet(methodUrl);
+                //axiosAuthGet(methodUrl);
             }
         }
         return response;
     }
     catch(err:any){
-        var isRefreshed : boolean = await refreshToken();
+        var isRefreshed : boolean = false;
+            //await refreshToken();
         if(isRefreshed){
-            return axiosAuthGet(methodUrl);
+            //return axiosAuthGet(methodUrl);
         }
     }
 }
@@ -80,6 +108,6 @@ const refreshToken = async () => {
     if(response.status < 250){
         return true;
     }
-    store.dispatch(logOut()); // log out of system
+    //store.dispatch(logOut()); // log out of system
     return false;
 }

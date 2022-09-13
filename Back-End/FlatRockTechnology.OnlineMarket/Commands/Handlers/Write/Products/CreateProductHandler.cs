@@ -1,7 +1,6 @@
 ﻿using FlatRockTechnology.OnlineMarket.DataAccessLayer.UnitOfWork.Abstractions;
 using Commands.Declarations.Individual.Products;
 using MediatR;
-using FlatRockTechnology.OnlineMarket.DataAccessLayer.Database;
 using FlatRockTechnology.OnlineMarket.Models.Products;
 using FlatRockTechnology.OnlineMarket.Models.Mapper.Abstractions;
 using FlatRockTechnology.OnlineMarket.DataAccessLayer.DB;
@@ -24,7 +23,7 @@ namespace Commands.Handlers.Write.ProductHandlers
             Product entity = _mapperConfiguration.ConvertToEntity(request.model);
             Product savedEntity = await _unitOfWork.Products.AddAsync(entity);
             ProductModel savedModel = _mapperConfiguration.ConvertToModel(savedEntity); 
-            foreach (var category in request.model.Categories)
+            foreach (var category in request?.model?.Categories ?? new List<Guid>())
             {
                 await CreateProductCategory(category, savedEntity.Id);
             }

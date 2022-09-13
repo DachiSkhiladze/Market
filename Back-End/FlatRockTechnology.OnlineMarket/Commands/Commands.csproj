@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj" />
-    <ProjectReference Include="..\Models\FlatRockTechnology.OnlineMarket.Models.csproj" />
+    <ProjectReference Include="..\Models\OnlineMarket.Models.csproj" />
   </ItemGroup>
 
 </Project>

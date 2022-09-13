@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../api/axios';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { useNavigate } from "react-router-dom";
-import { axiosAuthGet } from '../api/axios'
+import { axiosAuthGet, axiosGet } from '../api/axios'
 import './SubCats.scss'
 import {
     decrement,
@@ -14,7 +11,7 @@ import { SubCategoryModel } from './SubCategoryModel';
 
 const METHOD_URL = '/api/Products/GetCategories/';
 
-function SubCategories() {
+const SubCategories: React.FC<{SetSelectedCategory:any}> = ({SetSelectedCategory}) => {
     const [subCategories, setSubCategories] = useState<SubCategoryModel[]>([]);
 
     const dispatch = useDispatch();
@@ -23,7 +20,7 @@ function SubCategories() {
         dispatch(increment());
         try {
             var categoryId = 'eca89582-50b9-4ea6-8445-589be64ca7db';
-            const response = await axiosAuthGet(METHOD_URL + categoryId);
+            const response = await axiosGet(METHOD_URL + categoryId);
             
             if(response!.status < 250)
             {
@@ -44,7 +41,7 @@ function SubCategories() {
         {subCategories.map((item : SubCategoryModel)=>{
             return (
                 <div key={item.id} className='cat'>
-                    <button>
+                    <button onClick={() => SetSelectedCategory(item.id)}>
                         <h1>{item.name}</h1>
                     </button>
                 </div>

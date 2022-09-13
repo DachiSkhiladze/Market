@@ -34,7 +34,7 @@ namespace FlatRockTechnology.OnlineMarket.Models.Mapper
             }
         }
 
-        public IEnumerable<TModel> ConvertToModelsFromList(List<TEntity> models)
+        public IEnumerable<TModel> ConvertToModelsFromList(IEnumerable<TEntity> models)
         {
             foreach (var model in models)
             {

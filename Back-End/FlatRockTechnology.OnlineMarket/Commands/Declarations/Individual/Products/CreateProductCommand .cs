@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Commands.Declarations.Individual.Products
 {
-    public record CreateProductCommand(ProductModel model) : IRequest<ProductModel>;
+    public record UpdateProductCommand(ProductModel model) : IRequest<ProductModel>;
 }

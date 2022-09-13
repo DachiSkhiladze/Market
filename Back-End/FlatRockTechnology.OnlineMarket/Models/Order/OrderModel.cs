@@ -7,6 +7,6 @@ namespace FlatRockTechnology.OnlineMarket.Models.Orders
         public Guid Id { get; set; }
         public string Status { get; set; }
         public Guid AddressId { get; set; }
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

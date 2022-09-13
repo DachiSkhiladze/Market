@@ -14,6 +14,7 @@ namespace FlatRockTechnology.OnlineMarket.Models.Users
         public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; }
         public string City { get; set; }
+        public string Role { get; set; }
         public bool? IsDisabled { get; set; }
         public bool? IsActive { get; set; }
         public string PhoneNumber { get; set; }

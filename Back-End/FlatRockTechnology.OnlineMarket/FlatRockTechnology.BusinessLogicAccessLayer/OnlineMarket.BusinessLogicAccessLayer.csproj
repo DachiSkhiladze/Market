@@ -24,8 +24,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Commands\Commands.csproj" />
     <ProjectReference Include="..\DataAccessLayer\FlatRockTechnology.OnlineMarket.DataAccessLayer.csproj" />
-    <ProjectReference Include="..\EmailLayer\EmailLayer.csproj" />
-    <ProjectReference Include="..\Models\FlatRockTechnology.OnlineMarket.Models.csproj" />
+    <ProjectReference Include="..\EmailLayer\EmailServiceLayer.csproj" />
+    <ProjectReference Include="..\Models\OnlineMarket.Models.csproj" />
+    <ProjectReference Include="..\PicturesAccessLayer\PicturesAccessLayer.csproj" />
     <ProjectReference Include="..\Queries\Queries.csproj" />
   </ItemGroup>
 

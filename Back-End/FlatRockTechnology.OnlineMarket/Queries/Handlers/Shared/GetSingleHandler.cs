@@ -18,8 +18,8 @@ namespace Queries.Handlers.Shared
          
         public async Task<TModel> Handle(GetSingleQuery<TEntity, TModel> request, CancellationToken cancellationToken)
         {
-            var entity = _unitOfWork.GetRepository().Get(request.predicate);
-            return _mapperConfiguration.ConvertToModel(await entity.FirstAsync());
+            var entity = _unitOfWork.GetRepository().GetSingle(request.predicate);
+            return _mapperConfiguration.ConvertToModel(entity);
         }
     }
 }
