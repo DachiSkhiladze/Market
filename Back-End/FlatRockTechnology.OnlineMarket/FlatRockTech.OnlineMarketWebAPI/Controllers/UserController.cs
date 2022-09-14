@@ -31,6 +31,14 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             this.servicesFactory = servicesFactory;
         }
 
+        [HttpGet]
+        [Route("GetRoles")]
+        public async Task<IEnumerable<RoleModel>> GetRoles()
+        {
+            var roles = (await this.servicesFactory.GetService<IRoleServices>().GetModels());
+            return roles;
+        }
+
 
         [HttpGet]
         [Route("RegisterUser")]
@@ -120,11 +128,11 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
-        [HttpPost]
-        [Route("UpdateRole")]
-        public async Task<IActionResult> UpdateRole(Guid guid, string role)
+        [HttpGet]
+        [Route("UpdateRole/{userId}/{roleId}")]
+        public async Task<IActionResult> UpdateRole(Guid userId, Guid roleId)
         {
-            return Ok(await servicesFactory.GetService<IUserServices>().GetModels());
+            return Ok(await servicesFactory.GetService<IUserServices>().UpdateRoleAsync(userId, roleId));
         }
 
         [Authorize(Roles = "Administrator")]

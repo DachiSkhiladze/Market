@@ -12,7 +12,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
         Task<bool> ConfirmEmail(string code);
         Task<bool> RecoverPassword(string mail, string origin);
         Task<bool> RecoverPassword(ForgotPasswordModel model);
-        Task<bool> UpdateRole(Guid guid, string role);
+        Task<bool> UpdateRoleAsync(Guid userId, Guid roleId);
         IAsyncEnumerable<UserModel> GetUsersWithRoles();
     }
 }

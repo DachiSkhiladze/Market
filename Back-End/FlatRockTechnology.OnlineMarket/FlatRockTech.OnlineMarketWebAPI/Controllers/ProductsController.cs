@@ -61,6 +61,13 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return await services.GetService<IProductServices>().GetProductWithPictures(o => o.Id.Equals(id));
         }
 
+        [Route("GetProductWithPicturesBySubCategoryId/{orderId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetProductWithPicturesBySubCategoryId(Guid orderId)
+        {
+            return Ok(services.GetService<IProductServices>().GetProductsWithPictures(orderId));
+        }
+
         [Route("GetAllProducts")]
         [HttpGet]
         public async Task<IActionResult> GetAllProducts(Guid id)

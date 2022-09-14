@@ -17,7 +17,7 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
         public async Task<string> GetUserRole(Guid id)
         {
             var userRole = await this.GetSingleModel(o => o.UserId.Equals(id));
-            var role = await roleServices.GetSingleModel(o => o.Id.Equals(userRole.Id));
+            var role = await roleServices.GetSingleModel(o => o.Id.Equals(userRole.RoleId));
             return role.Title;
         }
     }

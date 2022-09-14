@@ -9,13 +9,40 @@ import { useAppDispatch } from '../app/hooks';
 import { Product } from '../Components/models/Product';
 
 function Users() {
-    const [products, setProducts] : any= useState([]);
+    const [products, setProducts] : any = useState([]);
+    const [roles, setRoles] : any = useState([]);
+
     const dispatch = useAppDispatch();
   
     useEffect(() => {
         setProductsArr();
+        GetRoles();
     }, [])
   
+    async function GetRoles(){
+      var response : any;
+      dispatch(increment());
+      try{
+        response = await axiosGet('/api/User/GetRoles')
+                          .then(res => InitOptionsRoles(res.data));
+      }
+      catch(err : any){
+        dispatch(decrement());
+      }
+
+      dispatch(decrement());
+
+
+    }
+
+    function InitOptionsRoles(data : any){
+      var options = [];
+      for(var i = 0; i < data.length; i++){
+        options.push({value: data[i].id, label: data[i].title});
+      }
+      setRoles(options);
+    }
+
     async function setProductsArr(){
       var response:any;
       dispatch(increment());
@@ -46,8 +73,15 @@ function Users() {
     
     const navigate = useNavigate();
 
-    function updateProduct(id : string){
-        navigate('/updateProduct/' + id)
+    async function updateProduct(userId : string, roleId : string){
+      dispatch(increment());
+      try{
+        var response = await axiosAuthGet('/api/User/UpdateRole/' + userId + '/' + roleId)
+                .then((results : any) => dispatch(decrement()));
+      }
+      catch(err : any){
+        dispatch(decrement());
+      }
     }
 
 
@@ -63,7 +97,9 @@ function Users() {
                         </div>
                         <div className='operationsContainer'>
                             <div className='RoleUpdate'>
-                               <Select />
+                               <Select onChange={(e : any) => updateProduct(item.id, e.value)}
+                                        options={roles}
+                                        placeholder={item.role}/>
                             </div>
                             <div className='Delete'>
                                 <button onClick={async () => await deleteProduct(item?.id)}>Delete</button>

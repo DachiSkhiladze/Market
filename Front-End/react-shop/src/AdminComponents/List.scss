@@ -57,6 +57,12 @@
     }
 }
 
+.Orders{
+    .Product{
+        height: 200px!important;
+        overflow: hidden;
+    }
+}
 .Users{
     width: 70%;
     .User{
@@ -70,5 +76,52 @@
                 float: right;
             }
         }
+    }
+}
+
+
+.Details{
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    table{
+        tr{
+            margin: 0px!important;
+            th{
+                margin: 0px!important;
+                border-top: 0px;
+                border-bottom: 0px;
+                font-size: 15px;
+            }
+        }
+        .DetailsHeader{
+            th{
+                border-left: 10px solid black;
+                color: rgb(2, 108, 223);
+            }
+        }
+    }
+}
+
+.Done{
+    h2{
+        text-align: center;
+    }
+    button{
+        border-radius: 10px;
+        font-size: 20px;
+        margin: auto;
+        width: 100px;
+        display: block;
+        margin-top: 10px;
+    }
+    .Done{
+        color: rgb(12, 193, 132);
+        border: 1px solid rgb(12, 193, 132);
+    }
+    .Process{
+        color: #B33A3A;
+        border: 1px solid #B33A3A;
+        cursor: pointer;
     }
 }

@@ -32,11 +32,14 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
             }
         }
 
-        public async Task<bool> UpdateRole(Guid guid, string role)
+        public async Task<bool> UpdateRoleAsync(Guid userId, Guid roleId)
         {
-            var userRoleEntity = await userRoleServices.GetSingleModel(o => o.UserId.Equals(guid));
-            var roleEntity = await roleServices.GetSingleModel(o => o.Title.Equals(role));
-            userRoleEntity.RoleId = roleEntity.Id;
+            var userRoleEntity = await userRoleServices.GetSingleModel(o => o.UserId.Equals(userId));
+            if (!await roleServices.IsExists(o => o.Id.Equals(roleId)))
+            {
+                return false;
+            }
+            userRoleEntity.RoleId = roleId;
 
             await userRoleServices.UpdateAsync(userRoleEntity);
 

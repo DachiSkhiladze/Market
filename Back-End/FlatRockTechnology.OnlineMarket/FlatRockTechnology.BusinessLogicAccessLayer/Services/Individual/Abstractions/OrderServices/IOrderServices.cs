@@ -6,6 +6,7 @@ namespace OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions
 {
     public interface IOrderServices : IBaseService<Order, OrderModel>
     {
-
+        new IAsyncEnumerable<OrderModel> GetModels();
+        Task<OrderModel> SetOrderDone(Guid orderId);
     }
 }

@@ -25,11 +25,11 @@ function Gallery() {
     dispatch(increment());
     try{
       if(selectedCategory){
-        //response = await axiosGet('/api/Products/GetProductsBySubCategoryID/' + selectedCategory);
+        response = await axiosGet('/api/Products/GetProductWithPicturesBySubCategoryId/' + selectedCategory);
       }
       else{
+        response = await axiosGet('/api/Products/GetAllProductsWithPictures');
       }
-      response = await axiosGet('/api/Products/GetAllProductsWithPictures');
     }
     catch(er : any){
       dispatch(decrement());
