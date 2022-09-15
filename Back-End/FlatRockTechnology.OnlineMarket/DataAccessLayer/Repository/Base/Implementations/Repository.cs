@@ -62,7 +62,6 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
             try
             {
                 return _marketContext.Set<TEntity>()
-                                     .AsQueryable()
                                      .AsNoTracking()
                                      .Where(predicate);
             }
@@ -77,7 +76,6 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
             try
             {
                 return _marketContext.Set<TEntity>()
-                                     .AsQueryable()
                                      .AsNoTracking()
                                      .First(predicate);
             }
@@ -144,8 +142,7 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Implem
             }
             catch (Exception ex)
             {
-                //throw new Exception($"{nameof(entity)} could not be deleted: {ex.Message}");
-                return false;
+                throw new Exception($"{nameof(entity)} could not be deleted: {ex.Message}");
             }
         }
     }

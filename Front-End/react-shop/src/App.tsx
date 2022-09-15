@@ -77,14 +77,14 @@ function App() {
               <Route  path="/login" element={<AuthorizationLayer />}/>  :
             <>
                 <Route  path="/Cart" element={<Cart />}/>
+                {
+                  (logged === 'Employee') ? 
+                    <Route  path="/Orders" element={<Orders /> } />
+                    :
+                    <>
+                    </>
+                }
             </>
-            }
-             {
-              (logged === 'Employee') ? 
-                  <Route  path="/Orders" element={<Orders /> } />
-                  :
-                  <>
-                  </>
             }
             {
               (logged === 'Administrator') ? 

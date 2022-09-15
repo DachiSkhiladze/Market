@@ -24,6 +24,7 @@ function CreateProduct() {
 
     useEffect(() => {
         GetCategories();
+        GetSubCategories();
     }, []);
 
     useEffect(() => {
@@ -36,7 +37,6 @@ function CreateProduct() {
     }, [price, selectedSubCategoryIds]);
 
     useEffect(() => {
-        GetSubCategories();
     }, [selectedCategoryId]);
 
     const SubmitProducts = async () => {
@@ -65,19 +65,26 @@ function CreateProduct() {
     }
 
     const GetSubCategories = async () => {
-        var response = await axiosAuthGet('/api/Products/GetCategories/' + selectedCategoryId).then((res : any) =>
-            handleSetSubCategories(res)
-        );
+        var subCats : any = [];
+        for(var i = 0; i < categories.length; i++){
+            var response = await axiosAuthGet('/api/Products/GetCategories/' + categories[i].value).then((res : any) =>
+                subCats.push(handleSetSubCategories(categories[i].label, res.data))
+            );
+        }
+        setSubCategories(subCats);
     }
 
-    const handleSetSubCategories = (response : any) => {
-        setSubCategories([]);
-        var res = response.data;
+    const handleSetSubCategories = (name : string, response : any) => {
+        var subOptions = [];
         var options = [];
-        for (let i = 0; i < res.length; i++) {
-            options.push({value: res[i].id, label: res[i].name});
+        for(let i = 0; i < response.length; i++){
+            subOptions.push({ label: response[i].name, value: response[i].id });
         }
-        setSubCategories(options);
+        options.push({
+            label: name,
+            options: subOptions
+        });
+        return options[0];
     }
 
     const GetCategories = async () => {
@@ -101,6 +108,7 @@ function CreateProduct() {
             options.push({value: res[i].id, label: res[i].name});
         }
         setCategories(options);
+        GetSubCategories();
     }
 
     const handleChangeImage = async (e:any) => {
@@ -121,7 +129,6 @@ function CreateProduct() {
 
     const handleSubCategoryIds = (selectedItems : any) => {
         var ids = selectedItems.map((o:any) => o.value);
-        console.log(ids);
         setSelectedSubCategoryIds(ids);
     }   
     
@@ -173,12 +180,9 @@ function CreateProduct() {
                     }
                 </div>
                 <input type="file" accept="image/png, image/gif, image/jpeg, image/jpg"  multiple onChange={e => handleChangeImage(e)} />
-                <label>Categories</label>
-                <Select className='Selector' 
-                        onChange={(choice:any) => setSelectedCategoryId(choice.value)} 
-                        options={categories} />
-                <label>SubCategories</label>
+                <label>Choose Category</label>
                 <Select className='Selector'
+                    closeMenuOnSelect={false}
                     onChange={(choice:any) => handleSubCategoryIds(choice)} 
                     isMulti
                     options={subCategories} />

@@ -39,9 +39,9 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return roles;
         }
 
-
+        [Authorize(Roles = "User")]
         [HttpGet]
-        [Route("RegisterUser")]
+        [Route("IsLogged")]
         public async Task<IActionResult> IsLogged()
         {
             return Ok();
