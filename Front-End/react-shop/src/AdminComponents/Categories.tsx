@@ -8,9 +8,8 @@ import { decrement, increment } from '../features/counter/counterSlice';
 import { useAppDispatch } from '../app/hooks';
 import { Product } from '../Components/models/Product';
 
-function Products() {
-    const [products, setProducts] : any= useState([]);  
-    const [selectedCategory, SetSelectedCategory] = useState(null);
+function Categories() {
+    const [products, setProducts] : any= useState([]);
     const dispatch = useAppDispatch();
   
     useEffect(() => {
@@ -21,7 +20,7 @@ function Products() {
       var response:any;
       dispatch(increment());
       try{
-        response = await axiosGet('/api/Products/GetAllProducts')
+        response = await axiosGet('/api/Products/GetCategories')
             .then(results => setProducts(results.data));
       }
       catch(er : any){
@@ -34,7 +33,7 @@ function Products() {
         var response:any;
         dispatch(increment());
         try{
-          response = await axiosGet('/api/Products/DeleteProduct/' + id);
+          response = await axiosGet('/api/Category/DeleteCategory/' + id);
         }
         catch(er : any){
           dispatch(decrement());
@@ -54,9 +53,8 @@ function Products() {
 
   return (
     
-    <div className="Products">
-            <h3>Products</h3>
-            
+    <div className="Products Categories">
+            <h3>Categories</h3>
             {products?.map((item : Product)=>{
                 return (
                     <div className='Product' key={item.id}>
@@ -64,9 +62,6 @@ function Products() {
                             <h1>{item?.name}</h1>
                         </div>
                         <div className='operationsContainer'>
-                            <div className='Update'>
-                                <button onClick={() => updateProduct(item?.id)}>Update</button>
-                            </div>
                             <div className='Delete'>
                                 <button onClick={async () => await deleteProduct(item?.id)}>Delete</button>
                             </div>
@@ -78,4 +73,4 @@ function Products() {
   );
 }
 
-export default Products;
+export default Categories;

@@ -8,9 +8,17 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
 {
     public class UserRoleServices : BaseService<UserRole, UserRoleModel>, IUserRoleServices
     {
-        public UserRoleServices(IMediator mediator) : base(mediator)
+        private readonly IRoleServices roleServices;
+        public UserRoleServices(IMediator mediator, IRoleServices roleServices) : base(mediator)
         {
+            this.roleServices = roleServices;
+        }
 
+        public async Task<string> GetUserRole(Guid id)
+        {
+            var userRole = await this.GetSingleModel(o => o.UserId.Equals(id));
+            var role = await roleServices.GetSingleModel(o => o.Id.Equals(userRole.RoleId));
+            return role.Title;
         }
     }
 }

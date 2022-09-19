@@ -60,6 +60,7 @@ const Login : React.FC<{setPage:any}> = ({ setPage }) => {
                 console.log(tokenObject);
                 dispatch(logIn());
                 navigate("/Gallery", { replace: true });
+                window.location.reload();
             }
             else{
                 setErrMsg('Success');

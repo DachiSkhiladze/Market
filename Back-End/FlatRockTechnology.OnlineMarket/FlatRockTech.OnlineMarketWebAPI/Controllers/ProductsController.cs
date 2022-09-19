@@ -24,6 +24,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             this.services = services;
         }
 
+        [Authorize(Roles = "Administrator")]
         [Route("InsertProduct")]
         [HttpPost]
         public async Task<IActionResult> InsertProduct([FromBody] ProductModel productModel)
@@ -33,6 +34,15 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Administrator")]
+        [Route("UpdateProduct")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductModel productModel)
+        {
+            await services.GetService<IProductServices>().UpdateAsync(productModel);
+
+            return Ok();
+        }
 
         [Route("GetAllProductsWithPictures")]
         [HttpGet]
@@ -42,6 +52,20 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             {
                 yield return item;
             }
+        }
+
+        [Route("GetProductWithPictures/{id}")]
+        [HttpGet]
+        public async Task<ProductModel> GetProductWithPictures(Guid id)
+        {
+            return await services.GetService<IProductServices>().GetProductWithPictures(o => o.Id.Equals(id));
+        }
+
+        [Route("GetProductWithPicturesBySubCategoryId/{orderId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetProductWithPicturesBySubCategoryId(Guid orderId)
+        {
+            return Ok(services.GetService<IProductServices>().GetProductsWithPictures(orderId));
         }
 
         [Route("GetAllProducts")]
@@ -66,8 +90,6 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             var response = await mediator.Send(new GetAllQuery<Category, CategoryModel>());
             return Ok(response);
         }
-
-        //[Authorize(Roles = "Administrator")]
         [Route("GetCategories/{id}")]
         [HttpGet]
         public async Task<IActionResult> GetCategories(Guid id)
@@ -75,7 +97,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
             var cat = await mediator.Send(new GetAllQuery<SubCategory, SubCategoryModel>());
             return Ok(cat.Where(o => o.CategoryId.Equals(id)));
         }
-
+        [Authorize(Roles = "Administrator")]
         [Route("DeleteProduct/{id}")]
         [HttpGet]
         public async Task<IActionResult> DeleteProduct(Guid id)

@@ -10,6 +10,9 @@ namespace OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions
     public interface IProductServices : IBaseService<Product, ProductModel>
     {
         IAsyncEnumerable<ProductModel> GetProductsWithPictures();
+        IAsyncEnumerable<ProductModel> GetProductsWithPictures(Guid SubCategoryId);
+        Task<ProductModel> GetProductWithPictures(Func<Product, bool> predicate);
         Task<ProductModel> InsertAsync(ProductModel model);
+        Task<ProductModel> UpdateAsync(ProductModel model);
     }
 }

@@ -5,6 +5,7 @@ using FlatRockTechnology.OnlineMarket.Models.Products;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.ProductServices;
+using Queries.Declarations.Individual;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Implementations.ProductServices
 {
@@ -26,6 +27,23 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
             }
         }
 
+        public async Task<ProductModel> GetProductWithPictures(Func<Product, bool> predicate)
+        {
+            var product = await base.GetSingleModel(predicate);
+            product.ProductPictures = await productPicturesService.GetPicturesByProductId(product.Id).ToListAsync();
+            product.Pictures = product.ProductPictures.Select(o => o.ImageURL);
+            return product;
+        }
+
+        public async IAsyncEnumerable<ProductModel> GetProductsWithPictures(Guid SubCategoryId)
+        {
+            var col = await mediator.Send(new GetProductsBySubCategoryIDQuery(SubCategoryId));
+            foreach (var model in col)
+            {
+                model.Pictures = await productPicturesService.GetPicturesByProductId(model.Id).Select(o => o.ImageURL).ToListAsync();
+                yield return model;
+            }
+        }
 
         public async Task<ProductModel> InsertAsync(ProductModel model)
         {
@@ -34,5 +52,10 @@ namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Indi
             return product;
         }
 
+        public async Task<ProductModel> UpdateAsync(ProductModel model)
+        {
+            var product = await mediator.Send(new UpdateProductCommand(model));
+            return product;
+        }
     }
 }

@@ -9,7 +9,7 @@ import {
   increment,
   selectLoad,
 } from './features/counter/counterSlice';
-import { logAdmin, logIn, selectLogged } from './Components/Authorization/reducer/logger';
+import { logAdmin, logEmployee, logIn, selectLogged } from './Components/Authorization/reducer/logger';
 import Gallery from './Components/Gallery/Gallery'
 import Cart from './Components/Cart/Cart';
 import Header from './Header';
@@ -18,6 +18,14 @@ import Payment from './Components/Payment/Payment';
 import Success from './Components/Payment/Success';
 import Fail from './Components/Payment/Fail';
 import CreateProduct from './AdminComponents/CreateProduct';
+import CreateCategory from './AdminComponents/CreateCategory';
+import CreateSubCategory from './AdminComponents/CreateSubCategory';
+import Products from './AdminComponents/Products';
+import UpdateProduct from './AdminComponents/UpdateProduct';
+import Categories from './AdminComponents/Categories';
+import SubCategoriesList from './AdminComponents/SubCategoriesList';
+import Users from './AdminComponents/Users';
+import Orders from './EmployeeComponents/Orders';
 
 function App() {
   const load = useAppSelector(selectLoad);
@@ -33,6 +41,14 @@ function App() {
     }
   }
 
+  async function IsEmployee(){
+    var response =  await axiosAuthGet('/api/Employee/IsEmployee');
+    if(response?.status < 240){
+      setIsLogged(true);
+      dispatch(logEmployee());
+    }
+  }
+
   async function IsAdmin(){
     var response =  await axiosAuthGet('/api/Admin/IsAdmin');
     if(response?.status < 240){
@@ -44,6 +60,7 @@ function App() {
   useEffect(() => {
     dispatch(decrement());
     IsLogged();
+    IsEmployee();
     IsAdmin();
   }, []);
 
@@ -60,11 +77,31 @@ function App() {
               <Route  path="/login" element={<AuthorizationLayer />}/>  :
             <>
                 <Route  path="/Cart" element={<Cart />}/>
+                {
+                  (logged === 'Employee') ? 
+                    <Route  path="/Orders" element={<Orders /> } />
+                    :
+                    <>
+                    </>
+                }
             </>
             }
             {
               (logged === 'Administrator') ? 
-              <Route  path="/CreateProduct" element={<CreateProduct />}/>  :
+              <>
+                <Route  path="/Orders" element={<Orders />}/>
+                <Route  path="/CreateProduct" element={<CreateProduct />}/>
+                <Route  path="/Users" element={<Users />}/>
+                <Route  path="/Products" element={<Products />}/>
+                <Route  path="/Categories" element={<Categories /> } />
+                <Route  path="/SubCategories" element={<SubCategoriesList />}/>
+                <Route  path="/CreateCategory" element={<CreateCategory />}/>
+                <Route  path="/CreateSubCategory" element={<CreateSubCategory />}/>
+
+                <Route  path="/UpdateProduct/:id" element={<UpdateProduct /> } />
+
+              </>
+              :
               <>
               </>
             }

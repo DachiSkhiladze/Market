@@ -13,6 +13,7 @@ using Payment.Models;
 using Payment.Processing.Implementations;
 using System.Linq;
 using FlatRockTechnology.OnlineMarket.Models;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace FlatRockTech.OnlineMarketWebAPI.Controllers
 {
@@ -24,10 +25,18 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         private readonly IUserServiceProxy userServiceProxy;
         private readonly IServicesFlyweight servicesFactory;
 
-        public UserController(IServicesFlyweight servicesFactory, IMediator mediator, IServiceProvider service, IUserServiceProxy userServiceProxy)
+        public UserController(IServicesFlyweight servicesFactory, IUserServiceProxy userServiceProxy)
         {
             this.userServiceProxy = userServiceProxy;
             this.servicesFactory = servicesFactory;
+        }
+
+        [HttpGet]
+        [Route("GetRoles")]
+        public async Task<IEnumerable<RoleModel>> GetRoles()
+        {
+            var roles = (await this.servicesFactory.GetService<IRoleServices>().GetModels());
+            return roles;
         }
 
         [Authorize(Roles = "User")]
@@ -77,8 +86,7 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
              return Ok(model);
         }
 
-        [HttpGet]
-        [Route("SendEmail")]
+        [HttpGet("SendEmail")]
         public string Send()
         {
             EmailSender emailSender = new EmailSender();
@@ -109,6 +117,36 @@ namespace FlatRockTech.OnlineMarketWebAPI.Controllers
         public async Task<IActionResult> RecoverPassword([FromBody] ForgotPasswordModel model)
         {
             return await servicesFactory.GetService<IUserServices>().RecoverPassword(model) ? Ok() : NotFound();
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            return Ok(await servicesFactory.GetService<IUserServices>().GetUsersWithRoles().ToListAsync());
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpGet]
+        [Route("UpdateRole/{userId}/{roleId}")]
+        public async Task<IActionResult> UpdateRole(Guid userId, Guid roleId)
+        {
+            return Ok(await servicesFactory.GetService<IUserServices>().UpdateRoleAsync(userId, roleId));
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpGet]
+        [Route("DeleteUser/{id}")]
+        public async Task<ActionResult> DeleteCategory(Guid id)
+        {
+            var cat = await servicesFactory.GetService<IUserServices>().GetModels(o => o.Id.Equals(id)).FirstOrDefaultAsync();
+            if (cat == null)
+            {
+                return BadRequest();
+            }
+            await servicesFactory.GetService<IUserServices>().DeleteAsync(cat);
+            return Ok();
         }
     }
 }

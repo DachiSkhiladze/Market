@@ -144,6 +144,9 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
             services.AddTransient(typeof(IRequestHandler<GetRoleQuery, IEnumerable<RoleModel>>),
                 typeof(GetRoleHandler));
 
+            services.AddTransient(typeof(IRequestHandler<UpdateProductCommand, ProductModel>),
+                typeof(UpdateProductHandler));
+
             services.AddTransient(typeof(IRequestHandler<GetProductPicturesByProductIDQuery, IEnumerable<ProductPicturesModel>>),
                 typeof(GetProductPicturesByProductIDHandler));
 
@@ -216,6 +219,7 @@ namespace FlatRockTech.OnlineMarket.WebApi.Extensions
         public static void ConfigureServicesInjections(this IServiceCollection services)
         {
             services.AddTransient<IOrderProductServices, OrderProductService>();
+            services.AddTransient<IRoleServices, RoleServices>();
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<ICartItemServices, CartItemServices>();
             services.AddTransient<IUserRoleServices, UserRoleServices>();

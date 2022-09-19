@@ -4,7 +4,8 @@ using FlatRockTechnology.OnlineMarket.Models.Users;
 
 namespace FlatRockTechnology.OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions.UserServices
 {
-    public interface IRoleServices : IBaseService<Role, RoleModel>
+    public interface IUserRoleServices : IBaseService<UserRole, UserRoleModel>
     {
+        Task<string> GetUserRole(Guid id);
     }
 }

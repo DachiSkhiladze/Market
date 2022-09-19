@@ -6,21 +6,14 @@ namespace FlatRockTechnology.OnlineMarket.DataAccessLayer.Repository.Base.Abstra
     public interface IRepository<TEntity> where TEntity : class, new()
     {
         bool IsExists(Expression<Func<TEntity, bool>> predicate);
-
         long GetCount();
-
         IQueryable<TEntity> GetAll();
-
         Task<List<TEntity>> GetList();
-
         IEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
-
         IQueryable<TEntity> Get(int skip, int take);
-
+        TEntity GetSingle(Func<TEntity, bool> predicate);
         Task<TEntity> AddAsync(TEntity entity);
-
         Task<TEntity> UpdateAsync(TEntity entity);
-
         Task<bool> DeleteAsync(TEntity entity);
     }
 }

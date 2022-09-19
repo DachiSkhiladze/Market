@@ -6,6 +6,6 @@ namespace OnlineMarket.BusinessLogicAccessLayer.Services.Individual.Abstractions
 {
     public interface IOrderProductServices : IBaseService<OrderProduct, OrderProductModel>
     {
-
+        IAsyncEnumerable<OrderProductModel> GetModelsByOrderId(Guid orderId);
     }
 }
