@@ -1,1 +1,1 @@
-# Dachi Skhiladze - Junior .Net Developer
+# Dachi Skhiladze - .Net Developer
